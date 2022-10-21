@@ -22,6 +22,7 @@ import lombok.Setter;
 
 @Entity
 public class Cour {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -32,12 +33,10 @@ public class Cour {
 
     private int ageMAx;
 
-    private String type;
+    @OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    private List<Inscription> incriptions;
 
-    @OneToMany(mappedBy = "cours", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    private List<Inscription> incription = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cours", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private List<Instrument> instruments = new ArrayList<>();
 
 }
