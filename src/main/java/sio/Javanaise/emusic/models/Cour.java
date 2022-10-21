@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.EqualsAndHashCode;
@@ -21,24 +22,23 @@ import lombok.Setter;
 @EqualsAndHashCode
 
 @Entity
-public class Cours {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+public class Cour {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
-    private String libelle;
+	private String libelle;
 
-    private int ageMin;
+	private int ageMin;
 
-    private int ageMAx;
+	private int ageMAx;
 
-    private int nbPlace;
+	private String type;
 
-    private String type;
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Inscription> incription = new ArrayList<>();
 
-//    private List<enfant> enfants = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cours", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    private List<Instrument> instruments = new ArrayList<>();
+	@OneToMany(mappedBy = "cours", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Instrument> instruments = new ArrayList<>();
 
 }
