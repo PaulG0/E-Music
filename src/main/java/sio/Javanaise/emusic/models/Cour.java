@@ -21,7 +21,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 
 @Entity
-public class Cours {
+public class Cour {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

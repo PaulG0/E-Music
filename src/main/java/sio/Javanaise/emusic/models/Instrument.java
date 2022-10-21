@@ -21,5 +21,5 @@ public class Instrument {
 
     private String intitule;
     @ManyToOne
-    private Cours cours;
+    private Cour cours;
 }
