@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.github.jeemv.springboot.vuejs.VueJS;
 
 @Controller
-@RequestMapping({ "/", "" })
+@RequestMapping({ "/", "", "/index" })
 public class MainController {
 
-    @Autowired(required = true)
-    private VueJS vue;
+	@Autowired(required = true)
+	private VueJS vue;
 
-    @ModelAttribute("vue")
-    public VueJS getVue() {
-        return this.vue;
-    }
+	@ModelAttribute("vue")
+	public VueJS getVue() {
+		return this.vue;
+	}
 
-    @GetMapping("")
-    public String indexAction() {
-        return "index";
-    }
+	@GetMapping("")
+	public String indexAction() {
+		return "index";
+	}
 }
