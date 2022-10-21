@@ -11,9 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Inscription {
+public class coursCollectif {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private int nbPlace;
 
 }

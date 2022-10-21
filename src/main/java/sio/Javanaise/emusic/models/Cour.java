@@ -32,11 +32,10 @@ public class Cour {
 
     private int ageMAx;
 
-    private int nbPlace;
-
     private String type;
 
-//    private List<enfant> enfants = new ArrayList<>();
+    @OneToMany(mappedBy = "cours", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    private List<Inscription> incription = new ArrayList<>();
 
     @OneToMany(mappedBy = "cours", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private List<Instrument> instruments = new ArrayList<>();
