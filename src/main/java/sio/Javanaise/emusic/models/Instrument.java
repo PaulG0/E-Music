@@ -20,6 +20,8 @@ public class Instrument {
     private int id;
 
     private String intitule;
+
     @ManyToOne
-    private Cour cours;
+    private Cour cour;
+
 }
