@@ -16,10 +16,10 @@ import sio.Javanaise.emusic.enumeration.TypeCourEnum;
 @Entity
 public class TypeCour {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-	private TypeCourEnum libelle;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    private TypeCourEnum libelle;
+
 }
