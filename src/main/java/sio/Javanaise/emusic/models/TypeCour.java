@@ -3,10 +3,10 @@ package sio.Javanaise.emusic.models;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< Updated upstream
+
 import javax.persistence.CascadeType;
-=======
->>>>>>> Stashed changes
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,17 +29,12 @@ public class TypeCour {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-<<<<<<< Updated upstream
     @NonNull
     private TypeCourEnum libelle;
 
     @OneToMany(mappedBy = "typeCour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private List<Cour> cour = new ArrayList<>();
 
-=======
-	private TypeCourEnum libelle;
 
-	@OneToMany(mappedBy = "typecour")
-	private List<Cour> cour = new ArrayList<>();
->>>>>>> Stashed changes
+
 }
