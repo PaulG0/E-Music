@@ -15,13 +15,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Instrument {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
-    private String intitule;
+	private String intitule;
 
-    @ManyToOne
-    private Cour cour;
+	@ManyToOne
+	private Cour cour;
 
 }

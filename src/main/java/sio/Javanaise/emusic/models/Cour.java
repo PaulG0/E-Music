@@ -33,14 +33,27 @@ public class Cour {
 
     private int ageMAx;
 
+<<<<<<< Updated upstream
     private int nbPlace = 1;
+=======
+	private int nbPlace;
+
+	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Inscription> incriptions;
+>>>>>>> Stashed changes
 
     @OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private List<Inscription> incriptions;
 
+<<<<<<< Updated upstream
     @OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private List<Instrument> instruments = new ArrayList<>();
 
     @ManyToOne
     private TypeCour typeCour;
 }
+=======
+	@ManyToOne
+	private TypeCour typecour;
+}
+>>>>>>> Stashed changes
