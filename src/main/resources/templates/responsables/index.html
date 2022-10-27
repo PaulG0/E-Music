@@ -1,0 +1,33 @@
+{{>/include/header}}
+
+<h1>Liste de tous les membres</h1>
+
+<a href="/" class="ui purple icon button">
+	<i class="angle left icon"></i>
+</a>
+
+<table class="ui celled table">
+	<thead>
+	    <th>Professeurs</th>
+	    <th>Parents</th>
+	    <th>Eleves</th>
+	</thead>
+	
+	<tbody>
+		<tr class="top aligned">
+			<td>
+				<div v-for="responsable in responsables">
+					<p v-if="responsable.role == 'PROF'"><% responsable.prenom %> <% responsable.nom %></p>
+				</div>
+			</td>
+			<td>
+				<div v-for="responsable in responsables">
+					<p v-if="responsable.role == 'PARENT'"><% responsable.prenom %> <% responsable.nom %></p>
+				</div>
+			</td>
+			<td><p v-for="eleve in eleves"><% eleve.prenom %> <% eleve.nom %></p></td>
+		</tr>
+	</tbody>
+</table>
+
+{{>/include/footer}}

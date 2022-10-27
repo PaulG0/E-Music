@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sio.Javanaise.emusic.enumeration.RoleEnum;
 
 @Getter
 @Setter
@@ -28,4 +29,5 @@ public class Responsable {
 	private String tel1;
 	private String tel2;
 	private String tel3;
+	private RoleEnum role;
 }
