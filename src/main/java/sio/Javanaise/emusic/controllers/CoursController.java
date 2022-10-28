@@ -2,26 +2,33 @@ package sio.Javanaise.emusic.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
+import sio.Javanaise.emusic.models.Cour;
+import sio.Javanaise.emusic.repositories.ICoursRepository;
 
 @Controller
 @RequestMapping({ "/cours", "/cours/" })
 public class CoursController {
 
-    @Autowired(required = true)
-    private VueJS vue;
+	@Autowired
+	private ICoursRepository courRepo;
 
-    @ModelAttribute("vue")
-    public VueJS getVue() {
-        return this.vue;
-    }
+	@Autowired(required = true)
+	private VueJS vue;
 
-    @GetMapping("")
-    public String indexCoursAction() {
-        return "/cours/index";
-    }
+	@ModelAttribute("vue")
+	public VueJS getVue() {
+		return this.vue;
+	}
+
+	@RequestMapping({ "", "index" })
+	public String indexCoursAction(ModelMap model) {
+		Iterable<Cour> Cour = courRepo.findAll();
+		model.put("Cour", Cour);
+		return "/cours/index";
+	}
 }
