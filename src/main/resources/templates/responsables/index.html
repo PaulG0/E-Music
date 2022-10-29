@@ -17,17 +17,28 @@
 		<tr class="top aligned">
 			<td>
 				<div v-for="responsable in responsables">
-					<p v-if="responsable.role == 'PROF'"><% responsable.prenom %> <% responsable.nom %></p>
+					<p v-if="responsable.role == 'PROF'"><a class="ui item" @click="confMessageOption(responsable, 'prof')"><% responsable.prenom %> <% responsable.nom %></a></p>
 				</div>
 			</td>
 			<td>
 				<div v-for="responsable in responsables">
-					<p v-if="responsable.role == 'PARENT'"><% responsable.prenom %> <% responsable.nom %></p>
+					<p v-if="responsable.role == 'PARENT'"><a class="ui item" @click="confMessageOption(responsable, 'parent')"><% responsable.prenom %> <% responsable.nom %></a></p>
 				</div>
 			</td>
-			<td><p v-for="eleve in eleves"><% eleve.prenom %> <% eleve.nom %></p></td>
+			<td><p v-for="eleve in eleves"><a class="ui item" @click="confMessageOption(eleve, 'eleve')"><% eleve.prenom %> <% eleve.nom %></a></p></td>
 		</tr>
 	</tbody>
 </table>
+
+<div v-if="messageOption" class="ui message">
+	<div class="header">
+		<% messageOption.prenom %> <% messageOption.nom %>
+	</div>
+	<button class="circular ui icon button"><i class="eye icon"></i></button>
+	<button class="circular ui blue icon button"><i class="ui edit icon"></i></button>
+	<button class="circular ui red icon button" @click="popupDelete(messageOption)"><i class="ui trash icon"></i></button>
+</div>
+
+{{>/responsables/deletePopup}}
 
 {{>/include/footer}}

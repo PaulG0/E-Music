@@ -1,0 +1,7 @@
+<div class="ui modal">
+	<div class="header">Supression d'un membre ?</div>
+	<div class="content">
+		<p>Êtes-vous sûr(e) de supprimer <% toDelete.prenom %> <% toDelete.nom %> de la liste des membre ?</p>
+		<a :href="'/responsables/delete/' + unRole + '/' + toDelete.id" class="ui button">Supprimer</a>
+	</div>
+</div>
