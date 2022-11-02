@@ -25,10 +25,11 @@ public class CoursController {
 		return this.vue;
 	}
 
-	@RequestMapping({ "", "index" })
+	@RequestMapping("")
 	public String indexCoursAction(ModelMap model) {
-		Iterable<Cour> Cour = courRepo.findAll();
-		model.put("Cour", Cour);
+		Iterable<Cour> cour = courRepo.findAll();
+		model.put("courr", cour);
 		return "/cours/index";
 	}
+
 }
