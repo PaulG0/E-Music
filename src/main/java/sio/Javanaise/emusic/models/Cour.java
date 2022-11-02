@@ -1,6 +1,7 @@
 package sio.Javanaise.emusic.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,6 +33,8 @@ public class Cour {
 	private int ageMAx;
 
 	private int nbPlace;
+
+	private Date dateDebut;
 
 	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> incriptions;
