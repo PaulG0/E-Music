@@ -12,17 +12,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class WebSecurityConfig {
 
-    @Bean // (2)
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**", "/home", "/h2-console/**", "/webjars/**", "/users/add").permitAll() // (3)
-                .anyRequest().authenticated() // (4)
-                .and().formLogin() // (5)
-                .loginPage("/login").defaultSuccessUrl("/orgas") // (5)
-                .permitAll().and().logout().logoutSuccessUrl("/exit") // (6)
-                .permitAll().and().httpBasic().and().exceptionHandling().accessDeniedPage("/403");
-        http.headers().frameOptions().sameOrigin(); // (8)
-        http.csrf().disable();
-        return http.build();
-    }
+	@Bean // (2)
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/", "/index", "/new/", "/new", "/h2-console/**", "/webjars/**")
+				.permitAll() // (3)
+				.anyRequest().authenticated() // (4)
+				.and().formLogin() // (5)
+				.loginPage("/login").defaultSuccessUrl("/") // (5)
+				.permitAll().and().logout().logoutSuccessUrl("/exit") // (6)
+				.permitAll().and().httpBasic().and().exceptionHandling().accessDeniedPage("/403");
+		http.headers().frameOptions().sameOrigin(); // (8)
+		http.csrf().disable();
+		return http.build();
+	}
 
 }
