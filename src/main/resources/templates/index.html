@@ -1,6 +1,8 @@
 {{> /include/header }}
 <nav>
 	<a href="/cours/">Liste des cours</a>
+	<a href="/new/" class="ui red button">Creer un compte parent</a>
+	<a href="/login" class="ui lightgrey button">Connexion</a>
 </nav>
-<h1>Bienvenue sur EMusic</h1>
+<h1>Bienvenue sur EMusic, {{#authUser.email}}{{.}}{{/authUser.email}}</h1>
 {{> /include/footer }}
