@@ -1,7 +1,8 @@
 package sio.Javanaise.emusic.models;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +37,11 @@ public class Cour {
 
 	private int nbPlace;
 
-	private Date dateDebut;
+	@DateTimeFormat(pattern = "yyy-MM-dd")
+	private LocalDate dateDebut;
+
+	@DateTimeFormat(pattern = "HH:mm")
+	private Time heureDebut;
 
 	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> incriptions;

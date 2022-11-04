@@ -5,9 +5,11 @@
 <thead>
     <th>nom du cour</th>
     <th>professseur</th>
-    <th>nombre d'eleve</th>
+    <th>type de cour</th>
     <th>date</th>
     <th>heure debut</th>
+    <th>nombre de place</th>
+    <th> action</th>
 </thead>
 
 <tbody>
@@ -15,9 +17,18 @@
 
 <tr>
 <td> {{libelle}}</td>
-<td> {{Prof.nom}} {{Prof.prenom}}</td>
+<td> {{prof.nom}} {{prof.prenom}}</td>
+<td>{{typeCour.libelle}}</td>
+<td>{{dateDebut}}</td>
+<td>{{heureDebut}}</td>
 <td> {{nbPlace}}</td>
-<td> {{date}}</td>
+<td>
+
+<a href="/cours/{{id}}"><i class="file alternate outline black icon" ></i></a>
+</td>
+
+
+
 
 
 </tr>
