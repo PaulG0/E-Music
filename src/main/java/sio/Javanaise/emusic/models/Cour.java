@@ -23,29 +23,29 @@ import lombok.Setter;
 @Entity
 public class Cour {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String libelle;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	private String libelle;
 
-    private int ageMin;
+	private int ageMin;
 
-    private int ageMAx;
+	private int ageMAx;
 
-    private int nbPlace;
+	private int nbPlace;
 
 	private Date dateDebut;
 
 	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> incriptions;
 
-    @OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    private List<Instrument> instruments = new ArrayList<>();
+	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Instrument> instruments = new ArrayList<>();
 
-    @ManyToOne
-    private TypeCour typeCour;
+	@ManyToOne
+	private TypeCour typeCour;
 
-    @ManyToOne
-    private Prof prof;
+	@ManyToOne
+	private Prof prof;
 
 }
