@@ -14,22 +14,22 @@ import sio.Javanaise.emusic.repositories.ICoursRepository;
 @RequestMapping({ "/cours", "/cours/" })
 public class CoursController {
 
-	@Autowired
-	private ICoursRepository courRepo;
+    @Autowired
+    private ICoursRepository courRepo;
 
-	@Autowired(required = true)
-	private VueJS vue;
+    @Autowired(required = true)
+    private VueJS vue;
 
-	@ModelAttribute("vue")
-	public VueJS getVue() {
-		return this.vue;
-	}
+    @ModelAttribute("vue")
+    public VueJS getVue() {
+        return this.vue;
+    }
 
-	@RequestMapping("")
-	public String indexCoursAction(ModelMap model) {
-		Iterable<Cour> cour = courRepo.findAll();
-		model.put("courr", cour);
-		return "/cours/index";
-	}
+    @RequestMapping("")
+    public String indexCoursAction(ModelMap model) {
+        Iterable<Cour> cour = courRepo.findAll();
+        model.put("cours", cour);
+        return "/cours/index";
+    }
 
 }
