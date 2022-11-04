@@ -5,15 +5,23 @@
 <thead>
     <th>nom du cour</th>
     <th>professseur</th>
-    <th>nombre d'élève</th>
+    <th>nombre d'eleve</th>
     <th>date</th>
     <th>heure debut</th>
 </thead>
 
 <tbody>
-{{#courr}}
-		{{id}}
-{{/courr}}
+{{#cours}}
+
+<tr>
+<td> {{libelle}}</td>
+<td> {{Prof.nom}} {{Prof.prenom}}</td>
+<td> {{nbPlace}}</td>
+<td> {{date}}</td>
+
+
+</tr>
+{{/cours}}
 
 </tbody>
 
