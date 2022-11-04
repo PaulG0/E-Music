@@ -56,7 +56,19 @@ public class MainController {
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable) {
 		parentrepo.save(responsable);
+		if (responsable.getQuotient_familial() >= 0) {
+			if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
+					&& !responsable.getVille().equals("IFS")) {
+				responsable.setQuotient_familial(responsable.getQuotient_familial() * (-1));
+			}
+		} else {
+			if (responsable.getVille().equals("ifs") || responsable.getVille().equals("Ifs")
+					|| responsable.getVille().equals("IFS")) {
+				responsable.setQuotient_familial(responsable.getQuotient_familial() * (-1));
+			}
+		}
 		User us = ((UserService) uService).createUser(responsable.getEmail(), responsable.getPassword());
+		us.setAuthorities("PARENT");
 		userrepo.save(us);
 		return new RedirectView("index");
 	}
