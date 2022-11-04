@@ -58,6 +58,11 @@ public class ResponsableController {
 		
 	}
     
+    @GetMapping("/new")
+    public String newAction() {
+    	return "/responsables/form";
+    }
+    
     @GetMapping("/delete/{role}/{id}")
     public RedirectView deleteAction(@PathVariable String role, @PathVariable int id) {
     	
