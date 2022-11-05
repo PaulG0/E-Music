@@ -1,9 +1,66 @@
 {{>/include/header}}
-
 {{#cour}}
-{{cour.nom}}
-{{/cour}}
 
-<h2>test du detail</h2>
+
+
+
+	 <h1>{{libelle}}</h1>
+	 
+	 <h2>type de cour : {{typeCour.libelle}} </h2>
+	 <h3> date du cour : {{dateDebut}}</h3>
+	 <a href="/cours"><button class="tiny ui black button"><i class="arrow   white left icon"></i></button></a> 
+	 <h4> heure du cour : {{heureDebut}}</h4>
+	 <h4>nombre de place : {{nbPlace}}</h4>
+	 
+	 
+	
+	 
+	 <h4>le(s) eleve est(sont) :</h4>
+	 
+	 <h5>il y a {{incriptions.size}} eleve(s) inscrits</h5>
+	 
+		 <a href=""><button class="tiny  ui button">ajouter un eleve</button></a> 
+		 <table class="ui table">
+		 	<thead>
+		 		<th>nom prenom	 </th>
+				<th> action</th>
+			</thead>
+			<tbody>
+			{{#incriptions}}
+		 		<tr>
+					<td>{{eleve.nom}} {{eleve.prenom}} </td>
+					<td><a href=""><i class="delete icon black" style="visibility: visible;"></i></a></td>
+				</tr>
+			{{/incriptions}}
+			</tbody>
+		</table>
+
+
+
+	<h4>les instruments sont :</h4>
+	
+	<h5>il y aura {{Instruments.size}} instrument(s) prete</h5>
+
+		 <a href=""><button class="tiny ui button">ajouter un instrument</button></a>
+		 <table class="ui table">
+	 		<thead>
+	 			<th>nom de l'instrument </th>
+				<th> action</th>
+			</thead>
+			<tbody> 
+			{{#Instruments}}
+		 		<tr>
+					<td>{{instrument.intitule}}</td>
+					<td><a href=""><i class="delete  icon black" style="visibility: visible;"></i></a></td>
+				</tr>
+			{{/Instruments}}	 
+			</tbody>
+	</table>
+
+
+
+
+
+{{/cour}}
 
 {{>/include/footer}}

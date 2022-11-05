@@ -9,6 +9,7 @@
     <th>date</th>
     <th>heure debut</th>
     <th>nombre de place</th>
+    <th>nombre d'inscrit</th>
     <th> action</th>
 </thead>
 
@@ -22,12 +23,33 @@
 <td>{{dateDebut}}</td>
 <td>{{heureDebut}}</td>
 <td> {{nbPlace}}</td>
-<td>
+<td>{{incriptions.size}}</td>
 
+
+<td>
 <a href="/cours/{{id}}"><i class="file alternate outline black icon" ></i></a>
+
+
+
+<a href="/cours/delete/{{id}}"><i class="delete   black icon" ></i></a>
 </td>
 
-
+{{#msg}}
+		<div class="ui red icon message" id="delete">
+		  <i class="trash icon"></i>
+		  <div class="content">
+		    <div class="header">
+		      {{title}}
+		    </div>
+		    <p>{{content}}</p>
+		    <p>
+		    {{#links}}
+		    	<a class="ui red button" href="{{href}}">{{libelle}}</a>
+		    {{/links}}
+		    </p>
+		  </div>
+		</div>
+	{{/msg}}
 
 
 

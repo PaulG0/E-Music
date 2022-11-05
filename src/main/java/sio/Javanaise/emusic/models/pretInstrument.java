@@ -14,13 +14,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Inscription {
+public class pretInstrument {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	@ManyToOne
-	private Eleve eleve;
+	private Instrument instrument;
 
 	@ManyToOne
 	private Cour cour;

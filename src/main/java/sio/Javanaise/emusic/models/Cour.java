@@ -47,7 +47,7 @@ public class Cour {
 	private List<Inscription> incriptions;
 
 	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<Instrument> instruments = new ArrayList<>();
+	private List<pretInstrument> Instruments = new ArrayList<>();
 
 	@ManyToOne
 	private TypeCour typeCour;
