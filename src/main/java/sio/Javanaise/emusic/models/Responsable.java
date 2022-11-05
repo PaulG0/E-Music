@@ -1,5 +1,6 @@
 package sio.Javanaise.emusic.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,5 +30,6 @@ public class Responsable {
 	private String tel1;
 	private String tel2;
 	private String tel3;
+	private boolean suspendre = false;
 	private RoleEnum role;
 }

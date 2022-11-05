@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 public class UIResponsableService {
 
 	public String modalDelete() {
-		return "$('.ui.modal').modal('show');";
+		return "$('.ui.modal.delet').modal('show');";
+	}
+	
+	public String modalSuspendre() {
+		return "$('.ui.modal.suspendre').modal('show');";
 	}
 	
 }

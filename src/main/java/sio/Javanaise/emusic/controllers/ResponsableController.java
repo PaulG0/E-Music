@@ -2,6 +2,7 @@ package sio.Javanaise.emusic.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,19 +55,32 @@ public class ResponsableController {
     	vue.addMethod("confMessageOption", "this.messageOption=membre; this.unRole=unRole;", "membre, unRole");
     	vue.addMethod("popupDelete", "this.toDelete=membre;"
 				+ responsableService.modalDelete() + ";", "membre");
+    	vue.addMethod("popupSuspendre", "this.membre=membre;"
+    			+ responsableService.modalSuspendre() + ";", "membre");
     	
 		return "/responsables/index";
 		
 	}
     
     @GetMapping("/new")
-    public String newAction() {
+    public String newAction(ModelMap model) {
+    	
+    	model.put("responsable", new Responsable());
     	return "/responsables/form";
     }
     
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Responsable responsable) {
     	
+    	if(responsable.getRole() == null) {
+    		
+    		Optional<Responsable> opt = responsablerepo.findById(responsable.getId());
+    		
+    		if(opt.isPresent()) {
+    			responsable.setRole(opt.get().getRole());
+    		}
+    		
+    	}
     	responsablerepo.save(responsable);
     	return new RedirectView("/responsables/index");
     	
@@ -84,6 +98,35 @@ public class ResponsableController {
     		eleverepo.deleteById(id);
     		
     	}
+    	return new RedirectView("/responsables/index");
+    	
+    }
+    
+    @GetMapping("/edit/{id}")
+    public String editAction(ModelMap model, @PathVariable int id) {
+    	
+    	responsablerepo.findById(id).ifPresent(responsable -> model.put("responsable", responsable));
+    	return "/responsables/form";
+    	
+    }
+    
+    @GetMapping("/suspendre/{id}")
+    public RedirectView suspendreAction(@PathVariable int id) {
+    	
+    	Optional<Responsable> opt = responsablerepo.findById(id);
+    	
+    	if(opt.isPresent()) {
+    		
+    		if(opt.get().isSuspendre() == true) {
+    			opt.get().setSuspendre(false);
+    		} else {
+    			opt.get().setSuspendre(true);
+    		}
+    		
+    		responsablerepo.save(opt.get());
+    		
+    	}
+    	
     	return new RedirectView("/responsables/index");
     	
     }
