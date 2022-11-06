@@ -40,8 +40,12 @@
 	<h4>les instruments sont :</h4>
 	
 	<h5>il y aura {{Instruments.size}} instrument(s) prete</h5>
-
-		 <a href=""><button class="tiny ui button">ajouter un instrument</button></a>
+ 		<div v-if="this.addInstru == 0">
+			<div @click="ajoutInstru()" class="tiny ui button">ajouter un instrument</div>
+		</div>
+		<div v-if="this.addInstru == 1">
+			{{>/cours/formInstrument}}
+		 </div>
 		 <table class="ui table">
 	 		<thead>
 	 			<th>nom de l'instrument </th>

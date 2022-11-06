@@ -44,6 +44,10 @@ public class CoursController {
 //detail
 	@GetMapping("/{id}")
 	public String detailCoursAction(@PathVariable int id, ModelMap model) {
+
+		vue.addData("addInstru", "0");
+		vue.addMethod("ajoutInstru", "this.addInstru=1");
+		vue.addMethod("validInstru", "this.addInstru=0");
 		courRepo.findById(id).ifPresent(cour -> model.put("cour", cour));
 		return "/cours/detail";
 	}
@@ -54,8 +58,9 @@ public class CoursController {
 
 		Optional<Cour> opt = courRepo.findById(id);
 		if (opt.isPresent()) {
-			attrs.addFlashAttribute("msg", UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
-					.addLinks(new UILink("oui", "/cours/delete/force/" + id), new UILink("non", "")));
+			attrs.addFlashAttribute("msg",
+					UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
+							.addLinks(new UILink("oui", "/cours/delete/force/" + id), new UILink("non", "")));
 		}
 
 		return new RedirectView("/cours");

@@ -43,10 +43,10 @@ public class Cour {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureDebut;
 
-	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToMany(mappedBy = "cour", cascade = CascadeType.ALL)
 	private List<Inscription> incriptions;
 
-	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToMany(mappedBy = "cour", cascade = CascadeType.ALL)
 	private List<pretInstrument> Instruments = new ArrayList<>();
 
 	@ManyToOne
