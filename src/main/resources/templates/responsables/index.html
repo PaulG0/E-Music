@@ -36,6 +36,7 @@
 	</div>
 	<button class="circular ui icon button"><i class="eye icon"></i></button>
 	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/responsables/edit/' + messageOption.id" class="circular ui blue icon button"><i class="ui edit icon"></i></a>
+	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/paiements/new/' + messageOption.id" class="circular ui icon button"><i class="euro sign icon"></i></a>
 	<button class="circular ui red icon button" @click="popupDelete(messageOption)"><i class="ui trash icon"></i></button>
 	<button v-if="messageOption.suspendre == true && (unRole == 'prof' || unRole == 'parent')" class="circular ui red icon button" @click="popupSuspendre(messageOption)"><i class="user slash icon"></i></button>
 	<button v-if="messageOption.suspendre == false && (unRole == 'prof' || unRole == 'parent')" class="circular ui icon button" @click="popupSuspendre(messageOption)"><i class="user icon"></i></button>
