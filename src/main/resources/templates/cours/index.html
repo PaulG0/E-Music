@@ -14,9 +14,10 @@
 </thead>
 
 <tbody>
-{{#cours}}
 
+{{#plannings}}
 <tr>
+{{#cour}}
 <td> {{libelle}}</td>
 <td> {{prof.nom}} {{prof.prenom}}</td>
 <td>{{typeCour.libelle}}</td>
@@ -25,6 +26,9 @@
 <td> {{nbPlace}}</td>
 <td>{{incriptions.size}}</td>
 
+{{/cour}}
+<td>{{dateDebut.getDayOfWeek}}</td>
+<td>{{heureDebut}}</td>
 
 <td>
 <a href="/cours/{{id}}"><i class="file alternate outline black icon" ></i></a>
@@ -37,10 +41,9 @@
 
 
 
-
 </tr>
-{{/cours}}
 
+{{/plannings}}
 </tbody>
 
 </table>

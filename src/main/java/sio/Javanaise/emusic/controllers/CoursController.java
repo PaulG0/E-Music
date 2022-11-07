@@ -14,7 +14,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.Javanaise.emusic.models.Cour;
+import sio.Javanaise.emusic.models.Planning;
 import sio.Javanaise.emusic.repositories.ICoursRepository;
+import sio.Javanaise.emusic.repositories.IPlanningRepository;
 import sio.Javanaise.emusic.ui.UILink;
 import sio.Javanaise.emusic.ui.UIMessage;
 
@@ -24,51 +26,49 @@ public class CoursController {
 
 	@Autowired
 	private ICoursRepository courRepo;
-
+	
+	@Autowired
+	private IPlanningRepository planningRepository;
+	
+	
 	@Autowired(required = true)
 	private VueJS vue;
-
+	
 	@ModelAttribute("vue")
 	public VueJS getVue() {
 		return this.vue;
 	}
-
+	
 //liste
 	@RequestMapping("")
 	public String indexCoursAction(ModelMap model) {
-		Iterable<Cour> cour = courRepo.findAll();
-		model.put("cours", cour);
+		Iterable<Planning> plannings = planningRepository.findAll();
+		model.put("plannings", plannings);
 		return "/cours/index";
 	}
-
 //detail
 	@GetMapping("/{id}")
 	public String detailCoursAction(@PathVariable int id, ModelMap model) {
-
-		vue.addData("addInstru", "0");
-		vue.addMethod("ajoutInstru", "this.addInstru=1");
-		vue.addMethod("validInstru", "this.addInstru=0");
-		courRepo.findById(id).ifPresent(cour -> model.put("cour", cour));
+		planningRepository.findById(id).ifPresent(planning -> model.put("planning", planning));
 		return "/cours/detail";
 	}
+	//delete
+		@GetMapping("/delete/{id}")
+		public RedirectView DeleteCourAction(@PathVariable int id, RedirectAttributes attrs) {
 
-//delete
-	@GetMapping("/delete/{id}")
-	public RedirectView DeleteCourAction(@PathVariable int id, RedirectAttributes attrs) {
+			Optional<Planning> opt = planningRepository.findById(id);
+			if (opt.isPresent()) {
+				attrs.addFlashAttribute("msg",
+						UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
+								.addLinks(new UILink("oui", "/cours/delete/force/" + id), new UILink("non", "")));
+			}
 
-		Optional<Cour> opt = courRepo.findById(id);
-		if (opt.isPresent()) {
-			attrs.addFlashAttribute("msg",
-					UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
-							.addLinks(new UILink("oui", "/cours/delete/force/" + id), new UILink("non", "")));
+			return new RedirectView("/cours");
 		}
 
-		return new RedirectView("/cours");
-	}
-
-	@GetMapping("delete/force/{id}")
-	public RedirectView deleteAction(@PathVariable int id, ModelMap model) {
-		courRepo.deleteById(id);
-		return new RedirectView("/cours");
-	}
+		@GetMapping("delete/force/{id}")
+		public RedirectView deleteAction(@PathVariable int id, ModelMap model) {
+			planningRepository.deleteById(id);
+			return new RedirectView("/cours");
+		}
 }

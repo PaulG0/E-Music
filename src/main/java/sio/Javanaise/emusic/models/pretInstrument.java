@@ -22,7 +22,7 @@ public class pretInstrument {
 	@ManyToOne
 	private Instrument instrument;
 
-	@ManyToOne
-	private Cour cour;
+//	@ManyToOne
+//	private Cour cour;
 
 }

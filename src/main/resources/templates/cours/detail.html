@@ -1,4 +1,5 @@
 {{>/include/header}}
+{{#planning}}
 {{#cour}}
 
 
@@ -37,34 +38,12 @@
 
 
 
-	<h4>les instruments sont :</h4>
-	
-	<h5>il y aura {{Instruments.size}} instrument(s) prete</h5>
- 		<div v-if="this.addInstru == 0">
-			<div @click="ajoutInstru()" class="tiny ui button">ajouter un instrument</div>
-		</div>
-		<div v-if="this.addInstru == 1">
-			{{>/cours/formInstrument}}
-		 </div>
-		 <table class="ui table">
-	 		<thead>
-	 			<th>nom de l'instrument </th>
-				<th> action</th>
-			</thead>
-			<tbody> 
-			{{#Instruments}}
-		 		<tr>
-					<td>{{instrument.intitule}}</td>
-					<td><a href=""><i class="delete  icon black" style="visibility: visible;"></i></a></td>
-				</tr>
-			{{/Instruments}}	 
-			</tbody>
-	</table>
 
 
 
 
 
 {{/cour}}
+{{/planning}}
 
 {{>/include/footer}}

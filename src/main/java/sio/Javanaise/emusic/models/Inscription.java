@@ -23,6 +23,6 @@ public class Inscription {
 	private Eleve eleve;
 
 	@ManyToOne
-	private Cour cour;
+	private Planning planning;
 
 }
