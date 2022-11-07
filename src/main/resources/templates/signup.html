@@ -27,8 +27,9 @@
 			</div>
 			<div class="field">
 				<label>Adresse couriel</label>
-				<input type="text" name="email" value="{{#email}}{{.}}{{/email}}">
+				<input type="email" name="email" value="{{#email}}{{.}}{{/email}}">
 			</div>
+				<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
 			<div class="field">
 				<label>Mot de passe</label>
 				<input type="password" name="password" value={{#password}}{{.}}{{/password}}>
@@ -55,3 +56,19 @@
 </div>
 {{/responsable}}
 {{> /include/footer}}
+<script>
+$('.ui form')
+.form({
+  on: 'blur',
+  fields: {
+	  email: {
+	        identifier  : 'email',
+	        rules: [
+	          {
+	            type   : 'email',
+	            prompt : 'Please enter a valid e-mail'
+	          }
+	        ]
+	      }
+  }})
+</script>
