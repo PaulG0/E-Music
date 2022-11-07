@@ -1,6 +1,7 @@
 {{> /include/header }}
-<nav>
-	<a href="/cours/">Liste des cours</a>
-</nav>
-<h1>Bienvenue sur EMusic</h1>
+<h1>Bienvenue sur EMusic, {{#authUser.email}}{{.}}{{/authUser.email}}</h1>
+<div class="imgacccenter">
+	<img src="/images/Contrebasse2.jpg">
+</div>
+
 {{> /include/footer }}

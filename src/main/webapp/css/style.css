@@ -1,0 +1,45 @@
+.button{
+    display: flex;
+    justify-content:flex-end;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.imgacccenter{
+    display: flex;
+    justify-content: center;
+}
+img {
+	max-width: 100%;
+	height: 500px;
+    width: auto;
+}
+
+nav {
+    border-radius: 20px;
+    width: 100%;
+    text-align: center;
+    background-color:rgba(218, 15, 15, 0) ;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.liennav {
+    color: rgb(0, 0, 0);
+    display: inline-block;;
+    padding-bottom: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 20px;
+    background-color:rgba(4, 4, 122, 0) ;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+}
+.liennav:hover{
+    border-bottom: solid;
+    border-top: solid;
+}

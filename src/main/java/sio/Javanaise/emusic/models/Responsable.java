@@ -24,8 +24,10 @@ public class Responsable {
 	private String ville;
 	private int code_postal;
 	private String email;
+	private String password;
 	private int quotient_familial;
 	private String tel1;
 	private String tel2;
 	private String tel3;
+
 }
