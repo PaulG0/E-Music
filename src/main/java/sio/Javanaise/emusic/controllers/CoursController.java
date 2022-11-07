@@ -17,8 +17,10 @@ import sio.Javanaise.emusic.models.Eleve;
 import sio.Javanaise.emusic.models.Inscription;
 import sio.Javanaise.emusic.models.Planning;
 import sio.Javanaise.emusic.repositories.ICoursRepository;
+import sio.Javanaise.emusic.repositories.IEleveRepository;
 import sio.Javanaise.emusic.repositories.IInscriptionRepository;
 import sio.Javanaise.emusic.repositories.IPlanningRepository;
+import sio.Javanaise.emusic.services.CoursService;
 import sio.Javanaise.emusic.ui.UILink;
 import sio.Javanaise.emusic.ui.UIMessage;
 
@@ -35,7 +37,11 @@ public class CoursController {
 	@Autowired
 	private IInscriptionRepository inscriptionRepository;
 
+	@Autowired
+	private IEleveRepository eleveRepository;
 
+	@Autowired
+	private CoursService courService;
 	@Autowired(required = true)
 	private VueJS vue;
 
@@ -56,12 +62,9 @@ public class CoursController {
 	@GetMapping("/{id}")
 	public String detailCoursAction(@PathVariable int id, ModelMap model) {
 
-
-		vue.addData("newInscript", "0");
-		vue.addMethod("ajoutInscrit", "this.newInscript=1");
-
-
 		planningRepository.findById(id).ifPresent(planning -> model.put("planning", planning));
+		Iterable<Eleve> eleve = courService.listeleve(id);
+		model.put("eleve", eleve);
 		return "/cours/detail";
 	}
 
@@ -83,8 +86,6 @@ public class CoursController {
 		planningRepository.deleteById(id);
 		return new RedirectView("/cours");
 	}
-
-
 
 //Delete inscrit
 

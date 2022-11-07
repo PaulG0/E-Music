@@ -1,7 +1,5 @@
 package sio.Javanaise.emusic.models;
 
-import java.sql.Time;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,8 +38,16 @@ public class Cour {
 
 	@ManyToOne
 	private Prof prof;
-	
+
 	@OneToMany(mappedBy = "cour", cascade = CascadeType.ALL)
 	private List<Planning> plannings = new ArrayList<>();
+
+	public int getAgeMin() {
+		return ageMin;
+	}
+
+	public int getAgeMAx() {
+		return ageMAx;
+	}
 
 }

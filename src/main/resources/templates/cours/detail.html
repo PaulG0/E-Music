@@ -17,19 +17,29 @@
 	
 	 
 	 <h4>le(s) eleve est(sont) :</h4>
-	 
-	 <h5>il y a {{incriptions.size}} eleve(s) inscrits</h5>
-	 <div v-if="this.newInscript==0">
-		 <button @click="ajoutInscrit()" class="tiny  ui button">ajouter un eleve</button>
-	</div>
-		<div v-if="this.newInscript==1">
-		
-			<select>
-				
 
-			</select>
+<div class="ui form">
+	
 
-		</div>
+
+<select name="ajoutEleve" multiple="" class="ui fluid clearable  search  dropdown">
+  <option value="">ajouter un eleve</option>
+  {{#eleve}}
+	<option value="{{id}}">{{nom}} {{prenom}}  </option>
+	{{/eleve}}
+</select>
+
+<div   class="ui green button">Valider (add)</div>
+</div>
+
+
+
+
+
+
+
+
+
 		 
 		 <table class="ui table">
 		 	<thead>
@@ -76,3 +86,11 @@
 	{{/inscrit}}
 
 {{>/include/footer}}
+
+
+
+<script>
+$('.ui.dropdown')
+.dropdown()
+;
+</script>
