@@ -55,4 +55,9 @@ public class Cour {
 	@ManyToOne
 	private Prof prof;
 
+	public String dateJour(LocalDate d) {
+d.getDayOfWeek()
+		return "";
+	}
+
 }
