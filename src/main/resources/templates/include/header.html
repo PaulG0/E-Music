@@ -8,3 +8,17 @@
 </head>
 <body>
 <div id="app" class="ui container" v-cloak>
+	<div>
+	{{#authUser}}
+		<nav>
+			<a href="/cours/" class="liennav">Liste des cours</a>
+			<a href="/parent/" class="liennav" v-if="authUser.authorities[0].authority=='ROLE_PARENT' || authUser.authorities[0].authority=='ROLE_ENFANT'">Profil Utilisateur</a>
+		</nav>
+	{{/authUser}}
+	{{^authUser}}
+		<div class="button" v-if="!authUser">
+			<a href="/new/" class="ui red button">Creer un compte parent</a>
+			<a href="/login" class="ui lightgrey button">Connexion</a>
+		</div>
+	{{/authUser}}
+	</div>

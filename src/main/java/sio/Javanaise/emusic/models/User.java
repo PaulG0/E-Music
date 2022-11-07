@@ -28,6 +28,8 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	private String prenom;
+
 	@Column(nullable = true)
 	private String email;
 
