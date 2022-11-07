@@ -63,6 +63,14 @@ public class MainController {
 
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
+		if(!rService.NomEstValide(responsable.getNom())) {
+			attrs.addFlashAttribute("erreurNom", "Nom invalide, veillez n'utiliser que des lettres latines");
+			return new RedirectView("/new/");
+		}
+		if(!rService.NomEstValide(responsable.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom", "Prenom invalide, veillez n'utiliser que des lettres latines");
+			return new RedirectView("/new/");
+		}
 		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");

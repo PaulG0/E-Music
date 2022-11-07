@@ -9,10 +9,12 @@
 				<label>Nom : </label>
 				<input type="text" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
+			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
 				<label>Prenom : </label>
 				<input type="text" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
 			</div>
+			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
 				<label>Adresse : </label>
 				<input type="text" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">

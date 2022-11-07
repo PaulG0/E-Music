@@ -12,5 +12,10 @@ public class ResponsableService {
 				+ "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 		return Pattern.compile(regexPattern).matcher(email).matches();
 	}
+	
+	public boolean NomEstValide(String nom) {
+		String regexPattern = "[a-zA-Z]";
+		return Pattern.compile(regexPattern).matcher(nom).matches();
+	}
 
 }
