@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.lang.Nullable;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +28,6 @@ public class Eleve {
 	private String nom;
 	private String prenom;
 
-	@Nullable
 	private LocalDateTime date_naiss;
 
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
