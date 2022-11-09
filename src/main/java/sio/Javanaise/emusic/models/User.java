@@ -31,7 +31,7 @@ public class User implements UserDetails {
 	private String prenom;
 
 	@Column(nullable = true)
-	private String email;
+	private String login;
 
 	@Column(nullable = true)
 	private String password;
@@ -56,7 +56,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.email;
+		return this.login;
 	}
 
 	@Override
@@ -81,11 +81,5 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
-	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

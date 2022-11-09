@@ -73,7 +73,7 @@ public class MainController {
 					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
 			return new RedirectView("/new/");
 		}
-		Optional<User> opt = userrepo.findByEmail(responsable.getEmail());
+		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
 			return new RedirectView("/new/");
@@ -102,11 +102,12 @@ public class MainController {
 				responsable.setQuotient_familial(responsable.getQuotient_familial() * (-1));
 			}
 		}
-		User us = ((UserService) uService).createUser(responsable.getEmail(), responsable.getPassword());
+		User us = ((UserService) uService).createUser(responsable.getLogin(), responsable.getPassword());
 		us.setAuthorities("PARENT");
 		us.setPrenom(responsable.getPrenom());
 		userrepo.save(us);
-		// responsable.setPassword(passwordEncoder.encode(responsable.getPassword()));
+		rService.EncodePassword(responsable, responsable.getPassword());
+		parentrepo.save(responsable);
 		return new RedirectView("index");
 	}
 }

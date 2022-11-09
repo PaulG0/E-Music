@@ -9,5 +9,5 @@ import sio.Javanaise.emusic.models.User;
 
 @Repository
 public interface IUserDAO extends JpaRepository<User, Integer> {
-	public Optional<User> findByEmail(String email);
+	public Optional<User> findByLogin(String login);
 }
