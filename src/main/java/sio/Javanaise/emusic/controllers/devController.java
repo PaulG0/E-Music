@@ -1,5 +1,9 @@
 package sio.Javanaise.emusic.controllers;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +17,27 @@ import sio.Javanaise.emusic.enumeration.TypeCourEnum;
 import sio.Javanaise.emusic.models.Cour;
 import sio.Javanaise.emusic.models.Eleve;
 import sio.Javanaise.emusic.models.Instrument;
+import sio.Javanaise.emusic.models.Planning;
 import sio.Javanaise.emusic.models.Prof;
 import sio.Javanaise.emusic.models.TypeCour;
 import sio.Javanaise.emusic.repositories.ICoursRepository;
 import sio.Javanaise.emusic.repositories.IEleveRepository;
 import sio.Javanaise.emusic.repositories.IInstrumentRepository;
+import sio.Javanaise.emusic.repositories.IPlanningRepository;
 import sio.Javanaise.emusic.repositories.IProfRepository;
 import sio.Javanaise.emusic.repositories.ITypeCoursRepository;
 
 @Controller
 @RequestMapping("/data")
 public class devController {
+
+	private LocalDate dateDebut;
+
+	private Time heureDebut;
+
+	private Time duree;
+
+	private LocalDateTime date_naissance;
 
 	@Autowired
 	private IProfRepository profRepo;
@@ -39,6 +53,9 @@ public class devController {
 
 	@Autowired
 	private ICoursRepository courRepo;
+
+	@Autowired
+	private IPlanningRepository planningRepo;
 
 	@GetMapping("/{nb}")
 	private @ResponseBody String ajoutData(@PathVariable int nb) {
@@ -67,6 +84,7 @@ public class devController {
 
 			eleve.setNom(fake.lordOfTheRings().character());
 			eleve.setPrenom(fake.witcher().character());
+			eleve.setDate_naiss(date_naissance.parse("2007-12-03T10:15:30"));
 			eleveRepo.save(eleve);
 			// instru
 
@@ -86,6 +104,17 @@ public class devController {
 			cour.setTypeCour(typeCour);
 
 			courRepo.save(cour);
+
+			// planning
+
+			Planning planning = new Planning();
+			planning.setCour(cour);
+			planning.setDateDebut(dateDebut.parse("2018-11-01"));
+			planning.setDuree(duree.valueOf("1:30:00"));
+			planning.setHeureDebut(heureDebut.valueOf("10:30:00"));
+
+			planningRepo.save(planning);
+
 		}
 		return "init ok";
 	}

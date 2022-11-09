@@ -45,10 +45,10 @@ public class CoursController {
 
 	@Autowired
 	private IEleveRepository eleveRepository;
-	
+
 	@Autowired
 	private ITypeCoursRepository typeCoursRepository;
-	
+
 	@Autowired
 	private IProfRepository profRepository;
 
@@ -79,7 +79,7 @@ public class CoursController {
 		model.put("eleve", eleve);
 		return "/cours/detail";
 	}
-	
+
 //delete Cours
 	@GetMapping("/delete/{id}")
 	public RedirectView DeleteCourAction(@PathVariable int id, RedirectAttributes attrs) {
@@ -98,50 +98,50 @@ public class CoursController {
 		planningRepository.deleteById(id);
 		return new RedirectView("/cours");
 	}
-	
+
 //List Cours
 	@GetMapping("/cours")
 	public String indexCoursCAction(ModelMap model) {
-		
+
 		Iterable<Cour> cours = courRepo.findAll();
 		model.put("cours", cours);
 		return "/cours/indexCours";
-		
+
 	}
-	
+
 //new Cours
 	@GetMapping("/cours/new")
 	public String newCoursAction(ModelMap model, ModelMap model2, ModelMap model3) {
-		
+
 		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
 		Iterable<Prof> profs = profRepository.findAll();
 		model.put("cour", new Cour());
 		model2.put("typeCours", typeCours);
 		model3.put("profs", profs);
 		return "/cours/formCours";
-		
+
 	}
-	
+
 //add / modify Cours
 	@PostMapping("/cours/new")
 	public RedirectView newCoursAction(@ModelAttribute Cour cour) {
-		
+
 		courRepo.save(cour);
 		return new RedirectView("/cours");
-		
+
 	}
-	
+
 //edit Cours
 	@GetMapping("/cours/edit/{id}")
 	public String editCoursAction(ModelMap model, ModelMap model2, ModelMap model3, @PathVariable int id) {
-		
+
 		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
 		Iterable<Prof> profs = profRepository.findAll();
 		courRepo.findById(id).ifPresent(cour -> model.put("cour", cour));
 		model2.put("typeCours", typeCours);
 		model3.put("profs", profs);
 		return "/cours/formCours";
-		
+
 	}
 
 //Delete inscrit
