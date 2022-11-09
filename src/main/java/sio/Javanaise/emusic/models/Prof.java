@@ -20,17 +20,17 @@ import lombok.Setter;
 
 @Entity
 public class Prof {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
-    private String nom;
+	private String nom;
 
-    private String prenom;
+	private String prenom;
 
-    private String email;
+	private String email;
 
-    @OneToMany(mappedBy = "prof", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    private List<Cour> cours = new ArrayList<>();
+	@OneToMany(mappedBy = "prof", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Cour> cours = new ArrayList<>();
 
 }
