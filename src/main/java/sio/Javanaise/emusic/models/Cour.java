@@ -18,7 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-
 @Entity
 public class Cour {
 
@@ -41,13 +40,5 @@ public class Cour {
 
 	@OneToMany(mappedBy = "cour", cascade = CascadeType.ALL)
 	private List<Planning> plannings = new ArrayList<>();
-
-	public int getAgeMin() {
-		return ageMin;
-	}
-
-	public int getAgeMAx() {
-		return ageMAx;
-	}
 
 }

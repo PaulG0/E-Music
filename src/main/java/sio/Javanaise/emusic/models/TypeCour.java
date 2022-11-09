@@ -34,6 +34,4 @@ public class TypeCour {
 	@OneToMany(mappedBy = "typeCour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Cour> cour = new ArrayList<>();
 
-
-
 }

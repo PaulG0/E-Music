@@ -41,8 +41,4 @@ public class Planning {
 	@ManyToOne
 	private Cour cour;
 
-	public Cour getCour() {
-		return cour;
-	}
-
 }

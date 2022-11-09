@@ -32,16 +32,4 @@ public class Eleve {
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
 
-	public LocalDateTime getDate_naiss() {
-		return date_naiss;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
 }

@@ -25,8 +25,4 @@ public class Inscription {
 	@ManyToOne
 	private Planning planning;
 
-	public Eleve getEleve() {
-		return eleve;
-	}
-
 }
