@@ -63,21 +63,31 @@ public class MainController {
 
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
-		if(!rService.NomEstValide(responsable.getNom())) {
-			attrs.addFlashAttribute("erreurNom", "Nom invalide, veillez n'utiliser que des lettres latines");
+		if (!rService.NomEstValide(responsable.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
 			return new RedirectView("/new/");
 		}
-		if(!rService.NomEstValide(responsable.getPrenom())) {
-			attrs.addFlashAttribute("erreurPrenom", "Prenom invalide, veillez n'utiliser que des lettres latines");
+		if (!rService.NomEstValide(responsable.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
 			return new RedirectView("/new/");
 		}
-		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
+		Optional<User> opt = userrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
 			return new RedirectView("/new/");
 		}
 		if (!rService.EmailEstValide(responsable.getEmail())) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
+			return new RedirectView("/new/");
+		}
+		if (responsable.getPassword().length() < 8) {
+			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caracteres");
+			return new RedirectView("/new/");
+		}
+		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
 			return new RedirectView("/new/");
 		}
 		parentrepo.save(responsable);
@@ -96,6 +106,7 @@ public class MainController {
 		us.setAuthorities("PARENT");
 		us.setPrenom(responsable.getPrenom());
 		userrepo.save(us);
+		// responsable.setPassword(passwordEncoder.encode(responsable.getPassword()));
 		return new RedirectView("index");
 	}
 }

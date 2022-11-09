@@ -27,6 +27,7 @@
 				<label>Code postal :</label>
 				<input type="number" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
 			</div>
+			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
 				<label>Adresse couriel</label>
 				<input type="email" name="email" value="{{#email}}{{.}}{{/email}}">
@@ -36,6 +37,7 @@
 				<label>Mot de passe</label>
 				<input type="password" name="password" value={{#password}}{{.}}{{/password}}>
 			</div>
+			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
 			<div class="field">
 				<label>Quotient familiale</label>
 				<input type="number" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
