@@ -36,7 +36,7 @@ public class Eleve {
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
 
-	@ManyToOne
+	@ManyToOne(optional = true)
 	private Responsable responsable;
 
 }
