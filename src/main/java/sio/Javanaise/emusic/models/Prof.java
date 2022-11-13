@@ -17,15 +17,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+
 @Entity
-public class Instrument {
+public class Prof {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private String intitule;
+	private String nom;
 
-	@OneToMany(mappedBy = "instrument", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<pretInstrument> instruments = new ArrayList<>();
+	private String prenom;
+
+	private String email;
+
+	@OneToMany(mappedBy = "prof", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Cour> cours = new ArrayList<>();
 
 }

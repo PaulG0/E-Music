@@ -1,31 +1,36 @@
 package sio.Javanaise.emusic.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sio.Javanaise.emusic.enumeration.RoleEnum;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class Instrument {
+public class Paiement {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-
-	private String intitule;
-
-	@OneToMany(mappedBy = "instrument", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<pretInstrument> instruments = new ArrayList<>();
-
+	
+	private int prix;
+	
+	@DateTimeFormat(pattern = "yyy-MM-dd")
+	private LocalDate dateTransmission;
+	
+	@ManyToOne
+	private Facture facture;
+	
 }

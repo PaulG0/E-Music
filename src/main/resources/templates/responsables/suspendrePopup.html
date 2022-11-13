@@ -1,0 +1,9 @@
+<div class="ui modal suspendre">
+	<div class="header">Suspendre un membre ?</div>
+	<div class="content">
+		<p v-if="membre.suspendre == false">Êtes-vous sûr(e) de suspendre <% membre.prenom %> <% membre.nom %> de la liste des membres ?</p>
+		<p v-if="membre.suspendre == true">Êtes-vous sûr(e) de ne plus suspendre <% membre.prenom %> <% membre.nom %> de la liste des membres ?</p>
+		<a v-if="membre.suspendre == false" :href="'/responsables/suspendre/' + membre.id" class="ui button">Suspendre</a>
+		<a v-if="membre.suspendre == true" :href="'/responsables/suspendre/' + membre.id" class="ui button">Ne plus suspendre</a>
+	</div>
+</div>

@@ -1,0 +1,63 @@
+{{>/include/header}}
+
+<form class="ui form" method="post" action="/responsables/new">
+	
+	{{#responsable}}
+	<div class="field">
+		<label>Prénom</label>
+		<input type="text" name="prenom" placeholder="Prénom" value="{{#prenom}}{{.}}{{/prenom}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Nom</label>
+		<input type="text" name="nom" placeholder="Nom" value="{{#nom}}{{.}}{{/nom}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Adresse</label>
+		<input type="text" name="adresse" placeholder="Adresse" value="{{#adresse}}{{.}}{{/adresse}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Ville</label>
+		<input type="text" name="ville" placeholder="Ville" value="{{#ville}}{{.}}{{/ville}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Code postal</label>
+		<input type="number" name="code_postal" placeholder="Code postal" value="{{#code_postal}}{{.}}{{/code_postal}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Email</label>
+		<input type="text" name="email" placeholder="Email" value="{{#email}}{{.}}{{/email}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Quotient familial</label>
+		<input type="number" name="quotient_familial" placeholder="Quotient familial" value="{{#quotient_familial}}{{.}}{{/quotient_familial}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Téléphone</label>
+		<input type="text" name="tel1" placeholder="Téléphone" value="{{#tel1}}{{.}}{{/tel1}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Téléphone</label>
+		<input type="text" name="tel2" placeholder="Téléphone" value="{{#tel2}}{{.}}{{/tel2}}">
+	</div>
+	
+	<div class="field">
+		<label>Téléphone</label>
+		<input type="text" name="tel3" placeholder="Téléphone" value="{{#tel3}}{{.}}{{/tel3}}">
+	</div>
+	
+	<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
+	
+	<button class="ui button" type="submit">Valider</button>
+	{{/responsable}}
+	
+</form>
+
+{{>/include/footer}}
