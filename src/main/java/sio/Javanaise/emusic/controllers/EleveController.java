@@ -2,7 +2,10 @@ package sio.Javanaise.emusic.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
@@ -25,6 +28,15 @@ public class EleveController {
     
     @Autowired
     private IEleveRepository eleveRepository;
+    
+    @GetMapping("/new/{idResponsable}")
+    public String newAction(ModelMap model, @PathVariable int idResponsable) {
+    	
+    	vue.addData("idResponsable", idResponsable);
+		model.put("eleve", new Eleve());
+    	return "/eleves/form";
+    	
+    }
     
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Eleve eleve) {

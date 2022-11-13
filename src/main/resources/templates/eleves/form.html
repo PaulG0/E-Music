@@ -4,6 +4,11 @@
 	
 	{{#eleve}}
 	<div class="field">
+		<label>Login</label>
+		<input type="text" name="login" placeholder="Login" value="{{#login}}{{.}}{{/login}}" required>
+	</div>
+	
+	<div class="field">
 		<label>Prénom</label>
 		<input type="text" name="prenom" placeholder="Prénom" value="{{#prenom}}{{.}}{{/prenom}}" required>
 	</div>
@@ -13,9 +18,14 @@
 		<input type="text" name="nom" placeholder="Nom" value="{{#nom}}{{.}}{{/nom}}" required>
 	</div>
 	
-	
+	<div class="field">
+		<label>Mot de passe</label>
+		<input type="password" name="password" placeholder="Mot de passe" value="{{#password}}{{.}}{{/password}}" required>
+	</div>
 	
 	<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
+	
+	<input type="hidden" name="responsable" v-bind:value="idResponsable">
 	
 	<button class="ui button" type="submit">Valider</button>
 	{{/eleve}}

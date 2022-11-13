@@ -16,11 +16,6 @@
 	Ajouter un responsable
 </a>
 
-<a href="/responsables/new/eleve" class="ui labeled green icon button">
-	<i class="user plus icon"></i>
-	Ajouter un élève
-</a>
-
 <table class="ui celled table">
 	<thead>
 	    <th>Professeurs</th>
@@ -54,6 +49,10 @@
 	</div>
 	<button class="circular ui icon button"><i class="eye icon"></i></button>
 	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/responsables/edit/' + messageOption" class="circular ui blue icon button"><i class="ui edit icon"></i></a>
+	<a v-if="unRole == 'parent'" :href="'/eleves/new/' + messageOption" class="ui labeled green icon button">
+		<i class="user plus icon"></i>
+		Ajouter un élève
+	</a>
 	<a v-if="unRole == 'eleve'" :href="'/factures/' + messageOption" class="circular ui icon button"><i class="euro sign icon"></i> Facture</a>
 	<a v-if="unRole == 'eleve'" :href="'/paiements/new/' + messageOption" class="circular ui icon button"><i class="euro sign icon"></i> Paiement</a>
 	<button class="circular ui red icon button" @click="popupDelete(messageOption)"><i class="ui trash icon"></i></button>

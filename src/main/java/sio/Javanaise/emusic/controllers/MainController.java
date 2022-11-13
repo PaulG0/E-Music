@@ -109,6 +109,6 @@ public class MainController {
 		userrepo.save(us);
 		rService.EncodePassword(responsable, responsable.getPassword());
 		parentrepo.save(responsable);
-		return new RedirectView("index");
+		return new RedirectView("");
 	}
 }
