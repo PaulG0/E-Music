@@ -28,7 +28,7 @@ public class Eleve {
 	private String prenom;
 	private LocalDateTime date_naiss;
 
-	@ManyToOne
+	@ManyToOne(optional = true)
 	private Responsable responsable;
 
 }
