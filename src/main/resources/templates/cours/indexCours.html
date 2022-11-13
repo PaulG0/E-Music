@@ -1,0 +1,35 @@
+{{>/include/header}}
+
+<h1>Liste de tous les cours</h1>
+
+<a href="/cours" class="ui icon button">
+	<i class="angle left icon"></i>
+</a>
+<a href="/cours/cours/new" class="ui labeled green icon button">
+	<i class="plus icon"></i>
+	Nouveau Cours
+</a>
+
+<table class="ui single line table">
+	<thead>
+		<tr>
+	    	<th>Nom du cours</th>
+	    	<th>Professeur</th>
+	    	<th></th>
+    	</tr>
+	</thead>
+	
+	<tbody>
+	{{#cours}}
+		<tr>
+			<td>{{libelle}}</td>
+			<td>{{prof.prenom}} {{prof.nom}}</td>
+			<td>
+				<a href="/cours/cours/edit/{{id}}" class="circular ui blue icon button"><i class="edit icon"></i></a>
+			</td>
+		</tr>
+	{{/cours}}
+	</tbody>
+</table>
+
+{{>/include/footer}}

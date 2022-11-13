@@ -19,7 +19,7 @@ import sio.Javanaise.emusic.repositories.IUserDAO;
 import sio.Javanaise.emusic.services.UserService;
 
 @Controller
-@RequestMapping({ "/", "", "/index" })
+@RequestMapping({ "/", "" })
 public class MainController {
 
 	@Autowired
@@ -34,10 +34,11 @@ public class MainController {
 	@Autowired(required = true)
 	private VueJS vue;
 
-	@ModelAttribute("vue")
-	public VueJS getVue() {
-		return this.vue;
-	}
+
+    @ModelAttribute("vue")
+    public VueJS getVue() {
+        return this.vue;
+    }
 
 	@GetMapping("")
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
