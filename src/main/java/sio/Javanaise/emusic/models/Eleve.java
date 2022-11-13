@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class Eleve {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	private String login;
+	private String password;
 	private String nom;
 	private String prenom;
 
@@ -32,5 +35,8 @@ public class Eleve {
 
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
+
+	@ManyToOne
+	private Responsable responsable;
 
 }

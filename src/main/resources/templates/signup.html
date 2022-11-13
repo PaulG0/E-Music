@@ -6,13 +6,19 @@
 	<input type="hidden" name="id" value="{{id}}">
 		<div>
 			<div class="field">
+				<label>Login (nom d'utilisateur) : </label>
+				<input type="text" name="login" value="{{#login}}{{.}}{{/login}}">
+			</div>
+			<div class="field">
 				<label>Nom : </label>
 				<input type="text" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
+			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
 				<label>Prenom : </label>
 				<input type="text" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
 			</div>
+			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
 				<label>Adresse : </label>
 				<input type="text" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
@@ -25,14 +31,17 @@
 				<label>Code postal :</label>
 				<input type="number" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
 			</div>
+			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
 				<label>Adresse couriel</label>
-				<input type="text" name="email" value="{{#email}}{{.}}{{/email}}">
+				<input type="email" name="email" value="{{#email}}{{.}}{{/email}}">
 			</div>
+				<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
 			<div class="field">
 				<label>Mot de passe</label>
 				<input type="password" name="password" value={{#password}}{{.}}{{/password}}>
 			</div>
+			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
 			<div class="field">
 				<label>Quotient familiale</label>
 				<input type="number" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
@@ -55,3 +64,19 @@
 </div>
 {{/responsable}}
 {{> /include/footer}}
+<script>
+$('.ui form')
+.form({
+  on: 'blur',
+  fields: {
+	  email: {
+	        identifier  : 'email',
+	        rules: [
+	          {
+	            type   : 'email',
+	            prompt : 'Please enter a valid e-mail'
+	          }
+	        ]
+	      }
+  }})
+</script>

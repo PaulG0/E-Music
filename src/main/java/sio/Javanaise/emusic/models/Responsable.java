@@ -23,6 +23,7 @@ public class Responsable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	private String login;
 	private String nom;
 	private String prenom;
 	private String adresse;
@@ -34,5 +35,8 @@ public class Responsable {
 	private String tel1;
 	private String tel2;
 	private String tel3;
+
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL)
+	private List<Eleve> eleves = new ArrayList<>();
 
 }

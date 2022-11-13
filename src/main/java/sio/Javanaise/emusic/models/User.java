@@ -28,8 +28,10 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	private String prenom;
+
 	@Column(nullable = true)
-	private String email;
+	private String login;
 
 	@Column(nullable = true)
 	private String password;
@@ -54,7 +56,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.email;
+		return this.login;
 	}
 
 	@Override
