@@ -21,7 +21,6 @@ import sio.Javanaise.emusic.models.Planning;
 import sio.Javanaise.emusic.models.Prof;
 import sio.Javanaise.emusic.models.TypeCour;
 import sio.Javanaise.emusic.repositories.ICoursRepository;
-import sio.Javanaise.emusic.repositories.IEleveRepository;
 import sio.Javanaise.emusic.repositories.IInscriptionRepository;
 import sio.Javanaise.emusic.repositories.IPlanningRepository;
 import sio.Javanaise.emusic.repositories.IProfRepository;
@@ -36,15 +35,12 @@ public class CoursController {
 
 	@Autowired
 	private ICoursRepository courRepo;
-
+	
 	@Autowired
 	private IPlanningRepository planningRepository;
 
 	@Autowired
 	private IInscriptionRepository inscriptionRepository;
-
-	@Autowired
-	private IEleveRepository eleveRepository;
 
 	@Autowired
 	private ITypeCoursRepository typeCoursRepository;
