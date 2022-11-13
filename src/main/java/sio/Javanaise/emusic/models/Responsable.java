@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,6 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sio.Javanaise.emusic.enumeration.RoleEnum;
 
 @Getter
 @Setter
@@ -35,9 +33,4 @@ public class Responsable {
 	private String tel1;
 	private String tel2;
 	private String tel3;
-	private boolean suspendre = false;
-	private RoleEnum role;
-	
-	@OneToMany(mappedBy = "responsable", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<Paiement> paiments = new ArrayList<>();
 }

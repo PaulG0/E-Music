@@ -6,37 +6,56 @@
 	<i class="angle left icon"></i>
 </a>
 
+<a href="/responsables/new/prof" class="ui labeled green icon button">
+	<i class="user plus icon"></i>
+	Ajouter un professeur
+</a>
+
+<a href="/responsables/new/parent" class="ui labeled green icon button">
+	<i class="user plus icon"></i>
+	Ajouter un responsable
+</a>
+
+<a href="/responsables/new/eleve" class="ui labeled green icon button">
+	<i class="user plus icon"></i>
+	Ajouter un élève
+</a>
+
 <table class="ui celled table">
 	<thead>
 	    <th>Professeurs</th>
 	    <th>Parents</th>
-	    <th>Eleves</th>
+	    <th>Élèves</th>
 	</thead>
 	
 	<tbody>
 		<tr class="top aligned">
 			<td>
-				<div v-for="responsable in responsables">
-					<p v-if="responsable.role == 'PROF'"><a class="ui item" @click="confMessageOption(responsable, 'prof')"><% responsable.prenom %> <% responsable.nom %></a></p>
-				</div>
+			{{#profs}}
+				<p><a class="ui item" @click="confMessageOption({{id}}, 'prof')">{{prenom}} {{nom}}</a></p>
+			{{/profs}}
 			</td>
 			<td>
-				<div v-for="responsable in responsables">
-					<p v-if="responsable.role == 'PARENT'"><a class="ui item" @click="confMessageOption(responsable, 'parent')"><% responsable.prenom %> <% responsable.nom %></a></p>
-				</div>
+			{{#responsables}}
+				<p><a class="ui item" @click="confMessageOption({{id}}, 'parent')">{{prenom}} {{nom}}</a></p>
+			{{/responsables}}
 			</td>
-			<td><p v-for="eleve in eleves"><a class="ui item" @click="confMessageOption(eleve, 'eleve')"><% eleve.prenom %> <% eleve.nom %></a></p></td>
+			<td>
+			{{#eleves}}
+				<p><a class="ui item" @click="confMessageOption({{id}}, 'eleve')">{{prenom}} {{nom}}</a></p>
+			{{/eleves}}
+			</td>
 		</tr>
 	</tbody>
 </table>
 
 <div v-if="messageOption" class="ui message">
 	<div class="header">
-		<% messageOption.prenom %> <% messageOption.nom %>
 	</div>
 	<button class="circular ui icon button"><i class="eye icon"></i></button>
-	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/responsables/edit/' + messageOption.id" class="circular ui blue icon button"><i class="ui edit icon"></i></a>
-	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/paiements/new/' + messageOption.id" class="circular ui icon button"><i class="euro sign icon"></i></a>
+	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/responsables/edit/' + messageOption" class="circular ui blue icon button"><i class="ui edit icon"></i></a>
+	<a v-if="unRole == 'eleve'" :href="'/factures/' + messageOption" class="circular ui icon button"><i class="euro sign icon"></i> Facture</a>
+	<a v-if="unRole == 'eleve'" :href="'/paiements/new/' + messageOption" class="circular ui icon button"><i class="euro sign icon"></i> Paiement</a>
 	<button class="circular ui red icon button" @click="popupDelete(messageOption)"><i class="ui trash icon"></i></button>
 	<button v-if="messageOption.suspendre == true && (unRole == 'prof' || unRole == 'parent')" class="circular ui red icon button" @click="popupSuspendre(messageOption)"><i class="user slash icon"></i></button>
 	<button v-if="messageOption.suspendre == false && (unRole == 'prof' || unRole == 'parent')" class="circular ui icon button" @click="popupSuspendre(messageOption)"><i class="user icon"></i></button>

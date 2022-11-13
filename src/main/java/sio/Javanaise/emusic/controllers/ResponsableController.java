@@ -16,8 +16,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.Javanaise.emusic.models.Eleve;
+import sio.Javanaise.emusic.models.Prof;
 import sio.Javanaise.emusic.models.Responsable;
 import sio.Javanaise.emusic.repositories.IEleveRepository;
+import sio.Javanaise.emusic.repositories.IProfRepository;
 import sio.Javanaise.emusic.repositories.IResponsableRepository;
 import sio.Javanaise.emusic.services.UIResponsableService;
 
@@ -40,17 +42,24 @@ public class ResponsableController {
     private IEleveRepository eleverepo;
     
     @Autowired
+    private IProfRepository profRepository;
+    
+    @Autowired
     private UIResponsableService responsableService;
 	
-    @GetMapping({"/index", ""})
-	public String indexAction(ModelMap model) {
+    @GetMapping("")
+	public String indexAction(ModelMap model, ModelMap model2, ModelMap model3) {
 		
     	vue.addData("messageOption");
     	vue.addData("membre");
     	vue.addData("toDelete");
     	vue.addData("unRole");
-    	vue.addData("responsables", responsablerepo.findAll());
-    	vue.addData("eleves", eleverepo.findAll());
+//    	vue.addData("responsables", responsablerepo.findAll());
+//    	vue.addData("eleves", eleverepo.findAll());
+//    	vue.addData("profs", profRepository.findAll());
+    	Iterable<Responsable> responsables = responsablerepo.findAll();
+    	Iterable<Eleve> eleves = eleverepo.findAll();
+    	Iterable<Prof> profs = profRepository.findAll();
     	
     	vue.addMethod("confMessageOption", "this.messageOption=membre; this.unRole=unRole;", "membre, unRole");
     	vue.addMethod("popupDelete", "this.toDelete=membre;"
@@ -58,38 +67,57 @@ public class ResponsableController {
     	vue.addMethod("popupSuspendre", "this.membre=membre;"
     			+ responsableService.modalSuspendre() + ";", "membre");
     	
+    	model.put("responsables", responsables);
+    	model2.put("eleves", eleves);
+    	model3.put("profs", profs);
+    	
 		return "/responsables/index";
 		
 	}
     
-    @GetMapping("/new")
-    public String newAction(ModelMap model) {
+    @GetMapping("/new/{role}")
+    public String newAction(ModelMap model, @PathVariable String role) {
     	
-    	model.put("responsable", new Responsable());
-    	return "/responsables/form";
+    	if(role.equals("prof")) {
+    		
+    		model.put("prof", new Prof());
+        	return "/profs/form";
+    		
+    	} else if(role.equals("parent")) {
+    		
+    		model.put("responsable", new Responsable());
+        	return "/responsables/form";
+    		
+    	} else if(role.equals("eleve")) {
+    		
+    		model.put("eleve", new Eleve());
+        	return "/eleves/form";
+    		
+    	} else {
+    		
+    		model.put("responsable", new Responsable());
+        	return "/responsables/form";
+        	
+		}
+    	
     }
     
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Responsable responsable) {
     	
-    	if(responsable.getRole() == null) {
-    		
-    		Optional<Responsable> opt = responsablerepo.findById(responsable.getId());
-    		
-    		if(opt.isPresent()) {
-    			responsable.setRole(opt.get().getRole());
-    		}
-    		
-    	}
     	responsablerepo.save(responsable);
-    	return new RedirectView("/responsables/index");
+    	return new RedirectView("/responsables");
     	
     }
     
     @GetMapping("/delete/{role}/{id}")
     public RedirectView deleteAction(@PathVariable String role, @PathVariable int id) {
     	
-    	if(role.equals("prof") || role.equals("parent")) {
+    	if(role.equals("prof")) {
+    		
+    		profRepository.deleteById(id);
+    		
+    	} else if(role.equals("parent")) {
     		
     		responsablerepo.deleteById(id);
     		
@@ -98,7 +126,7 @@ public class ResponsableController {
     		eleverepo.deleteById(id);
     		
     	}
-    	return new RedirectView("/responsables/index");
+    	return new RedirectView("/responsables");
     	
     }
     
@@ -113,21 +141,21 @@ public class ResponsableController {
     @GetMapping("/suspendre/{id}")
     public RedirectView suspendreAction(@PathVariable int id) {
     	
-    	Optional<Responsable> opt = responsablerepo.findById(id);
+//    	Optional<Responsable> opt = responsablerepo.findById(id);
+//    	
+//    	if(opt.isPresent()) {
+//    		
+//    		if(opt.get().isSuspendre() == true) {
+//    			opt.get().setSuspendre(false);
+//    		} else {
+//    			opt.get().setSuspendre(true);
+//    		}
+//    		
+//    		responsablerepo.save(opt.get());
+//    		
+//    	}
     	
-    	if(opt.isPresent()) {
-    		
-    		if(opt.get().isSuspendre() == true) {
-    			opt.get().setSuspendre(false);
-    		} else {
-    			opt.get().setSuspendre(true);
-    		}
-    		
-    		responsablerepo.save(opt.get());
-    		
-    	}
-    	
-    	return new RedirectView("/responsables/index");
+    	return new RedirectView("/responsables");
     	
     }
 	
