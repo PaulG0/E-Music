@@ -51,8 +51,26 @@ public class MainController {
 	}
 
 	@GetMapping("")
-	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
+		if (authUser != null) {
+			String role = authUser.getAuthorities().toString();
+			if (role.equals("[ROLE_PARENT]")) {
+
+				for (Responsable responsable : responsables) {
+					if (responsable.getToken().equals(authUser.getToken())) {
+						parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+
+							model2.put("authResponsable", authResponsable);
+							vue.addData("authResponsable", authResponsable);
+						});
+
+					}
+				}
+
+			}
+		}
+
 		model.put("responsables", responsables);
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);

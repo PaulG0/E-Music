@@ -26,6 +26,8 @@ public class Eleve {
 	private String prenom;
 	private LocalDateTime date_naiss;
 
+	private String token;
+
 	@ManyToOne(optional = true)
 	private Responsable responsable;
 
