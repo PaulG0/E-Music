@@ -2,9 +2,10 @@ package sio.Javanaise.emusic.controllers;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,8 @@ public class devController {
 
 	private Time duree;
 
-	private LocalDateTime date_naissance;
+	@DateTimeFormat(pattern = "yyy-MM-dd")
+	private LocalDate date_naissance;
 
 	@Autowired
 	private IProfRepository profRepo;
@@ -84,7 +86,7 @@ public class devController {
 
 			eleve.setNom(fake.lordOfTheRings().character());
 			eleve.setPrenom(fake.witcher().character());
-			eleve.setDate_naiss(date_naissance.parse("2007-12-03T10:15:30"));
+			eleve.setDate_naiss(date_naissance.parse("2007-12-03"));
 			eleveRepo.save(eleve);
 			// instru
 

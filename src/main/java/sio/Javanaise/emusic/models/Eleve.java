@@ -1,6 +1,6 @@
 package sio.Javanaise.emusic.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.ManyToOne;
 
 import lombok.Getter;
@@ -31,7 +34,8 @@ public class Eleve {
 	private String nom;
 	private String prenom;
 
-	private LocalDateTime date_naiss;
+	@DateTimeFormat(pattern = "yyy-MM-dd")
+	private LocalDate date_naiss;
 
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
