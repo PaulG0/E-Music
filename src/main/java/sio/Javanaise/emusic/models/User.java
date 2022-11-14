@@ -28,8 +28,6 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private String prenom;
-
 	@Column(nullable = true)
 	private String login;
 
@@ -39,6 +37,8 @@ public class User implements UserDetails {
 	private boolean suspended;
 
 	private String authorities;
+
+	private String token;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

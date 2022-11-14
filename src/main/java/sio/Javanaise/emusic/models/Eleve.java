@@ -22,8 +22,6 @@ public class Eleve {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private String login;
-	private String password;
 	private String nom;
 	private String prenom;
 	private LocalDateTime date_naiss;

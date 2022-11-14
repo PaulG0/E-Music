@@ -7,57 +7,61 @@
 		<div>
 			<div class="field">
 				<label>Login (nom d'utilisateur) : </label>
-				<input type="text" name="login" value="{{#login}}{{.}}{{/login}}">
+				<input type="text" required="required" name="login" value="{{#login}}{{.}}{{/login}}">
 			</div>
+			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
 			<div class="field">
 				<label>Nom : </label>
-				<input type="text" name="nom" value="{{#nom}}{{.}}{{/nom}}">
+				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
 			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
 				<label>Prenom : </label>
-				<input type="text" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
+				<input type="text" required="required" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
 			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
 				<label>Adresse : </label>
-				<input type="text" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
+				<input type="text" required="required" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
 			</div>
 			<div class="field">
 				<label>Ville :</label>
-				<input type="text" name="ville" value="{{#ville}}{{.}}{{/ville}}">
+				<input type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
 			</div>
 			<div class="field">
 				<label>Code postal :</label>
-				<input type="number" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
+				<input type="number" required="required" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
 			</div>
 			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
 				<label>Adresse couriel</label>
-				<input type="email" name="email" value="{{#email}}{{.}}{{/email}}">
+				<input type="email" required="required" name="email" value="{{#email}}{{.}}{{/email}}">
 			</div>
 				<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
 			<div class="field">
 				<label>Mot de passe</label>
-				<input type="password" name="password" value={{#password}}{{.}}{{/password}}>
+				<input type="password" required="required" name="password" value={{#password}}{{.}}{{/password}}>
 			</div>
 			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
 			<div class="field">
 				<label>Quotient familiale</label>
-				<input type="number" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
+				<input type="number" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
 			</div>
 			<div class="field">
 				<label>Numero de téléphone</label>
-				<input type="text" name="tel1" value={{#tel1}}{{.}}{{/tel1}}>
+				<input type="text" required="required" name="tel1" value={{#tel1}}{{.}}{{/tel1}}>
 			</div>
+			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 			<div class="field">
 				<label>Numero de téléphone(optionnel)</label>
 				<input type="text" name="tel2" value={{#tel2}}{{.}}{{/tel2}}>
 			</div>
+			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 			<div class="field">
 				<label>Numero de téléphone(optionnel)</label>
 				<input type="text" name="tel3" value={{#tel3}}{{.}}{{/tel3}}>
 			</div>
+			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 		</div>
 		<button class="ui button" type="submit">Valider</button>
 	</form>

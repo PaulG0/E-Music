@@ -1,5 +1,10 @@
 {{> /include/header}}
 <div class="ui segment">
-	<form method="post" class="ui form"></form>
+	<form method="post" class="ui form">
+			<div class="field">
+				<label>Login (nom d'utilisateur) : </label>
+				<input type="text" required="required" name="login" value="{{#login}}{{.}}{{/login}}">
+			</div>
+	</form>
 </div>
 {{> /include/footer}}

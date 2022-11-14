@@ -37,10 +37,26 @@ public class ProfilParEnfController {
 	}
 
 	@GetMapping("")
-	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
+		String role = authUser.getAuthorities().toString();
 		Iterable<Responsable> responsables = parentrepo.findAll();
-		model.put("responsables", responsables);
+		System.out.println(role);
+		if (role.equals("[ROLE_PARENT]")) {
+
+			for (Responsable responsable : responsables) {
+				if (responsable.getToken().equals(authUser.getToken())) {
+					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+
+						model2.put("authResponsable", authResponsable);
+						vue.addData("authResponsable", authResponsable);
+					});
+
+				}
+			}
+
+		}
 		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		return "/parent/profil";
 	}
 }
