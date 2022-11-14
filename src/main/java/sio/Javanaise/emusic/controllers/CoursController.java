@@ -27,6 +27,7 @@ import sio.Javanaise.emusic.repositories.IPlanningRepository;
 import sio.Javanaise.emusic.repositories.IProfRepository;
 import sio.Javanaise.emusic.repositories.ITypeCoursRepository;
 import sio.Javanaise.emusic.services.CoursService;
+import sio.Javanaise.emusic.services.planningService;
 import sio.Javanaise.emusic.ui.UILink;
 import sio.Javanaise.emusic.ui.UIMessage;
 
@@ -54,6 +55,9 @@ public class CoursController {
 
 	@Autowired
 	private CoursService courService;
+	
+	
+
 	@Autowired(required = true)
 	private VueJS vue;
 
@@ -65,7 +69,7 @@ public class CoursController {
 //liste
 	@RequestMapping("")
 	public String indexCoursAction(ModelMap model) {
-		Iterable<Planning> plannings = planningRepository.findAll();
+Iterable<Planning>plannings=planningRepository.findAll();
 		model.put("plannings", plannings);
 		return "/cours/index";
 	}

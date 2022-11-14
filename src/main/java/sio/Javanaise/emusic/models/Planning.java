@@ -1,7 +1,7 @@
 package sio.Javanaise.emusic.models;
 
+import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,11 +28,10 @@ public class Planning {
 	private int id;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
-	private LocalDate dateDebut;
+	private Date dateDebut;
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureDebut;
 
-	@DateTimeFormat(pattern = "HH:mm")
 	private Time duree;
 
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)

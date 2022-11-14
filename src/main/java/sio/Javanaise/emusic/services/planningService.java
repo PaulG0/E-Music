@@ -1,5 +1,6 @@
 package sio.Javanaise.emusic.services;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,24 @@ public class planningService {
 		return cour;
 	}
 
-	public Iterable<Planning> planningProf(int id) {
-		Iterable<Planning> planning;
-		Optional<Prof> opt = profRepo.findById(id);
-		Prof prof = new Prof();
-		if (opt.isPresent()) {
-			prof = opt.get();
-		}
-		planning = planningRepo.findallByProf(prof);
-		return planning;
+	public ArrayList<Planning> planningProf(int id) {
+		Iterable<Planning> plannings = planningRepo.findAllByOrderByDateDebut();
+		Iterable<Cour> cours = courProf(id);
 
+		ArrayList<Planning> planningProf = new ArrayList<>();
+		for (Planning planning : plannings) {
+			for (Cour cour : cours) {
+				if (planning.getCour().equals(cour)) {
+					planningProf.add(planning);
+				}
+			}
+		}
+		return planningProf;
+	}
+
+	public ArrayList<Planning> planningJour(int idProf) {
+		ArrayList<Planning> plannings = planningProf(idProf);
+
+		return plannings;
 	}
 }

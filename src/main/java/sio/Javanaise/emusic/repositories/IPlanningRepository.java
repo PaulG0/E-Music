@@ -1,18 +1,15 @@
 package sio.Javanaise.emusic.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import sio.Javanaise.emusic.models.Cour;
 import sio.Javanaise.emusic.models.Planning;
-import sio.Javanaise.emusic.models.Prof;
 
 @Repository
-public interface IPlanningRepository extends CrudRepository<Planning, Integer> {
+public interface IPlanningRepository extends JpaRepository<Planning, Integer> {
 
-	public Iterable<Planning> findAllByCour(Cour cour);
-
-	public Iterable<Planning> findallByProf(Prof prof);
-	Fin
+	public List<Planning> findAllByOrderByDateDebut();
 
 }

@@ -1,4 +1,34 @@
+{{>/include/header}}
+<div class="ui calendar" @click="message()" v-model="date"   id="calendrier">
 
-{{#planning}}
-{{.}}
-{{/planning}}
+</div>
+
+<div v-if="this.vodk==1">dzqkjdz <%date%></div>
+
+{{>/include/footer}}
+<script>
+$('#calendrier')
+.calendar({
+	 type: 'date',
+	  formatter: {
+	      date: '"approx:"YYYY-MM-DD'
+	    }, 
+	   
+	    text: {
+	        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+	        dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+	        dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+	        months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+	        monthsShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+	        today: 'Aujourd\'hui',
+	        now: 'Maintenant',
+	        am: 'AM',
+	        pm: 'PM',
+	        weekNo: 'Semaine'
+	      },
+	      
+	     
+})
+;
+</script>
+
