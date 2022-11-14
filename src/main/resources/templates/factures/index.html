@@ -38,6 +38,7 @@
 		<th>Cours</th>
 		<th>Profs</th>
 		<th>Montant</th>
+		<th></th>
 	</thead>
 	<tbody>
 	{{#factures}}
@@ -53,6 +54,11 @@
 			<td>{{planning.cour.prof.prenom}} {{planning.cour.prof.nom}}</td>
 			{{/inscription}}
 			<td>{{prix}}</td>
+			
+			<td>
+				<a href="/factures/{{inscription.eleve.id}}/{{id}}" class="circular ui icon button"><i class="eye icon"></i></a>
+				<a href="/paiements/new/{{id}}" class="circular ui icon button"><i class="euro sign icon"></i>
+			</td>
 			
 		</tr>
 		
