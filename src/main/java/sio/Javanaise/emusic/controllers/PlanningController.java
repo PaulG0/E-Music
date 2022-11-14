@@ -1,7 +1,6 @@
 package sio.Javanaise.emusic.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,10 +44,8 @@ public class PlanningController {
 //affichage du planning prof
 	@GetMapping("/prof/{id}")
 	private String planingProfAction(@PathVariable int id, ModelMap model) {
-		vue.addData("vodk");
-		vue.addData("date", new Date());
-		vue.addMethod("message",
-				"this.vodk=1,this.date=new Date(today.getFullYear(), today.getMonth(), today.getDate())");
+		vue.addData("vodk", 0);
+		vue.addMethod("message", "this.vodk=1");
 
 		ArrayList<Planning> planning = planService.planningProf(id);
 		model.put("planning", planning);
