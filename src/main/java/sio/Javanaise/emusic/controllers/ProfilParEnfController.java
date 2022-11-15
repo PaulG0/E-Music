@@ -27,7 +27,7 @@ import sio.Javanaise.emusic.services.TokenGenerator;
 import sio.Javanaise.emusic.services.UserService;
 
 @Controller
-@RequestMapping("/parent/")
+@RequestMapping({ "/parent/", "/parent/profil" })
 public class ProfilParEnfController {
 
 	@Autowired
@@ -65,14 +65,11 @@ public class ProfilParEnfController {
 			for (Responsable responsable : responsables) {
 				if (responsable.getToken().equals(authUser.getToken())) {
 					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
-
 						model2.put("authResponsable", authResponsable);
 						vue.addData("authResponsable", authResponsable);
 					});
-
 				}
 			}
-
 		}
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
@@ -83,16 +80,29 @@ public class ProfilParEnfController {
 	public String addAction(ModelMap model, @PathVariable int id) {
 		model.put("eleve", new Eleve());
 		vue.addData("id_parent", id);
-		return "/parent/add";
+		return "/parent/form";
 	}
 
 	@PostMapping("add")
-	public RedirectView addAction(@ModelAttribute Eleve eleve, @ModelAttribute("password") String password,
-			@ModelAttribute("login") String login, RedirectAttributes attrs) {
+	public RedirectView addAction(@AuthenticationPrincipal User authUser, @ModelAttribute Eleve eleve,
+			@ModelAttribute("password") String password, @ModelAttribute("login") String login, ModelMap model2,
+			RedirectAttributes attrs) {
+		Iterable<Responsable> responsables = parentrepo.findAll();
+		Responsable authResp = new Responsable();
+		for (Responsable responsable : responsables) {
+			if (responsable.getToken().equals(authUser.getToken())) {
+				parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+					model2.put("authResponsable", authResponsable);
+					vue.addData("authResponsable", authResponsable);
+					authResp = authResponsable;
+				});
+			}
+		}
+
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
-			return new RedirectView("/parent/add/");
+			return new RedirectView("/parent/add/" + authResp.getId());
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
@@ -100,12 +110,12 @@ public class ProfilParEnfController {
 		if (!rService.NomEstValide(eleve.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/new/");
+			return new RedirectView("/parent/add/" + authResp.getId());
 		}
 		if (!rService.NomEstValide(eleve.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/new/");
+			return new RedirectView("/parent/add/" + authResp.getId());
 		}
 		String token = tokgen.generateToken(login);
 		User us = ((UserService) uService).createUser(login, password);
@@ -113,8 +123,7 @@ public class ProfilParEnfController {
 		us.setToken(token);
 		userrepo.save(us);
 		eleve.setToken(us.getToken());
-
 		enfantrepo.save(eleve);
-		return new RedirectView("/parent/");
+		return new RedirectView("/parent/profil");
 	}
 }
