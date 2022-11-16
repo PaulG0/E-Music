@@ -1,5 +1,6 @@
 package sio.javanaise.emusic.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -51,9 +52,15 @@ public class planningService {
 		return planningProf;
 	}
 
-	public ArrayList<Planning> planningJour(int idProf) {
+	public ArrayList<Planning> planningJour(int idProf, LocalDate date) {
 		ArrayList<Planning> plannings = planningProf(idProf);
+		ArrayList<Planning> newPlanning = new ArrayList<>();
+		for (Planning planning : plannings) {
+			if (planning.getDateDebut().equals(date)) {
+				newPlanning.add(planning);
+			}
+		}
 
-		return plannings;
+		return newPlanning;
 	}
 }

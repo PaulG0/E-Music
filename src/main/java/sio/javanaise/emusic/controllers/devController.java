@@ -76,7 +76,6 @@ public class devController {
 	@Autowired
 	private IPaiementRepository payeRepo;
 
-
 	@Autowired
 	IFactureRepository factRepo;
 
@@ -103,7 +102,6 @@ public class devController {
 			prof.setPrenom(fake.leagueOfLegends().champion());
 			profRepo.save(prof);
 
-
 			// responsable
 			Responsable respon = new Responsable();
 			fake = new Faker();
@@ -119,7 +117,6 @@ public class devController {
 			respon.setVille(fake.address().cityName());
 			responRepo.save(respon);
 
-
 			// eleve
 			fake = new Faker();
 			Eleve eleve = new Eleve();
@@ -130,7 +127,6 @@ public class devController {
 			eleve.setToken(token.generateToken());
 			eleve.setResponsable(respon);
 			eleveRepo.save(eleve);
-
 
 			// instru
 
@@ -161,16 +157,12 @@ public class devController {
 
 			planningRepo.save(planning);
 
-
-
 			// inscrit
 
 			Inscription inscrit = new Inscription();
 			inscrit.setEleve(eleve);
 			inscrit.setPlanning(planning);
 			inscritRepo.save(inscrit);
-
-
 
 			// facture
 			Facture fact = new Facture();
@@ -186,7 +178,6 @@ public class devController {
 			paye.setFacture(fact);
 			paye.setPrix(5);
 			payeRepo.save(paye);
-
 
 		}
 		return "init ok";
