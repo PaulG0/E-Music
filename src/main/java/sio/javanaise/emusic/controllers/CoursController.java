@@ -50,6 +50,9 @@ public class CoursController {
 
 	@Autowired
 	private CoursService courService;
+	
+	
+
 	@Autowired(required = true)
 	private VueJS vue;
 
@@ -61,7 +64,7 @@ public class CoursController {
 //liste
 	@RequestMapping("")
 	public String indexCoursAction(ModelMap model) {
-		Iterable<Planning> plannings = planningRepository.findAll();
+Iterable<Planning>plannings=planningRepository.findAll();
 		model.put("plannings", plannings);
 		return "/cours/index";
 	}

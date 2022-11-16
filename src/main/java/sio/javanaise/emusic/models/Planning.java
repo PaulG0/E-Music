@@ -32,7 +32,6 @@ public class Planning {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureDebut;
 
-	@DateTimeFormat(pattern = "HH:mm")
 	private Time duree;
 
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)
