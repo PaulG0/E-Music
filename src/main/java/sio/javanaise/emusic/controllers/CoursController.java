@@ -160,5 +160,4 @@ public class CoursController {
 		inscriptionRepository.deleteById(id);
 		return new RedirectView("/cours/" + idCour);
 	}
-
 }

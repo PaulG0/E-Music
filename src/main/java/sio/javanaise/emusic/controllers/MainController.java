@@ -20,6 +20,7 @@ import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IResponsableDAO;
 import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.ResponsableService;
+import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
 
 @Controller
@@ -41,15 +42,35 @@ public class MainController {
 	@Autowired(required = true)
 	private VueJS vue;
 
+	@Autowired
+	private TokenGenerator tokgen;
 
-    @ModelAttribute("vue")
-    public VueJS getVue() {
-        return this.vue;
-    }
+	@ModelAttribute("vue")
+	public VueJS getVue() {
+		return this.vue;
+	}
 
 	@GetMapping("")
-	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
+		if (authUser != null) {
+			String role = authUser.getAuthorities().toString();
+			if (role.equals("[ROLE_PARENT]")) {
+
+				for (Responsable responsable : responsables) {
+					if (responsable.getToken().equals(authUser.getToken())) {
+						parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+
+							model2.put("authResponsable", authResponsable);
+							vue.addData("authResponsable", authResponsable);
+						});
+
+					}
+				}
+
+			}
+		}
+
 		model.put("responsables", responsables);
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
@@ -63,7 +84,16 @@ public class MainController {
 	}
 
 	@PostMapping("new")
-	public RedirectView newAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
+	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
+			@ModelAttribute("login") String login, RedirectAttributes attrs) {
+		Optional<User> opt2 = userrepo.findByLogin(login);
+		if (opt2.isPresent()) {
+			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
+			return new RedirectView("/new/");
+		}
+		if (login.length() < 5 || login.length() > 20) {
+			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
+		}
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
@@ -83,12 +113,20 @@ public class MainController {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
 			return new RedirectView("/new/");
 		}
-		if (responsable.getPassword().length() < 8) {
+		if (password.length() < 8) {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caracteres");
 			return new RedirectView("/new/");
 		}
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
 			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
+			return new RedirectView("/new/");
+		}
+		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
+			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
+			return new RedirectView("/new/");
+		}
+		if (!rService.NuméroEstValide(responsable.getTel1())) {
+			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
 			return new RedirectView("/new/");
 		}
 		parentrepo.save(responsable);
@@ -103,11 +141,12 @@ public class MainController {
 				responsable.setQuotient_familial(responsable.getQuotient_familial() * (-1));
 			}
 		}
-		User us = ((UserService) uService).createUser(responsable.getLogin(), responsable.getPassword());
+		String token = tokgen.generateToken(login);
+		User us = ((UserService) uService).createUser(login, password);
 		us.setAuthorities("PARENT");
-		us.setPrenom(responsable.getPrenom());
+		us.setToken(token);
 		userrepo.save(us);
-		rService.EncodePassword(responsable, responsable.getPassword());
+		responsable.setToken(us.getToken());
 		parentrepo.save(responsable);
 		return new RedirectView("");
 	}

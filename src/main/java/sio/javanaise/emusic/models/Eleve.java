@@ -29,8 +29,6 @@ public class Eleve {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private String login;
-	private String password;
 	private String nom;
 	private String prenom;
 
@@ -39,6 +37,8 @@ public class Eleve {
 
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
+
+	private String token;
 
 	@ManyToOne(optional = true)
 	private Responsable responsable;
