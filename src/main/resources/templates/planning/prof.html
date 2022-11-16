@@ -1,8 +1,10 @@
 {{>/include/header}}
-<div class="ui calendar" id="inline_calendar" onclick="myFunction()"></div>
+<div class="ui calendar" id="inline_calendar"></div>
 
-
-
+<form method="post" action="" id="form">
+<input type="text" id="datePlanning">
+</form>
+<p ></p>
 zdq
 {{#planning}}
 {{dateDebut}}
@@ -12,7 +14,8 @@ dzq
 {{>/include/footer}}
 <script>
 $('#inline_calendar')
-.calendar({type: 'date',
+.calendar({
+	type: 'date',
 	text: {
         days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
         dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
@@ -25,13 +28,17 @@ $('#inline_calendar')
         pm: 'PM',
         weekNo: 'Semaine'
       },
+    onChange: function(date){
+    	$("#datePlanning").val(date);
+    	$("#form").submit();
+    }
 	
 	
 	
 	})
 ;
 
-function myFunction() {
+function dzmyFunction() {
 let day = document.getElementsByClassName('link active')[0].innerHTML;
 if(day.length == 1) {
   day = "0" + day;
@@ -66,7 +73,7 @@ if(month == "Janvier") {
 }
 let DateCompile=year + "-" + month + "-" + day;
 
-alert(DateCompile);
+document.getElementById("datePlanning").value = DateCompile;
 }
 
   
