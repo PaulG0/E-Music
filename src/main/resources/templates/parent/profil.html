@@ -18,12 +18,13 @@
 <p>
 	Numéro de Téléphone : {{#authResponsable.tel1}}{{.}}{{/authResponsable.tel1}}
 </p>
-<p v-if="authResponsable.tel2!=''">
+<p v-if="authResponsable.tel2!='' && authResponsable.tel2!=null">
 	Numéro de téléphone 2 : {{#authResponsable.tel2}}{{.}}{{/authResponsable.tel2}}
 </p>
-<p v-if="authResponsable.tel3!=''">
+<p v-if="authResponsable.tel3!='' && authResponsable.tel3!=null">
 	Numéro de téléphone 3 : {{#authResponsable.tel3}}{{.}}{{/authResponsable.tel3}}
 </p>
-<a href="/parent/add/{{#authResponsable.id}}{{.}}{{/authResponsable.id}}" class="ui red button">Ajouter un chiard</a>
+{{#authResponsable.eleves}}<p>{{nom}} {{prenom}}</p>{{/authResponsable.eleves}}
+<a href="/parent/add/" class="ui red button">Ajouter un chiard</a>
 
 {{> /include/footer}}

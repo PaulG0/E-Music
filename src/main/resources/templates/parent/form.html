@@ -5,23 +5,26 @@
 				<label>Login (nom d'utilisateur) : </label>
 				<input type="text" required="required" name="login" value="{{#login}}{{.}}{{/login}}">
 			</div>
+			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
 			<div class="field">
 				<label>Nom :</label>
 				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
+			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
 				<label>Prenom :</label>
 				<input type="text" required="required" name="prenom" value={{#prenom}}{{.}}{{/prenom}}>
 			</div>
+			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
 				<label>Mot de passe (de votre enfant)</label>
 				<input type="password" required="required" name="password" value="{{#password}}{{.}}{{/password}}">
 			</div>
+			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
 			<div class="field">
 				<label>Date de naissance :</label>
 				<input name ="date" type="datetime-local" value="{{#date_naiss}}{{.}}{{/date_naiss}}">
 			</div>
-			<input type="hidden" name="responsable" v-bind:value="id_parent">
 			<button class="ui button" type="submit">Valider</button>
 	</form>
 </div>
