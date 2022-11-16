@@ -1,0 +1,30 @@
+{{>/include/header}}
+
+<form class="ui form" method="post" action="/paiements/new">
+	
+	{{#paiement}}
+	<div class="field">
+		<label>Paiement</label>
+		<input type="number" name="prix" placeholder="Montant du paiement" value="{{#prix}}{{.}}{{/prix}}" required>
+	</div>
+	
+	<div class="field">
+		<label>Date de transmission</label>
+		<div class="ui calendar" id="standard_calendar" @click="foncCalendar()">
+			<div class="ui input left icon">
+				<i class="calendar icon"></i>
+				<input type="text" name="laDateTransmission" placeholder="Date de transmission" value="{{#date_transmission}}{{.}}{{/date_transmission}}" required>
+			</div>
+		</div>
+	</div>
+	
+	<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
+	
+	<input type="hidden" name="facture" v-bind:value="facture">
+	
+	<button class="ui button" type="submit">Valider</button>
+	{{/paiement}}
+	
+</form>
+
+{{>/include/footer}}

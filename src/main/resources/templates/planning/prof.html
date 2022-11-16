@@ -1,0 +1,83 @@
+{{>/include/header}}
+<div class="ui calendar" id="inline_calendar"></div>
+
+<form method="post" action="" id="form">
+<input type="text" id="datePlanning">
+</form>
+<p ></p>
+zdq
+{{#planning}}
+{{dateDebut}}
+{{/planning}}
+dzq
+
+{{>/include/footer}}
+<script>
+$('#inline_calendar')
+.calendar({
+	type: 'date',
+	text: {
+        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+        dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+        monthsShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Aujourd\'hui',
+        now: 'Maintenant',
+        am: 'AM',
+        pm: 'PM',
+        weekNo: 'Semaine'
+      },
+    onChange: function(date){
+    	$("#datePlanning").val(date);
+    	$("#form").submit();
+    }
+	
+	
+	
+	})
+;
+
+function dzmyFunction() {
+let day = document.getElementsByClassName('link active')[0].innerHTML;
+if(day.length == 1) {
+  day = "0" + day;
+}
+let monthYear = document.getElementsByTagName('thead')[0].getElementsByTagName('span')[0].innerHTML.split(" ");
+let month = monthYear[0];
+let year = monthYear[1];
+if(month == "Janvier") {
+  month = "01";
+} else if(month == "Février") {
+  month = "02";
+} else if(month == "Mars") {
+  month = "03";
+} else if(month == "Avril") {
+  month = "04";
+} else if(month == "Mai") {
+  month = "05";
+} else if(month == "Juin") {
+  month = "06";
+} else if(month == "Juillet") {
+  month = "07";
+} else if(month == "Août") {
+  month = "08";
+} else if(month == "Septembre") {
+  month = "09";
+} else if(month == "Octobre") {
+  month = "10";
+} else if(month == "Novembre") {
+  month = "11";
+} else if(month == "Decembre") {
+  month = "12";
+}
+let DateCompile=year + "-" + month + "-" + day;
+
+document.getElementById("datePlanning").value = DateCompile;
+}
+
+  
+  
+  
+</script>
+

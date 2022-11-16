@@ -1,3 +1,30 @@
 {{> /include/header}}
-<h1>Profil de {{#authUser.email}}{{.}}{{/authUser.email}}</h1>
+<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
+<p>
+	Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
+</p>
+<p>
+	Adresse  : {{#authResponsable.adresse}}{{.}}{{/authResponsable.adresse}}
+</p>
+<p>
+	Ville : {{#authResponsable.ville}}{{.}}{{/authResponsable.ville}}
+</p>
+<p>
+	Code Postal : {{#authResponsable.code_postal}}{{.}}{{/authResponsable.code_postal}}
+</p>
+<p>
+	Quotient familial : {{#authResponsable.quotient_familial}}{{.}}{{/authResponsable.quotient_familial}}
+</p>
+<p>
+	Numéro de Téléphone : {{#authResponsable.tel1}}{{.}}{{/authResponsable.tel1}}
+</p>
+<p v-if="authResponsable.tel2!='' && authResponsable.tel2!=null">
+	Numéro de téléphone 2 : {{#authResponsable.tel2}}{{.}}{{/authResponsable.tel2}}
+</p>
+<p v-if="authResponsable.tel3!='' && authResponsable.tel3!=null">
+	Numéro de téléphone 3 : {{#authResponsable.tel3}}{{.}}{{/authResponsable.tel3}}
+</p>
+{{#authResponsable.eleves}}<p>{{nom}} {{prenom}}</p>{{/authResponsable.eleves}}
+<a href="/parent/add/" class="ui red button">Ajouter un chiard</a>
+
 {{> /include/footer}}

@@ -21,16 +21,16 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> opt = userRepo.findByEmail(username);
+		Optional<User> opt = userRepo.findByLogin(username);
 		if (opt.isPresent()) {
 			return opt.get();
 		}
 		throw new UsernameNotFoundException("Utilisateur non trouvé");
 	}
 
-	public User createUser(String email, String password) {
+	public User createUser(String login, String password) {
 		User u = new User();
-		u.setEmail(email);
+		u.setLogin(login);
 		u.setPassword(passwordEncoder.encode(password)); // (3)
 		return u;
 	}

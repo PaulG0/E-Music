@@ -29,7 +29,7 @@ public class User implements UserDetails {
 	private int id;
 
 	@Column(nullable = true)
-	private String email;
+	private String login;
 
 	@Column(nullable = true)
 	private String password;
@@ -37,6 +37,8 @@ public class User implements UserDetails {
 	private boolean suspended;
 
 	private String authorities;
+
+	private String token;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,7 +56,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.email;
+		return this.login;
 	}
 
 	@Override

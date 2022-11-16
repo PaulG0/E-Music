@@ -1,0 +1,59 @@
+{{>/include/header}}
+
+<h1>Paiements</h1>
+
+<form method="post" action="/paiements/datepaiement">
+	<div class="ui search">
+		<label>Entre</label>
+		<input class="prompt" type="text" name="dateStart" placeholder="Rechercher date..." required>
+		<div class="results"></div>
+		
+		<label>et</label>
+		<input class="prompt" type="text" name="dateEnd" placeholder="Rechercher date..." required>
+		<div class="results"></div>
+		<div class="ui buttons">
+			<a href="/paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
+			<div class="or" data-text="ou"></div>
+			<button class="ui button" type="submit">Valider</button>
+		</div>
+	</div>
+</form>
+<br>
+<form method="post" action="/paiements/cours">
+	<div class="ui search">
+		<input class="prompt" type="text" name="libelle" placeholder="Rechercher cours..." required>
+		<div class="results"></div>
+		<div class="ui buttons">
+			<a href="/paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
+			<div class="or" data-text="ou"></div>
+			<button class="ui button" type="submit">Valider</button>
+		</div>
+	</div>
+</form>
+
+<table class="ui celled table">
+	<thead>
+		<th>Date des paiements</th>
+		<th>Élèves</th>
+		<th>Cours</th>
+		<th>Montant</th>
+	</thead>
+	<tbody>
+	{{#paiements}}
+	
+		<tr>
+			
+			<td>{{dateTransmission}}</td>
+			{{#facture}}
+			<td>{{inscription.eleve.prenom}} {{inscription.eleve.nom}}</td>
+			<td>{{inscription.planning.cour.libelle}} ({{inscription.planning.cour.typeCour.libelle}})</td>
+			{{/facture}}
+			<td>{{prix}}</td>
+			
+		</tr>
+		
+	{{/paiements}}
+	</tbody>
+</table>
+
+{{>/include/footer}}

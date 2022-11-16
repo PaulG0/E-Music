@@ -8,9 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
-
 @Entity
 public class Cour {
 
@@ -32,10 +30,15 @@ public class Cour {
 
 	private int ageMAx;
 
-	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<Inscription> incriptions;
+	private int nbPlace;
 
-	@OneToMany(mappedBy = "cour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<Instrument> instruments = new ArrayList<>();
+	@ManyToOne
+	private TypeCour typeCour;
+
+	@ManyToOne
+	private Prof prof;
+
+	@OneToMany(mappedBy = "cour", cascade = CascadeType.ALL)
+	private List<Planning> plannings = new ArrayList<>();
 
 }
