@@ -144,7 +144,6 @@ public class devController {
 			cour.setNbPlace(5);
 			cour.setProf(prof);
 			cour.setTypeCour(typeCour);
-
 			courRepo.save(cour);
 
 			// planning
