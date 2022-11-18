@@ -1,5 +1,6 @@
 package sio.javanaise.emusic.controllers;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Planning;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
+import sio.javanaise.emusic.services.FormatService;
 import sio.javanaise.emusic.services.planningService;
 
 @Controller
@@ -35,6 +36,9 @@ public class PlanningController {
 	@Autowired
 	private planningService planService;
 
+	@Autowired
+	private FormatService formatService;
+
 	@Autowired(required = true)
 	private VueJS vue;
 
@@ -43,24 +47,31 @@ public class PlanningController {
 		return this.vue;
 	}
 
+
+
 //affichage du planning prof
 	@GetMapping("/prof/{id}")
-	private String planingProfAction(@PathVariable int id, ModelMap model) {
+	private String planingProfActionGet(@PathVariable int id, ModelMap model) {
 		vue.addData("vodk", 0);
 		vue.addMethod("message", "this.vodk=1");
 
 		ArrayList<Planning> planning = planService.planningProf(id);
 		model.put("planning", planning);
+		model.put("idProf", id);
 		return "/planning/prof";
 	}
-	
+
 	@PostMapping("/prof/{id}")
-	private String planingProfAction(@PathVariable int id, ModelMap model, @RequestParam String date) {
-		
-		ArrayList<Planning> planning = planService.planningProf(id);
+	private String planingProfActionPost(@PathVariable int id, ModelMap model,
+			@ModelAttribute("datePlanning") String datePlanning) {
+		LocalDate date = formatService.formatdate(datePlanning);
+
+		ArrayList<Planning> planning = planService.planningJour(id,date);
 		model.put("planning", planning);
+		model.put("idProf", id);
+		model.put("datePlanning", date);
 		return "/planning/prof";
-		
+
 	}
 
 }
