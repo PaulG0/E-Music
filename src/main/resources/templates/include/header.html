@@ -20,8 +20,8 @@
 	{{/authUser}}
 	{{^authUser}}
 		<div class="button" v-if="!authUser">
-			<a href="/new/" class="ui red button">Créer un compte parent</a>
-			<a href="/login" class="ui lightgrey button">Connexion</a>
+			<button class="ui red button" onclick="signup()">Créer un compte parent</button>
+			<button class="ui lightgrey button" onclick="login()">Connexion</button>
 		</div>
 	{{/authUser}}
 	</div>

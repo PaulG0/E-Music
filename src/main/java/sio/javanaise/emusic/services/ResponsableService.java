@@ -18,9 +18,8 @@ public class ResponsableService {
 		return Pattern.compile(regexPattern).matcher(nom).matches();
 	}
 
-	public boolean CodePostalEstValide(int code) {
-		String codeString = "" + code;
-		return codeString.length() == 5;
+	public boolean CodePostalEstValide(String string) {
+		return string.length() == 5;
 	}
 
 	public boolean NuméroEstValide(String tel) {

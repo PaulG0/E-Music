@@ -74,11 +74,14 @@ public class MainController {
 		model.put("responsables", responsables);
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
+		vue.addData("villeAction");
+		model.put("responsable", new Responsable());
 		return "index";
 	}
 
 	@GetMapping("new")
 	public String newAction(ModelMap model) {
+		vue.addData("villeAction");
 		model.put("responsable", new Responsable());
 		return "signup";
 	}
@@ -130,16 +133,9 @@ public class MainController {
 			return new RedirectView("/new/");
 		}
 		parentrepo.save(responsable);
-		if (responsable.getQuotient_familial() >= 0) {
-			if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
-					&& !responsable.getVille().equals("IFS")) {
-				responsable.setQuotient_familial(responsable.getQuotient_familial() * (-1));
-			}
-		} else {
-			if (responsable.getVille().equals("ifs") || responsable.getVille().equals("Ifs")
-					|| responsable.getVille().equals("IFS")) {
-				responsable.setQuotient_familial(responsable.getQuotient_familial() * (-1));
-			}
+		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
+				&& !responsable.getVille().equals("IFS")) {
+			responsable.setQuotient_familial(null);
 		}
 		String token = tokgen.generateToken(login);
 		User us = ((UserService) uService).createUser(login, password);

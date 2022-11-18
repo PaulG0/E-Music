@@ -107,7 +107,7 @@ public class devController {
 			fake = new Faker();
 
 			respon.setAdresse(fake.address().streetName());
-			respon.setCode_postal(14000);
+			respon.setCode_postal("14000");
 			respon.setEmail(fake.internet().emailAddress());
 			respon.setNom(fake.pokemon().name());
 			respon.setPrenom(fake.ancient().primordial());
