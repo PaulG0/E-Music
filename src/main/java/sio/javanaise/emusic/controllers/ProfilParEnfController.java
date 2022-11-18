@@ -2,6 +2,8 @@ package sio.javanaise.emusic.controllers;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +26,8 @@ import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
+import sio.javanaise.emusic.ui.UILink;
+import sio.javanaise.emusic.ui.UIMessage;
 
 @Controller
 @RequestMapping({ "/parent/", "/parent/profil" })
@@ -123,4 +127,54 @@ public class ProfilParEnfController {
 		enfantrepo.save(eleve);
 		return new RedirectView("/parent/profil");
 	}
+
+	@GetMapping("delete/")
+	public RedirectView deleteAction(@AuthenticationPrincipal User authUser, ModelMap model2,
+			RedirectAttributes attrs) {
+		String role = authUser.getAuthorities().toString();
+		Iterable<Responsable> responsables = parentrepo.findAll();
+		if (role.equals("[ROLE_PARENT]")) {
+			for (Responsable responsable : responsables) {
+				if (responsable.getToken().equals(authUser.getToken())) {
+					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+						model2.put("authResponsable", authResponsable);
+						attrs.addFlashAttribute("msg",
+								UIMessage.error("Suppression", "Voulez vous vraiment supprimer votre compte ?")
+										.addLinks(new UILink("oui", "/parent/delete/force/"),
+												new UILink("non", "/parent/")));
+					});
+				}
+			}
+		}
+		return new RedirectView("/parent/");
+	}
+
+	@GetMapping("delete/force")
+	public RedirectView deleteForceAction(HttpSession session, @AuthenticationPrincipal User authUser, ModelMap model2,
+			RedirectAttributes attrs) {
+		String role = authUser.getAuthorities().toString();
+		Iterable<Responsable> responsables = parentrepo.findAll();
+		if (role.equals("[ROLE_PARENT]")) {
+			for (Responsable responsable : responsables) {
+				if (responsable.getToken().equals(authUser.getToken())) {
+					if (parentrepo.findById(responsable.getId()).isPresent()) {
+						for (User eleveUser : userrepo.findAll()) {
+							for (Eleve eleve : responsable.getEleves()) {
+								if (eleveUser.getToken().equals(eleve.getToken())) {
+									userrepo.deleteById(eleveUser.getId());
+								}
+							}
+						}
+						parentrepo.deleteById(responsable.getId());
+					}
+					if (userrepo.findById(authUser.getId()).isPresent()) {
+						userrepo.deleteById(authUser.getId());
+					}
+					session.invalidate();
+				}
+			}
+		}
+		return new RedirectView("/index");
+	}
+
 }
