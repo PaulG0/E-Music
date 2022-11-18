@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -25,7 +24,7 @@ import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
 
 @Controller
-@RequestMapping({ "/", "", "/index" })
+@RequestMapping({ "/", "" })
 public class MainController {
 
 	@Autowired
@@ -149,6 +148,6 @@ public class MainController {
 		userrepo.save(us);
 		responsable.setToken(us.getToken());
 		parentrepo.save(responsable);
-		return new RedirectView("index");
+		return new RedirectView("");
 	}
 }

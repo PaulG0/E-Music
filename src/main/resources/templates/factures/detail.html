@@ -1,0 +1,46 @@
+{{>/include/header}}
+
+<h1>Facture</h1>
+<h2>École de musique</h2>
+
+<table class="ui definition table">
+	<tbody>
+	{{#facture}}
+	
+		<tr>
+			<td>Date de la facture</td>
+			<td>{{dateFacture}}</td>
+		</tr>
+		
+		{{#inscription}}
+		<tr>
+			<td>Élève</td>
+			<td>{{eleve.prenom}} {{eleve.nom}}</td>
+		</tr>
+		
+		<tr>
+			<td>Ville</td>
+			<td>{{eleve.responsable.ville}}</td>
+		</tr>
+		
+		<tr>
+			<td>Quotient</td>
+			<td>{{eleve.responsable.quotient_familial}}</td>
+		</tr>
+		
+		<tr>
+			<td>Cours</td>
+			<td>{{planning.cour.libelle}} avec {{planning.cour.prof.nom}} ({{planning.cour.typeCour.libelle}})</td>
+		</tr>
+		{{/inscription}}
+		
+		<tr>
+			<td>Prix</td>
+			<td>{{prix}} €</td>
+		</tr>
+		
+	{{/facture}}
+	</tbody>
+</table>
+
+{{>/include/footer}}

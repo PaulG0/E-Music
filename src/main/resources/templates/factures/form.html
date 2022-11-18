@@ -1,0 +1,30 @@
+{{>/include/header}}
+
+{{#inscription}}
+<h1>{{eleve.prenom}} {{eleve.nom}}</h1>
+{{/inscription}}
+
+<form class="ui form" method="post" action="/paiements/new">
+	
+	{{#facture}}
+	<div class="field">
+		<label>Date de l'inscription</label>
+		<div class="ui calendar" id="standard_calendar" @click="foncCalendar()">
+			<div class="ui input left icon">
+				<i class="calendar icon"></i>
+				<input type="text" name="dateFacture" placeholder="Date de l'inscription" value="{{#dateFacture}}{{.}}{{/dateFacture}}" required>
+			</div>
+		</div>
+	</div>
+	
+	
+	<input type="hidden" name="inscription_id" value="{{#idinscription}}{{.}}{{/idinscription}}">
+	
+	<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
+	
+	<button class="ui button" type="submit">Valider</button>
+	{{/facture}}
+	
+</form>
+
+{{>/include/footer}}

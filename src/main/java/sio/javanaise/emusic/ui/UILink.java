@@ -1,5 +1,12 @@
 package sio.javanaise.emusic.ui;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
+
 public class UILink {
 	private String libelle;
 	private String href;
@@ -13,19 +20,5 @@ public class UILink {
 		this.href = href;
 	}
 
-	public String getLibelle() {
-		return libelle;
-	}
-
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
-	}
-
-	public String getHref() {
-		return href;
-	}
-
-	public void setHref(String href) {
-		this.href = href;
-	}
 }
+

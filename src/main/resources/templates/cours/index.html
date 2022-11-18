@@ -4,17 +4,63 @@
 <table class="ui table">
 <thead>
     <th>nom du cour</th>
+    <th>professseur</th>
+    <th>type de cour</th>
     <th>date</th>
     <th>heure debut</th>
+    <th>nombre de place</th>
+    <th>nombre d'inscrit</th>
+    <th> action</th>
 </thead>
 
 <tbody>
 
-    
+{{#plannings}}
+<tr>
+{{#cour}}
+<td> {{libelle}}</td>
+<td> {{prof.nom}} {{prof.prenom}}</td>
+<td>{{typeCour.libelle}}</td>
+<td>{{#dateDebut}}{{.}}{{/dateDebut}}</td>
+<td>{{#heureDebut}}{{.}}{{/heureDebut}}</td>
+<td> {{nbPlace}}</td>
+<td>{{incriptions.size}}</td>
+
+{{/cour}}
+
+
+<td>
+<a href="/cours/{{id}}"><i class="file alternate outline black icon" ></i></a>
+
+
+
+<a href="/cours/delete/{{id}}"><i class="delete   black icon" ></i></a>
+</td>
+
+
+
+
+</tr>
+
+{{/plannings}}
 </tbody>
-</thead>
 
 </table>
-
+{{#msg}}
+		<div class="ui red icon message" id="delete">
+		  <i class="trash icon"></i>
+		  <div class="content">
+		    <div class="header">
+		      {{title}}
+		    </div>
+		    <p>{{content}}</p>
+		    <p>
+		    {{#links}}
+		    	<a class="ui red button" href="{{href}}">{{libelle}}</a>
+		    {{/links}}
+		    </p>
+		  </div>
+		</div>
+	{{/msg}}
 
 {{>/include/footer}}

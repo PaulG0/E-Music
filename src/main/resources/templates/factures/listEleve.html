@@ -1,0 +1,37 @@
+{{>/include/header}}
+
+<h1>Factures</h1>
+
+<table class="ui celled table">
+	<thead>
+		<th>Date des factures</th>
+		<th>Élèves</th>
+		<th>Cours</th>
+		<th>Profs</th>
+		<th>Prix</th>
+		<th></th>
+	</thead>
+	<tbody>
+	{{#factures}}
+	
+		<tr>
+			
+			<td>{{dateFacture}}</td>
+			{{#inscription}}
+			<td>{{eleve.prenom}} {{eleve.nom}}</td>
+			
+			<td>{{planning.cour.libelle}} ({{planning.cour.typeCour.libelle}})</td>
+			
+			<td>{{planning.cour.prof.prenom}} {{planning.cour.prof.nom}}</td>
+			{{/inscription}}
+			<td>{{prix}}</td>
+			
+			<td><a href="/factures/{{inscription.eleve.id}}/{{id}}" class="circular ui icon button"><i class="eye icon"></i></a></td>
+			
+		</tr>
+		
+	{{/factures}}
+	</tbody>
+</table>
+
+{{>/include/footer}}

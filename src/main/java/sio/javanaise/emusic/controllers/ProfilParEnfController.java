@@ -11,18 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
-import sio.javanaise.emusic.models.Eleve;
 import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.User;
-import sio.javanaise.emusic.repositories.IEleveDAO;
 import sio.javanaise.emusic.repositories.IResponsableDAO;
 import sio.javanaise.emusic.repositories.IUserDAO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+import sio.javanaise.emusic.models.Eleve;
+import sio.javanaise.emusic.repositories.IEleveDAO;
 import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
@@ -38,7 +38,7 @@ public class ProfilParEnfController {
 
 	@Autowired
 	private IUserDAO userrepo;
-
+	
 	@Autowired
 	private IEleveDAO enfantrepo;
 
