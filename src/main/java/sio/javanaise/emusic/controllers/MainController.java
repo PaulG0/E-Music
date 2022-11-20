@@ -79,20 +79,21 @@ public class MainController {
 		return "index";
 	}
 
+	/*
 	@GetMapping("new")
 	public String newAction(ModelMap model) {
 		vue.addData("villeAction");
 		model.put("responsable", new Responsable());
 		return "signup";
 	}
-
+*/
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
@@ -100,21 +101,21 @@ public class MainController {
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		if (!rService.NomEstValide(responsable.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		if (!rService.EmailEstValide(responsable.getEmail())) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		if (password.length() < 8) {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caracteres");
@@ -122,15 +123,15 @@ public class MainController {
 		}
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
 			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
 			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		if (!rService.NuméroEstValide(responsable.getTel1())) {
 			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
-			return new RedirectView("/new/");
+			return new RedirectView("");
 		}
 		parentrepo.save(responsable);
 		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
