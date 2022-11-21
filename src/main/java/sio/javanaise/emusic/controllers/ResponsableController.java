@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Eleve;
 import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.Responsable;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.IResponsableRepository;
@@ -48,7 +50,7 @@ public class ResponsableController {
     private UIResponsableService responsableService;
 	
     @GetMapping("")
-	public String indexAction(ModelMap model, ModelMap model2, ModelMap model3) {
+	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2, ModelMap model3) {
 		
     	vue.addData("messageOption");
     	vue.addData("membre");
@@ -70,6 +72,9 @@ public class ResponsableController {
     	model.put("responsables", responsables);
     	model2.put("eleves", eleves);
     	model3.put("profs", profs);
+    	
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	
 		return "/responsables/index";
 		
