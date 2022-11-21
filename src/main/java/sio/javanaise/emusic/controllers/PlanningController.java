@@ -74,9 +74,11 @@ public class PlanningController {
 
 		List<Planning> planning = planService.planningJour(id, date);
 
+		vue.addData("plannings", planning);
+		// vue.addData("heure");
+		// vue.addMethod("ajoutHeure", "this.test");
 
-
-		model.put("planning", planning);
+		model.put("plannings", planning);
 		model.put("idProf", id);
 		model.put("datePlanning", date);
 

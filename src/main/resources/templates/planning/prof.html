@@ -6,9 +6,7 @@
   <input type="hidden" name="datePlanning" id="datePlanning">
 </form>
 
-{{#datePlanning}}{{.}}{{/datePlanning}}
 
-{{#planning}}{{duree}}{{/planning}}
 
 
 <table class="ui table">
@@ -16,80 +14,122 @@
     <th>heure</th>
     <th>cours</th>
   </thead>
-  <tbody  >
+  <tbody>
 
     <tr>
       <td>8:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>9:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>10:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>11:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>12:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>13:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>14:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>15:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>16:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>17:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>18:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>19:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>20:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>21:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>22:00</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>23:00</td>
-      <td></td>
-    </tr>
+      <td>
+        <div v-for="planning in plannings"
+            v-if="planning.heureDebut =='08:00:00'">
+             <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div>
+        </td>
+      </tr>
+      <tr>
+        <td>9:00</td>
+        <td> <div v-for="planning in plannings"
+            v-if="planning.heureDebut <='09:00:00' && '09:00:00' <=planning.heureFin">
+             <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+        </tr>
+        <tr>
+          <td>10:00</td>
+          <td> <div v-for="planning in plannings"
+              v-if="planning.heureDebut <='10:00:00'&& '10:00:00'<=planning.heureFin">
+            <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+          </tr>
+          <tr>
+            <td>11:00</td>
+            <td> <div v-for="planning in plannings"
+                v-if="planning.heureDebut <='11:00:00'&& '11:00:00'<=planning.heureFin">
+               <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+            </tr>
+            <tr>
+              <td>12:00</td>
+              <td> <div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='12:00:00'&& '12:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              
+              </tr>
+              
+              
+              
+              
+              
+              
+              
+              <tr>
+                <td>13:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='13:00:00'&& '13:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>14:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='14:00:00'&& '14:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>15:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='15:00:00'&& '15:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>16:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='16:00:00'&& '16:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>17:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='17:00:00'&& '17:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>18:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='18:00:00'&& '18:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>19:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='19:00:00'&& '19:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>20:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='20:00:00'&& '20:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>21:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='21:00:00'&& '21:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>22:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='22:00:00'&& '22:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>23:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='23:00:00'&& '23:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
 
-  </tbody>
-</table>
+            </tbody>
+          </table>
 
 
 
-{{>/include/footer}}
-<script>
+          {{>/include/footer}}
+          <script>
 $('#inline_calendar')
 .calendar({
 	type: 'date',
