@@ -2,6 +2,7 @@ package sio.javanaise.emusic.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class planningService {
 	@Autowired
 	private IPlanningRepository planningRepo;
 
+
+
+	private LocalDate date;
+
+
+
 	public Iterable<Cour> courProf(int id) {
 		Prof prof = new Prof();
 		Iterable<Cour> cour;
@@ -37,11 +44,11 @@ public class planningService {
 		return cour;
 	}
 
-	public ArrayList<Planning> planningProf(int id) {
+	public List<Planning> planningProf(int id) {
 		Iterable<Planning> plannings = planningRepo.findAllByOrderByDateDebut();
 		Iterable<Cour> cours = courProf(id);
 
-		ArrayList<Planning> planningProf = new ArrayList<>();
+		List<Planning> planningProf = new ArrayList<>();
 		for (Planning planning : plannings) {
 			for (Cour cour : cours) {
 				if (planning.getCour().equals(cour)) {
@@ -52,9 +59,9 @@ public class planningService {
 		return planningProf;
 	}
 
-	public ArrayList<Planning> planningJour(int idProf, LocalDate date) {
-		ArrayList<Planning> plannings = planningProf(idProf);
-		ArrayList<Planning> newPlanning = new ArrayList<>();
+	public List<Planning> planningJour(int idProf, LocalDate date) {
+		List<Planning> plannings = planningProf(idProf);
+		List<Planning> newPlanning = new ArrayList<>();
 		for (Planning planning : plannings) {
 			if (planning.getDateDebut().equals(date)) {
 				newPlanning.add(planning);
@@ -63,5 +70,6 @@ public class planningService {
 
 		return newPlanning;
 	}
+
 
 }

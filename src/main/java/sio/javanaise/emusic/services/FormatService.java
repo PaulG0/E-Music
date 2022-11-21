@@ -1,5 +1,7 @@
 package sio.javanaise.emusic.services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
@@ -7,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FormatService {
 
-
+	private DateFormat formatter = new SimpleDateFormat("HH:mm");
 	private LocalDate formDate;
 
 
@@ -46,6 +48,7 @@ public class FormatService {
 
 		return newDate;
 	}
+
 
 
 }

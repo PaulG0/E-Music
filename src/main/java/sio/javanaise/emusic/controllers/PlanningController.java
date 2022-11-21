@@ -1,7 +1,7 @@
 package sio.javanaise.emusic.controllers;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,25 +51,37 @@ public class PlanningController {
 
 //affichage du planning prof
 	@GetMapping("/prof/{id}")
-	private String planingProfActionGet(@PathVariable int id, ModelMap model) {
-		vue.addData("vodk", 0);
-		vue.addMethod("message", "this.vodk=1");
 
-		ArrayList<Planning> planning = planService.planningProf(id);
+	private String planingProfActionGet(@PathVariable int id, ModelMap model) {
+
+		List<Planning> planning = planService.planningProf(id);
+
+
 		model.put("planning", planning);
 		model.put("idProf", id);
+
+
 		return "/planning/prof";
 	}
 
 	@PostMapping("/prof/{id}")
 	private String planingProfActionPost(@PathVariable int id, ModelMap model,
 			@ModelAttribute("datePlanning") String datePlanning) {
+
+
+
 		LocalDate date = formatService.formatdate(datePlanning);
 
-		ArrayList<Planning> planning = planService.planningJour(id,date);
+		List<Planning> planning = planService.planningJour(id, date);
+
+
+
 		model.put("planning", planning);
 		model.put("idProf", id);
 		model.put("datePlanning", date);
+
+
+
 		return "/planning/prof";
 
 	}
