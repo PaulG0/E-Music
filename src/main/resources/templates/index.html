@@ -2,7 +2,7 @@
 <h1 onload="signup()">Bienvenue sur EMusic<span v-if="authUser">, {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}}{{#authEleve.prenom}}{{.}}{{/authEleve.prenom}}</span> !</h1>
 {{#authUser.authorities}}{{.}}{{/authUser.authorities}}
 <div class="imgacccenter">
-	<img src="/images/acceuil.jpg">
+	<img src="/images/acceuil.jpg" class="img">
 </div>
 <div v-if="affichage==true">
 	<div onload="signup()">
