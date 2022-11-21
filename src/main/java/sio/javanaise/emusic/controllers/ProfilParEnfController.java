@@ -1,5 +1,7 @@
 package sio.javanaise.emusic.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -11,18 +13,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import io.github.jeemv.springboot.vuejs.VueJS;
-import sio.javanaise.emusic.models.Responsable;
-import sio.javanaise.emusic.models.User;
-import sio.javanaise.emusic.repositories.IResponsableDAO;
-import sio.javanaise.emusic.repositories.IUserDAO;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Eleve;
+import sio.javanaise.emusic.models.Responsable;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveDAO;
+import sio.javanaise.emusic.repositories.IResponsableDAO;
+import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
@@ -38,7 +40,7 @@ public class ProfilParEnfController {
 
 	@Autowired
 	private IUserDAO userrepo;
-	
+
 	@Autowired
 	private IEleveDAO enfantrepo;
 
@@ -63,6 +65,7 @@ public class ProfilParEnfController {
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
 		String role = authUser.getAuthorities().toString();
 		Iterable<Responsable> responsables = parentrepo.findAll();
+		Iterable<Eleve> eleves = enfantrepo.findAll();
 		if (role.equals("[ROLE_PARENT]")) {
 
 			for (Responsable responsable : responsables) {
@@ -70,6 +73,16 @@ public class ProfilParEnfController {
 					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
 						model2.put("authResponsable", authResponsable);
 						vue.addData("authResponsable", authResponsable);
+					});
+				}
+			}
+		}
+		if (role.equals("[ROLE_ELEVE]")) {
+			for (Eleve eleve : eleves) {
+				if (eleve.getToken().equals(authUser.getToken())) {
+					enfantrepo.findById(eleve.getId()).ifPresent(authEleve -> {
+						model2.put("authEleve", authEleve);
+						vue.addData("authEleve", authEleve);
 					});
 				}
 			}
@@ -86,7 +99,8 @@ public class ProfilParEnfController {
 	}
 
 	@PostMapping("add")
-	public RedirectView addAction(@AuthenticationPrincipal User authUser, @ModelAttribute Eleve eleve,
+	public RedirectView addAction(@AuthenticationPrincipal User authUser,
+			@ModelAttribute("dateNaissa") String dateNaissa, @ModelAttribute Eleve eleve,
 			@ModelAttribute("password") String password, @ModelAttribute("login") String login, ModelMap model2,
 			RedirectAttributes attrs) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
@@ -124,6 +138,9 @@ public class ProfilParEnfController {
 		us.setToken(token);
 		userrepo.save(us);
 		eleve.setToken(us.getToken());
+		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
+		eleve.setDateNaiss(dateNaissance);
+		eleve.setDateNaissString(eleve.getDateNaiss().format(DateTimeFormatter.ofPattern("dd MMM yyy")));
 		enfantrepo.save(eleve);
 		return new RedirectView("/parent/profil");
 	}

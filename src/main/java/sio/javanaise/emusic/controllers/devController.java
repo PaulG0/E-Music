@@ -123,7 +123,7 @@ public class devController {
 
 			eleve.setNom(fake.lordOfTheRings().character());
 			eleve.setPrenom(fake.witcher().character());
-			eleve.setDate_naiss(date_naissance.parse("2007-12-03"));
+			eleve.setDateNaiss(date_naissance.parse("2007-12-03"));
 			eleve.setToken(token.generateToken());
 			eleve.setResponsable(respon);
 			eleveRepo.save(eleve);

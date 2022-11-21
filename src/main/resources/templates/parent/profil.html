@@ -1,5 +1,6 @@
 {{> /include/header}}
-<div v-if="authUser">
+{{#authUser}}
+<div class="white" v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
 	<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
 	<p>
 		Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
@@ -29,6 +30,15 @@
 	<a href="/parent/add/" class="ui red button">Ajouter un chiard</a>
 	<a href="/parent/delete/" class="ui black button">Suprimer son compte :(</a>
 </div>
+<div class="white" v-if="authUser.authorities[0].authority=='ROLE_ELEVE'">
+	<h1>Profil de {{#authEleve.prenom}}{{.}}{{/authEleve.prenom}} {{#authEleve.nom}}{{.}}{{/authEleve.nom}}</h1>
+	<p>
+		Date de naissance : {{#authEleve.dateNaissString}}{{.}}{{/authEleve.dateNaissString}}
+	</p>
+	<p>
+		Parent : {{#authEleve.responsable}}{{nom}} {{prenom}}{{/authEleve.responsable}}
+	</p>
+</div>
 	{{#msg}}
 		<div class="ui red icon message" id="delete">
 		  <i class="trash icon"></i>
@@ -45,5 +55,5 @@
 		  </div>
 		</div>
 	{{/msg}}
-
+{{/authUser}}
 {{> /include/footer}}
