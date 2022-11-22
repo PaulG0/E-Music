@@ -28,7 +28,7 @@ import sio.javanaise.emusic.services.CoursService;
 public class CoursController {
 
 	@Autowired
-	private ICoursRepository courRepo;
+	private ICoursRepository courRepository;
 
 	@Autowired
 	private IPlanningRepository planningRepository;
@@ -54,10 +54,10 @@ public class CoursController {
 	}
 
 //List Cours
-	@GetMapping("/cours")
+	@GetMapping("")
 	public String indexCoursCAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 
-		Iterable<Cour> cours = courRepo.findAll();
+		Iterable<Cour> cours = courRepository.findAll();
 		model.put("cours", cours);
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
@@ -65,8 +65,19 @@ public class CoursController {
 
 	}
 
+// detail Cours
+	@GetMapping("/{id}")
+	public String detailCoursCAction(@AuthenticationPrincipal User authUser, @PathVariable int id, ModelMap model,
+			ModelMap model2) {
+		courRepository.findById(id).ifPresent(cour -> model.put("cour", cour));
+		model2.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/cours/detail";
+
+	}
+
 //new Cours
-	@GetMapping("/cours/new")
+	@GetMapping("/new")
 	public String newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2,
 			ModelMap model3) {
 
@@ -82,24 +93,24 @@ public class CoursController {
 	}
 
 //add / modify Cours
-	@PostMapping("/cours/new")
+	@PostMapping("/new")
 	public RedirectView newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute Cour cour) {
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-		courRepo.save(cour);
+		courRepository.save(cour);
 		return new RedirectView("/cours");
 
 	}
 
 //edit Cours
-	@GetMapping("/cours/edit/{id}")
+	@GetMapping("/edit/{id}")
 	public String editCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2,
 			ModelMap model3, @PathVariable int id) {
 
 		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
 		Iterable<Prof> profs = profRepository.findAll();
-		courRepo.findById(id).ifPresent(cour -> model.put("cour", cour));
+		courRepository.findById(id).ifPresent(cour -> model.put("cour", cour));
 		model2.put("typeCours", typeCours);
 		model3.put("profs", profs);
 		model.put("authUser", authUser);
