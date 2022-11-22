@@ -7,13 +7,13 @@
 	<title>Emusic</title>
 </head>
 <body class="black">
-<button class="ui black icon button" onclick="nav()"><i class="white angle right icon"></i></button>
+<button class="ui black icon button" onclick="nav()" onmouseover="nav()"><i class="white angle right icon"></i></button>
 <div id="app" class="ui container" v-cloak>
 	<div class="logo">
 		<img src="/images/Emusic.jpg">
 	</div>
 	<div class="black">
-		<div class="ui sidebar inverted vertical menu">
+		<div class="ui sidebar inverted vertical menu" onmouseleave="nav()">
 			{{#authUser}}
 				<a href="/cours/" class="item">Liste des cours</a>
 				<a href="/parent/" class="item" v-if="authUser.authorities[0].authority=='ROLE_PARENT'||'ROLE_ENFANT'">Profil Utilisateur</a>
