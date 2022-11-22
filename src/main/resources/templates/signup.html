@@ -1,54 +1,53 @@
-{{> /include/header}}
-<h1 class="ui header">Creer un compte parent</h1>
+<h1 class="ui header white">Creer un compte parent</h1>
 {{#responsable}}
-<div class="ui segment">
+<div class="ui segment black">
 	<form method="post" class="ui form validForm" action="/new">
 	<input type="hidden" name="id" value="{{id}}">
 		<div>
 			<div class="field">
-				<label>Login (nom d'utilisateur) : </label>
+				<label>*Login (nom d'utilisateur) : </label>
 				<input type="text" required="required" name="login" value="{{#authUser.login}}{{.}}{{/authUser.login}}">
 			</div>
 			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
 			<div class="field">
-				<label>Nom : </label>
+				<label>*Nom : </label>
 				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
 			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
-				<label>Prenom : </label>
+				<label>*Prenom (Les noms composés doivent etre séparés par des -): </label>
 				<input type="text" required="required" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
 			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
-				<label>Adresse : </label>
+				<label>*Adresse : </label>
 				<input type="text" required="required" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
 			</div>
 			<div class="field">
-				<label>Ville :</label>
-				<input type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
+				<label>*Ville (Si vous habitez à Ifs, vous indiquerez votre quotient famillial):</label>
+				<input v-model="villeAction" type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
+			</div>
+			<div class="field" v-if="villeAction=='ifs' || villeAction=='Ifs' || villeAction=='IFS'">
+				<label>Quotient familiale</label>
+				<input type="text" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
 			</div>
 			<div class="field">
-				<label>Code postal :</label>
-				<input type="number" required="required" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
+				<label>*Code postal :</label>
+				<input type="text" required="required" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
 			</div>
 			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
-				<label>Adresse couriel</label>
+				<label>*Adresse couriel</label>
 				<input type="email" required="required" name="email" value="{{#email}}{{.}}{{/email}}">
 			</div>
 			<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
 			<div class="field">
-				<label>Mot de passe</label>
+				<label>*Mot de passe (Au minimum 8 caracteres)</label>
 				<input type="password" required="required" name="password" value={{#authUser.password}}{{.}}{{/authUser.password}}>
 			</div>
 			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
-			<div class="field">
-				<label>Quotient familiale</label>
-				<input type="number" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
-			</div>
-			<div class="field">
-				<label>Numero de téléphone</label>
+			<div class="field" >
+				<label>*Numero de téléphone</label>
 				<input type="text" required="required" name="tel1" value={{#tel1}}{{.}}{{/tel1}}>
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
@@ -67,7 +66,6 @@
 	</form>
 </div>
 {{/responsable}}
-{{> /include/footer}}
 <script>
 $(function(){
 	$('.validForm')

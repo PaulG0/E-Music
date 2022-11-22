@@ -107,7 +107,7 @@ public class devController {
 			fake = new Faker();
 
 			respon.setAdresse(fake.address().streetName());
-			respon.setCode_postal(14000);
+			respon.setCode_postal("14000");
 			respon.setEmail(fake.internet().emailAddress());
 			respon.setNom(fake.pokemon().name());
 			respon.setPrenom(fake.ancient().primordial());
@@ -123,7 +123,7 @@ public class devController {
 
 			eleve.setNom(fake.lordOfTheRings().character());
 			eleve.setPrenom(fake.witcher().character());
-			eleve.setDate_naiss(date_naissance.parse("2007-12-03"));
+			eleve.setDateNaiss(date_naissance.parse("2007-12-03"));
 			eleve.setToken(token.generateToken());
 			eleve.setResponsable(respon);
 			eleveRepo.save(eleve);

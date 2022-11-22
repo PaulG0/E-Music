@@ -3,6 +3,7 @@ package sio.javanaise.emusic.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import sio.javanaise.emusic.models.Inscription;
 import sio.javanaise.emusic.models.Planning;
 import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.TypeCour;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IInscriptionRepository;
 import sio.javanaise.emusic.repositories.IPlanningRepository;
@@ -35,7 +37,7 @@ public class CoursController {
 
 	@Autowired
 	private ICoursRepository courRepo;
-	
+
 	@Autowired
 	private IPlanningRepository planningRepository;
 
@@ -50,8 +52,6 @@ public class CoursController {
 
 	@Autowired
 	private CoursService courService;
-	
-	
 
 	@Autowired(required = true)
 	private VueJS vue;
@@ -63,8 +63,10 @@ public class CoursController {
 
 //liste
 	@RequestMapping("")
-	public String indexCoursAction(ModelMap model) {
-Iterable<Planning>plannings=planningRepository.findAll();
+	public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+		Iterable<Planning> plannings = planningRepository.findAll();
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		model.put("plannings", plannings);
 		return "/cours/index";
 	}
