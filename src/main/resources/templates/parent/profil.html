@@ -1,36 +1,41 @@
 {{> /include/header}}
 {{#authUser}}
-<div class="white" v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
-	<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
-	<p>
-		Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
-	</p>
-	<p>
-		Adresse  : {{#authResponsable.adresse}}{{.}}{{/authResponsable.adresse}}
-	</p>
-	<p>
-		Ville : {{#authResponsable.ville}}{{.}}{{/authResponsable.ville}}
-	</p>
-	<p>
-		Code Postal : {{#authResponsable.code_postal}}{{.}}{{/authResponsable.code_postal}}
-	</p>
-	<p>
-		Quotient familial : {{#authResponsable.quotient_familial}}{{.}}{{/authResponsable.quotient_familial}}
-	</p>
-	<p>
-		Numéro de Téléphone : {{#authResponsable.tel1}}{{.}}{{/authResponsable.tel1}}
-	</p>
-	<p v-if="authResponsable.tel2!='' && authResponsable.tel2!=null">
-		Numéro de téléphone 2 : {{#authResponsable.tel2}}{{.}}{{/authResponsable.tel2}}
-	</p>
-	<p v-if="authResponsable.tel3!='' && authResponsable.tel3!=null">
-		Numéro de téléphone 3 : {{#authResponsable.tel3}}{{.}}{{/authResponsable.tel3}}
-	</p>
-	{{#authResponsable.eleves}}<p>{{nom}} {{prenom}}</p>{{/authResponsable.eleves}}
-	<a href="/parent/add/" class="ui red button">Ajouter un chiard</a>
-	<a href="/parent/delete/" class="ui black button">Suprimer son compte :(</a>
+<div class="colonne" v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
+	<div class="white boxprofil">
+		<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
+		<p>
+			Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
+		</p>
+		<p>
+			Adresse  : {{#authResponsable.adresse}}{{.}}{{/authResponsable.adresse}}
+		</p>
+		<p>
+			Ville : {{#authResponsable.ville}}{{.}}{{/authResponsable.ville}}
+		</p>
+		<p>
+			Code Postal : {{#authResponsable.code_postal}}{{.}}{{/authResponsable.code_postal}}
+		</p>
+		<p>
+			Quotient familial : {{#authResponsable.quotient_familial}}{{.}}{{/authResponsable.quotient_familial}}
+		</p>
+		<p>
+			Numéro de Téléphone : {{#authResponsable.tel1}}{{.}}{{/authResponsable.tel1}}
+		</p>
+		<p v-if="authResponsable.tel2!='' && authResponsable.tel2!=null">
+			Numéro de téléphone 2 : {{#authResponsable.tel2}}{{.}}{{/authResponsable.tel2}}
+		</p>
+		<p v-if="authResponsable.tel3!='' && authResponsable.tel3!=null">
+			Numéro de téléphone 3 : {{#authResponsable.tel3}}{{.}}{{/authResponsable.tel3}}
+		</p>
+		{{#authResponsable.eleves}}<p>{{nom}} {{prenom}}</p>{{/authResponsable.eleves}}
+	</div>
+	<div>
+		<a href="/parent/add/" class="ui red button">Ajouter un chiard</a>
+		<a href="/parent/delete/" class="ui black button">Suprimer son compte :(</a>
+	</div>
+
 </div>
-<div class="white" v-if="authUser.authorities[0].authority=='ROLE_ELEVE'">
+<div class="white boxprofil" v-if="authUser.authorities[0].authority=='ROLE_ELEVE'">
 	<h1>Profil de {{#authEleve.prenom}}{{.}}{{/authEleve.prenom}} {{#authEleve.nom}}{{.}}{{/authEleve.nom}}</h1>
 	<p>
 		Date de naissance : {{#authEleve.dateNaissString}}{{.}}{{/authEleve.dateNaissString}}
