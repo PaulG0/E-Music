@@ -5,7 +5,7 @@
 <a href="/cours" class="ui icon button">
 	<i class="angle left icon"></i>
 </a>
-<a href="/cours/cours/new" class="ui labeled green icon button">
+<a href="/cours/new" class="ui labeled green icon button">
 	<i class="plus icon"></i>
 	Nouveau Cours
 </a>
@@ -15,7 +15,8 @@
 		<tr>
 	    	<th>Nom du cours</th>
 	    	<th>Professeur</th>
-	    	<th></th>
+	    	<th>type de cours</th>
+	    	<th>action</th>
     	</tr>
 	</thead>
 	
@@ -23,9 +24,11 @@
 	{{#cours}}
 		<tr>
 			<td>{{libelle}}</td>
-			<td>{{prof.prenom}} {{prof.nom}}</td>
+			<td>{{#prof.prenom}}{{.}}{{/prof.prenom}} {{#prof.nom}}{{.}}{{/prof.nom}}</td>
+			<td>{{#typeCour.libelle}}{{.}}{{/typeCour.libelle}}</td>
 			<td>
-				<a href="/cours/cours/edit/{{id}}" class="circular ui blue icon button"><i class="edit icon"></i></a>
+				<a href="/cours/edit/{{id}}" class="circular ui blue icon button"><i class="edit icon"></i></a>
+				<a href="/cours/{{id}}" class="circular ui black icon button"><i class="file icon"></i></a>
 			</td>
 		</tr>
 	{{/cours}}
