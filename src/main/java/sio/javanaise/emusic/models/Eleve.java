@@ -9,11 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,9 @@ public class Eleve {
 	private String prenom;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
-	private LocalDate date_naiss;
+	private LocalDate dateNaiss;
+
+	private String DateNaissString;
 
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();

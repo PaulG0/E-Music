@@ -31,7 +31,7 @@ public class CoursService {
 
 	public boolean valideAge(Eleve eleve, int id) {
 
-		int age = date.getYear() - eleve.getDate_naiss().getYear();
+		int age = date.getYear() - eleve.getDateNaiss().getYear();
 
 		Optional<Planning> opt = planningRepository.findById(id);
 		if (opt.isPresent()) {

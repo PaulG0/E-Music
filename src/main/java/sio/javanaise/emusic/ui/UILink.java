@@ -5,6 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+
+
 public class UILink {
 	private String libelle;
 	private String href;
@@ -19,3 +21,4 @@ public class UILink {
 	}
 
 }
+

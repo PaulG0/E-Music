@@ -35,7 +35,7 @@ public class WebSecurityConfig {
 				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PARENT", "ROLE_ELEVE").anyRequest()
 				.authenticated() // (4)
 				.and().formLogin() // (5)
-				.loginPage("/login").defaultSuccessUrl("/") // (5)
+				.loginPage("/login").defaultSuccessUrl("/").failureUrl("/failure/") // (5)
 				.permitAll().and().logout().logoutSuccessUrl("/exit") // (6)
 				.permitAll().and().httpBasic().and().exceptionHandling().accessDeniedPage("/403");
 		http.headers().frameOptions().sameOrigin(); // (8)
