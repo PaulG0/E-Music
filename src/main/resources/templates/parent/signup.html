@@ -1,0 +1,139 @@
+<h1 class="ui header white">Modifier mes informations</h1>
+{{#authResponsable}}
+<div class="ui segment black">
+	<form method="post" class="ui form validForm" action="/parent/edit">
+	<input type="hidden" name="id" value="{{id}}">
+		<div>
+			<div class="field">
+				<label>*Nom : </label>
+				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
+			</div>
+			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
+			<div class="field">
+				<label>*Prenom (Les noms composés doivent etre séparés par des -): </label>
+				<input type="text" required="required" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
+			</div>
+			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
+			<div class="field">
+				<label>*Adresse : </label>
+				<input type="text" required="required" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
+			</div>
+			<div class="field">
+				<label>*Ville (Si vous habitez à Ifs, vous indiquerez votre quotient famillial):</label>
+				<input  v-model="villeAction" type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
+			</div>
+			<div class="field" v-if="villeAction=='ifs' || villeAction=='Ifs' || villeAction=='IFS'">
+				<label>Quotient familiale</label>
+				<input type="text" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
+			</div>
+			<div class="field">
+				<label>*Code postal :</label>
+				<input type="text" required="required" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
+			</div>
+			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
+			<div class="field">
+				<label>*Adresse couriel</label>
+				<input type="email" required="required" name="email" value="{{#email}}{{.}}{{/email}}">
+			</div>
+			<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
+			<div class="field" >
+				<label>*Numero de téléphone</label>
+				<input type="text" required="required" name="tel1" value={{#tel1}}{{.}}{{/tel1}}>
+			</div>
+			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
+			<div class="field">
+				<label>Numero de téléphone(optionnel)</label>
+				<input type="text" name="tel2" value={{#tel2}}{{.}}{{/tel2}}>
+			</div>
+			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
+			<div class="field">
+				<label>Numero de téléphone(optionnel)</label>
+				<input type="text" name="tel3" value={{#tel3}}{{.}}{{/tel3}}>
+			</div>
+			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
+		</div>
+		<button class="ui button" type="submit">Valider</button>
+	</form>
+</div>
+{{/authResponsable}}
+<script>
+$(function(){
+	$('.validForm')
+	.form({
+	  on: 'blur',
+	  fields: {
+		  email: {
+		        identifier  : 'email',
+		        rules: [
+		          {
+		            type   : 'email',
+		            prompt : 'Veillez entrer un email valide'
+		          }
+		        ]
+		      },
+		  nom: {
+		        identifier  : 'nom',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer un nom valide'
+		          }
+		        ]
+		      },
+		  prenom: {
+		        identifier  : 'prenom',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer un prenom valide'
+		          }
+		        ]
+		      },
+		  adresse: {
+		        identifier  : 'adresse',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer une adresse valide'
+		          }
+		        ]
+		      },
+		  ville: {
+		        identifier  : 'ville',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer une ville valide'
+		          }
+		        ]
+		      },
+		  code_postal: {
+		        identifier  : 'code_postal',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer un code valide'
+		          }
+		        ]
+		      },
+		  quotient_familial: {
+		        identifier  : 'quotient_familial',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer une valeur valide'
+		          }
+		        ]
+		      },
+		  tel1: {
+		        identifier  : 'tel1',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Veillez entrer un login valide'
+		          }
+		        ]
+		      }
+	  }});
+});
+</script>

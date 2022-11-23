@@ -1,39 +1,65 @@
 {{> /include/header}}
 {{#authUser}}
-<div class="colonne" v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
-	<div class="white boxprofil">
-		<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
-		<p>
-			Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
-		</p>
-		<p>
-			Adresse  : {{#authResponsable.adresse}}{{.}}{{/authResponsable.adresse}}
-		</p>
-		<p>
-			Ville : {{#authResponsable.ville}}{{.}}{{/authResponsable.ville}}
-		</p>
-		<p>
-			Code Postal : {{#authResponsable.code_postal}}{{.}}{{/authResponsable.code_postal}}
-		</p>
-		<p>
-			Quotient familial : {{#authResponsable.quotient_familial}}{{.}}{{/authResponsable.quotient_familial}}
-		</p>
-		<p>
-			Numéro de Téléphone : {{#authResponsable.tel1}}{{.}}{{/authResponsable.tel1}}
-		</p>
-		<p v-if="authResponsable.tel2!='' && authResponsable.tel2!=null">
-			Numéro de téléphone 2 : {{#authResponsable.tel2}}{{.}}{{/authResponsable.tel2}}
-		</p>
-		<p v-if="authResponsable.tel3!='' && authResponsable.tel3!=null">
-			Numéro de téléphone 3 : {{#authResponsable.tel3}}{{.}}{{/authResponsable.tel3}}
-		</p>
-		{{#authResponsable.eleves}}<p>{{nom}} {{prenom}}</p>{{/authResponsable.eleves}}
+<div v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
+	<div class="dispocolonne">
+		<div class="colonne">
+			<div class="white boxprofil">
+				<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
+				<p>
+					Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
+				</p>
+				<p>
+					Adresse  : {{#authResponsable.adresse}}{{.}}{{/authResponsable.adresse}}
+				</p>
+				<p>
+					Ville : {{#authResponsable.ville}}{{.}}{{/authResponsable.ville}}
+				</p>
+				<p>
+					Code Postal : {{#authResponsable.code_postal}}{{.}}{{/authResponsable.code_postal}}
+				</p>
+				<p v-if="authResponsable.quotient_familial!=null">
+					Quotient familial : {{#authResponsable.quotient_familial}}{{.}}{{/authResponsable.quotient_familial}}
+				</p>
+				<p>
+					Numéro de Téléphone : {{#authResponsable.tel1}}{{.}}{{/authResponsable.tel1}}
+				</p>
+				<p v-if="authResponsable.tel2!='' && authResponsable.tel2!=null">
+					Numéro de téléphone 2 : {{#authResponsable.tel2}}{{.}}{{/authResponsable.tel2}}
+				</p>
+				<p v-if="authResponsable.tel3!='' && authResponsable.tel3!=null">
+					Numéro de téléphone 3 : {{#authResponsable.tel3}}{{.}}{{/authResponsable.tel3}}
+				</p>
+			</div>
+			<div class="ui modal edit">
+				<div class="content">
+					{{> /parent/signup}}
+				</div>
+			</div>
+			<div class="colonne">
+				<h2 class="white">Actions sur le profil</h2>
+				<a href="/parent/add/" class="ui orange button">Ajouter un enfant</a>
+				<a class="ui blue button" onclick="edit()">Modifier mes informations</a>
+				<a href="/parent/delete/" class="ui red button">Suprimer son compte :(</a>
+			</div>
+		</div>
+		{{#authResponsable.eleves.0}}
+		<div class="center">
+			<h1>Informations sur les enfants</h1>
+			
+			{{#authResponsable.eleves}}
+				<div class="white boxprofil boxenfant">
+					<h2>{{prenom}} {{nom}}</h2>
+					<p>
+						Sexe : {{#sexe}}{{.}}{{/sexe}}
+					</p>
+					<p>
+						Date de naissance : {{dateNaissString}}
+					</p>
+				</div>
+			{{/authResponsable.eleves}}
+		</div>
+		{{/authResponsable.eleves.0}}
 	</div>
-	<div>
-		<a href="/parent/add/" class="ui red button">Ajouter un chiard</a>
-		<a href="/parent/delete/" class="ui black button">Suprimer son compte :(</a>
-	</div>
-
 </div>
 <div class="white boxprofil" v-if="authUser.authorities[0].authority=='ROLE_ELEVE'">
 	<h1>Profil de {{#authEleve.prenom}}{{.}}{{/authEleve.prenom}} {{#authEleve.nom}}{{.}}{{/authEleve.nom}}</h1>
@@ -61,4 +87,12 @@
 		</div>
 	{{/msg}}
 {{/authUser}}
+<script>
+{{{edit}}}
+function edit(){
+	$('.ui.modal.edit')
+	  .modal('show')
+	;
+};
+</script>
 {{> /include/footer}}

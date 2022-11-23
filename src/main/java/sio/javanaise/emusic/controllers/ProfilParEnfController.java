@@ -73,6 +73,8 @@ public class ProfilParEnfController {
 					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
 						model2.put("authResponsable", authResponsable);
 						vue.addData("authResponsable", authResponsable);
+
+						vue.addData("villeAction", authResponsable.getVille());
 					});
 				}
 			}
@@ -88,6 +90,7 @@ public class ProfilParEnfController {
 			}
 		}
 		model.put("authUser", authUser);
+		model.put("edit", "");
 		vue.addData("authUser", authUser);
 		return "/parent/profil";
 	}
@@ -143,6 +146,49 @@ public class ProfilParEnfController {
 		eleve.setDateNaissString(eleve.getDateNaiss().format(DateTimeFormatter.ofPattern("dd MMM yyy")));
 		enfantrepo.save(eleve);
 		return new RedirectView("/parent/profil");
+	}
+
+	@PostMapping("edit")
+	public RedirectView newAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
+		vue.addData("affichage", false);
+		if (!rService.NomEstValide(responsable.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("");
+		}
+		if (!rService.NomEstValide(responsable.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("");
+		}
+		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
+		if (opt.isPresent()) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
+			return new RedirectView("");
+		}
+		if (!rService.EmailEstValide(responsable.getEmail())) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
+			return new RedirectView("");
+		}
+		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
+			return new RedirectView("");
+		}
+		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
+			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
+			return new RedirectView("");
+		}
+		if (!rService.NuméroEstValide(responsable.getTel1())) {
+			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
+			return new RedirectView("");
+		}
+		parentrepo.save(responsable);
+		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
+				&& !responsable.getVille().equals("IFS")) {
+			responsable.setQuotient_familial(null);
+		}
+		parentrepo.save(responsable);
+		return new RedirectView("/parent/");
 	}
 
 	@GetMapping("delete/")

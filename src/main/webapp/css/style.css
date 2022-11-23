@@ -9,18 +9,39 @@
 h1{
 	color:white;
 }
-.black{
-	background-color: #1b1c1d;
-}
 .white{
 	color:white;
 }
 
-.colonne{
-	display:inline-flex;
-	flex-direction: column;
+
+
+@media screen and (max-width: 800px) {
+	.dispocolonne {
+		display:flex;
+		flex-direction: column;
+	}
+	.colonne{
+		margin-bottom:10px;
+		display:flex;
+		flex-direction: column;
+	}
 }
 
+@media screen and (min-width: 800px) {
+	.dispocolonne{
+		display:flex;
+		flex-direction: row;
+		justify-content: space-around;
+	} 
+	.colonne{
+		display:flex;
+		flex-direction: column;
+		max-width: 30em;
+	}
+}
+.ui.button{
+	margin-bottom: 5px;
+}
 .boxprofil{
 	margin-top:10px;
 	border-radius:10px;
@@ -30,6 +51,10 @@ h1{
 	padding-left: 15px;
 	padding-right:10px;
 	padding-bottom:10px;
+	margin-bottom: 10px;
+}
+
+.boxenfant{
 }
 
 body {

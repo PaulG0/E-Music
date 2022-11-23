@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,12 +32,14 @@ public class Eleve {
 
 	private String nom;
 	private String prenom;
+	private String sexe;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateNaiss;
 
 	private String DateNaissString;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
 
