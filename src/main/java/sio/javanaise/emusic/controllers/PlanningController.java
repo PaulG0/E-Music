@@ -102,87 +102,40 @@ public class PlanningController {
 	}
 
 	@GetMapping("delete/force/{id}")
-	public RedirectView deleteAction(@AuthenticationPrincipal User authUser, @PathVariable int id, ModelMap model) {
+	public RedirectView deleteAction(@PathVariable int id, ModelMap model) {
+
 		planningRepository.deleteById(id);
-		model.put("authUser", authUser);
-		vue.addData("authUser", authUser);
 		return new RedirectView("/planning");
 	}
 
-	// Delete inscrit
+//add inscrit
 
-	@GetMapping("delete/inscrit/{id}/{idCour}")
-	public RedirectView DeleteInscritAction(@AuthenticationPrincipal User authUser, @PathVariable int id,
-			ModelMap model, @PathVariable int idCour, RedirectAttributes attrs) {
-		Optional<Inscription> opt = inscriptionRepository.findById(id);
-		if (opt.isPresent()) {
-			Eleve eleve = opt.get().getEleve();
-			attrs.addFlashAttribute("inscrit", UIMessage
-					.error("Suppression", "Voulez vous supprimer " + eleve.getPrenom() + " " + eleve.getNom() + " ?")
-					.addLinks(new UILink("oui", "delete/inscrit/force/" + id + "/" + idCour), new UILink("non", "")));
-		}
-		model.put("authUser", authUser);
-		vue.addData("authUser", authUser);
-
-		return new RedirectView("/planning/" + idCour);
-	}
-
-	@GetMapping("delete/inscrit/force/{id}/{idCour}")
-	public RedirectView deleteInscritAction(@AuthenticationPrincipal User authUser, @PathVariable int id,
-			@PathVariable int idCour, ModelMap model) {
-		inscriptionRepository.deleteById(id);
-		model.put("authUser", authUser);
-		vue.addData("authUser", authUser);
-		return new RedirectView("/planning/" + idCour);
-	}
-
-	// ======================================================
-
-	// liste
-	@RequestMapping("")
-	public String indexCoursAction(ModelMap model) {
-		Iterable<Planning> plannings = planningRepository.findAll();
-		model.put("plannings", plannings);
-
-		return "/planning/index";
-	}
-
-	// detail
-	@GetMapping("/{id}")
-	public String detailCoursAction(@PathVariable int id, ModelMap model) {
-
-		planningRepository.findById(id).ifPresent(planning -> model.put("planning", planning));
-		Iterable<Eleve> eleve = courService.listeleve(id);
-		model.put("eleve", eleve);
-
-		return "/planning/detail";
-	}
-
-	// delete Cours
-	@GetMapping("/delete/{id}")
-	public RedirectView DeleteCourAction(ModelMap model, @PathVariable int id, RedirectAttributes attrs) {
+	@PostMapping("inscrit/add/{id}")
+	public RedirectView AddInscritAction(@PathVariable int id, @ModelAttribute("ajoutEleve") List<Eleve> eleves,
+			ModelMap model) {
 
 		Optional<Planning> opt = planningRepository.findById(id);
+		Planning planning = new Planning();
 		if (opt.isPresent()) {
-			attrs.addFlashAttribute("msg", UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
-					.addLinks(new UILink("oui", "/planning/delete/force/" + id), new UILink("non", "")));
+			planning = opt.get();
 		}
 
-		return new RedirectView("/planning/");
+
+		Inscription inscrit = new Inscription();
+
+		for (Eleve eleve : eleves) {
+			inscrit.setEleve(eleve);
+			inscrit.setPlanning(planning);
+			inscriptionRepository.save(inscrit);
+
+		}
+
+		return new RedirectView("/planning/" + id);
 	}
-
-	@GetMapping("delete/force/{id}")
-	public RedirectView deleteAction(@PathVariable int id, ModelMap model) {
-		planningRepository.deleteById(id);
-
-		return new RedirectView("/planning");
-	}
-
 	// Delete inscrit
 
 	@GetMapping("delete/inscrit/{id}/{idCour}")
-	public RedirectView DeleteInscritAction(@PathVariable int id, ModelMap model, @PathVariable int idCour,
-			RedirectAttributes attrs) {
+	public RedirectView DeleteInscritAction(@PathVariable int id, @PathVariable int idCour, RedirectAttributes attrs) {
 		Optional<Inscription> opt = inscriptionRepository.findById(id);
 		if (opt.isPresent()) {
 			Eleve eleve = opt.get().getEleve();
@@ -191,17 +144,28 @@ public class PlanningController {
 					.addLinks(new UILink("oui", "delete/inscrit/force/" + id + "/" + idCour), new UILink("non", "")));
 		}
 
-		return new RedirectView("/cours/" + idCour);
+		return new RedirectView("/planning/" + idCour);
 	}
+
+
 
 	@GetMapping("delete/inscrit/force/{id}/{idCour}")
-	public RedirectView deleteInscritAction(@PathVariable int id, @PathVariable int idCour, ModelMap model) {
+	public RedirectView deleteInscritAction(@PathVariable int id, @PathVariable int idCour) {
 		inscriptionRepository.deleteById(id);
 
-		return new RedirectView("/cours/" + idCour);
+		return new RedirectView("/planning/" + idCour);
 	}
 
-	// ================================================================================================================
+
+
+	// =======================================================
+	// =======================================================
+
+	// =======================================================
+	// =======================================================
+
+	// =======================================================
+	// =======================================================
 
 	// affichage du planning prof
 	@GetMapping("/prof/{id}")

@@ -27,16 +27,16 @@ public class Facture {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	private int prix;
-	
+
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateFacture;
-	
+
 	@ManyToOne
 	private Inscription inscription;
-	
-	@OneToMany(mappedBy = "facture", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+
+	@OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
 	private List<Paiement> paiements = new ArrayList<>();
-	
+
 }

@@ -1,4 +1,9 @@
 {{>/include/header}}
+
+
+{{#planning}}
+{{#cour}}
+
 <h1>{{libelle}}</h1>
 
 <h2>type de cour : {{typeCour.libelle}} </h2>
@@ -10,14 +15,15 @@
 
 
 
+{{/cour}}
 
 <h4>le(s) eleve est(sont) :</h4>
 
-<div class="ui form">
+<form class="ui form"  method="post" action="inscrit/add/{{id}}">
 
 
 
-	<select name="ajoutEleve" multiple="" class="ui fluid clearable search
+	<select name="ajoutEleve"  class="ui fluid clearable search
 		dropdown">
 		<option value="">ajouter un eleve</option>
 		{{#eleve}}
@@ -25,8 +31,8 @@
 		{{/eleve}}
 	</select>
 
-	<div class="ui green button">Valider (add)</div>
-</div>
+	<input type="submit" value="Valider" class="ui green button">
+</form>
 
 
 
@@ -60,7 +66,6 @@
 
 
 
-{{/cour}}
 {{/planning}}
 
 

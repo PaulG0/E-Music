@@ -29,8 +29,8 @@ public class Inscription {
 
 	@ManyToOne
 	private Planning planning;
-	
-	@OneToMany(mappedBy = "inscription", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+
+	@OneToMany(mappedBy = "inscription", cascade = CascadeType.ALL)
 	private List<Facture> factures = new ArrayList<>();
 
 }

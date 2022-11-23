@@ -12,6 +12,7 @@
 	{{#authUser}}
 		<nav>
 			<a href="/cours/" class="liennav">Liste des cours</a>
+			<a href="/planning/" class="liennav">Liste des planning</a>
 			<a href="/parent/" class="liennav" v-if="authUser.authorities[0].authority=='ROLE_PARENT' || authUser.authorities[0].authority=='ROLE_ENFANT'">Profil Utilisateur</a>
 			<a href="/responsables/" class="liennav" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des membres</a>
 			<a href="/factures/" class="liennav" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des factures</a>
