@@ -22,10 +22,10 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - name: Run the Maven verify phase
-        run: mvn --batch-mode --update-snapshots verify -P prod -DskipTests=false
+        run: mvnw --batch-mode --update-snapshots verify -P prod -DskipTests=false
  
       - name: Build with Maven
-        run: mvn clean package -P prod -DskipTests=true
+        run: mvnw clean package -P prod -DskipTests=true
  
       - name: Upload application
         uses: appleboy/scp-action@master
