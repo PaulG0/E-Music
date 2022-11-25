@@ -18,7 +18,7 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: 'debian'
           java-version: '17'
           cache: 'maven'
       - name: Run the Maven verify phase
