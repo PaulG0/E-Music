@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "target/${{ secrets.WAR_FILE }}"
+          source: "target/e-music.war"
           target: "/tmp/source"
  
       - name: Start Service
@@ -45,5 +45,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S mv /tmp/source/target/${{ secrets.WAR_FILE }} /var/lib/tomcat9/webapps/${{ secrets.WAR_FILE }} -f
+            echo ${{ secrets.ROOT_PASSWORD }} | sudo -S mv /tmp/source/target/e-music.war /var/lib/tomcat9/webapps/e-music.war -f
             echo ${{ secrets.ROOT_PASSWORD }} | sudo -S systemctl restart tomcat9
