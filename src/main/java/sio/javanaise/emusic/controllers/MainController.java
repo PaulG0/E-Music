@@ -87,6 +87,9 @@ public class MainController {
 					}
 				}
 			}
+			if(role.equals("[ROLE_ADMIN]")) {
+				model2.put("authAdmin", authUser.getUsername());
+			}
 		}
 
 		model.put("responsables", responsables);
