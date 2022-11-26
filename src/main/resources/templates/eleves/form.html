@@ -1,35 +1,48 @@
-{{>/include/header}}
-
-<form class="ui form" method="post" action="/eleves/new">
-	
-	{{#eleve}}
-	<div class="field">
-		<label>Login</label>
-		<input type="text" name="login" placeholder="Login" value="{{#login}}{{.}}{{/login}}" required>
-	</div>
-	
-	<div class="field">
-		<label>Prénom</label>
-		<input type="text" name="prenom" placeholder="Prénom" value="{{#prenom}}{{.}}{{/prenom}}" required>
-	</div>
-	
-	<div class="field">
-		<label>Nom</label>
-		<input type="text" name="nom" placeholder="Nom" value="{{#nom}}{{.}}{{/nom}}" required>
-	</div>
-	
-	<div class="field">
-		<label>Mot de passe</label>
-		<input type="password" name="password" placeholder="Mot de passe" value="{{#password}}{{.}}{{/password}}" required>
-	</div>
-	
-	<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
-	
-	<input type="hidden" name="responsable" v-bind:value="idResponsable">
-	
-	<button class="ui button" type="submit">Valider</button>
-	{{/eleve}}
-	
-</form>
-
-{{>/include/footer}}
+<h1 class="ui header white">Créer un compte élève</h1>
+<div class="ui segment black">
+	<form class="ui form" method="post" action="/eleves/new">
+		
+		{{#eleve}}
+		<div class="field">
+			<label>*Login (nom d'utilisateur) :</label>
+			<input type="text" required="required" name="login" value="">
+		</div>
+		<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
+		
+		<div class="field">
+			<label>*Nom :</label>
+			<input type="text" name="nom" placeholder="Nom" value="{{#nom}}{{.}}{{/nom}}" required>
+		</div>
+		<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
+		
+		<div class="field">
+			<label>*Prénom :</label>
+			<input type="text" name="prenom" placeholder="Prénom" value="{{#prenom}}{{.}}{{/prenom}}" required>
+		</div>
+		<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
+		
+		<div class="field">
+			<label>*Date de naissance :</label>
+			<div class="ui calendar" id="standard_calendar">
+					<div class="ui input left icon">
+						<i class="calendar icon"></i>
+						<input type="text" required="required" name="dateNaissa" placeholder="Date de naissance" value="{{#dateNaiss}}{{.}}{{/dateNaiss}}">
+					</div>
+			</div>
+		</div>
+		
+		<div class="field">
+			<label>*Mot de passe (au minimum 8 caractères) :</label>
+			<input type="password" required="required" name="password" value="">
+		</div>
+		<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
+		
+		<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
+		
+		<input type="hidden" name="responsable" v-bind:value="messageOption">
+		
+		<button class="ui button" type="submit">Valider</button>
+		{{/eleve}}
+		
+	</form>
+</div>

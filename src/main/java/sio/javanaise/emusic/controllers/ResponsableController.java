@@ -88,6 +88,7 @@ public class ResponsableController {
     	model.put("responsables", responsables);
     	model.put("responsable", new Responsable());
     	model.put("eleves", eleves);
+    	model.put("eleve", new Eleve());
     	model.put("profs", profs);
     	model.put("prof", new Prof());
     	
@@ -132,25 +133,25 @@ public class ResponsableController {
     	vue.addData("affichage", false);
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
-			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
+			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
 			return new RedirectView("/responsables");
 		}
 		if (login.length() < 5 || login.length() > 20) {
-			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
+			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
 		}
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
-					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent etre séparés par des -");
 			return new RedirectView("/responsables");
 		}
 		if (!rService.NomEstValide(responsable.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
-					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+					"Prénom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
 			return new RedirectView("/responsables");
 		}
 		Optional<Responsable> opt = responsablerepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
-			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
+			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisé");
 			return new RedirectView("/responsables");
 		}
 		if (!rService.EmailEstValide(responsable.getEmail())) {
@@ -158,11 +159,11 @@ public class ResponsableController {
 			return new RedirectView("/responsables");
 		}
 		if (password.length() < 8) {
-			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caracteres");
+			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
 			return new RedirectView("/responsables");
 		}
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
-			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffres");
 			return new RedirectView("/responsables");
 		}
 		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
