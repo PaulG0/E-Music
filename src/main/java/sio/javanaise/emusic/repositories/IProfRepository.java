@@ -1,9 +1,13 @@
 package sio.javanaise.emusic.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import sio.javanaise.emusic.models.Prof;
 
-public interface IProfRepository extends CrudRepository<Prof, Integer> {
+public interface IProfRepository extends JpaRepository<Prof, Integer> {
 
+	public Optional<Prof> findByEmail(String email);
+	
 }

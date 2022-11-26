@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +36,7 @@ public class Planning {
 
 	private Time duree;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)
 	private List<Inscription> incriptions;
 

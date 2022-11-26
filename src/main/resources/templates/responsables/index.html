@@ -6,15 +6,15 @@
 	<i class="angle left icon"></i>
 </a>
 
-<a href="/responsables/new/prof" class="ui labeled green icon button">
+<button class="ui labeled green icon button" onclick="newprof()">
 	<i class="user plus icon"></i>
 	Ajouter un professeur
-</a>
+</button>
 
-<a href="/new" class="ui labeled green icon button">
+<button class="ui labeled green icon button" onclick="signup()">
 	<i class="user plus icon"></i>
 	Ajouter un responsable
-</a>
+</button>
 
 <table class="ui celled table">
 	<thead>
@@ -60,7 +60,30 @@
 	<button v-if="messageOption.suspendre == false && (unRole == 'prof' || unRole == 'parent')" class="circular ui icon button" @click="popupSuspendre(messageOption)"><i class="user icon"></i></button>
 </div>
 
+<div class="ui modal signup">
+	<div class="content">
+		{{>/responsables/form}}
+	</div>
+</div>
+<div class="ui modal newprof">
+	<div class="content">
+		{{>/profs/form}}
+	</div>
+</div>
 {{>/responsables/deletePopup}}
 {{>/responsables/suspendrePopup}}
 
 {{>/include/footer}}
+<script>
+function signup(){
+	$('.ui.modal.signup')
+	  .modal('show')
+	;
+};
+
+function newprof(){
+	$('.ui.modal.newprof')
+	  .modal('show')
+	;
+};
+</script>

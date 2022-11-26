@@ -1,11 +1,10 @@
 package sio.javanaise.emusic.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
@@ -22,8 +22,12 @@ import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
-import sio.javanaise.emusic.repositories.IResponsableRepository;
+import sio.javanaise.emusic.repositories.IResponsableDAO;
+import sio.javanaise.emusic.repositories.IUserDAO;
+import sio.javanaise.emusic.services.ResponsableService;
+import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UIResponsableService;
+import sio.javanaise.emusic.services.UserService;
 
 @Controller
 @RequestMapping("/responsables")
@@ -38,7 +42,10 @@ public class ResponsableController {
     }
     
     @Autowired
-    private IResponsableRepository responsablerepo;
+	private IUserDAO userrepo;
+    
+    @Autowired
+    private IResponsableDAO responsablerepo;
     
     @Autowired
     private IEleveRepository eleverepo;
@@ -48,9 +55,18 @@ public class ResponsableController {
     
     @Autowired
     private UIResponsableService responsableService;
+    
+    @Autowired
+	private ResponsableService rService;
+    
+    @Autowired
+	private UserDetailsService uService;
+    
+    @Autowired
+	private TokenGenerator tokgen;
 	
     @GetMapping("")
-	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2, ModelMap model3) {
+	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		
     	vue.addData("messageOption");
     	vue.addData("membre");
@@ -70,8 +86,10 @@ public class ResponsableController {
     			+ responsableService.modalSuspendre() + ";", "membre");
     	
     	model.put("responsables", responsables);
-    	model2.put("eleves", eleves);
-    	model3.put("profs", profs);
+    	model.put("responsable", new Responsable());
+    	model.put("eleves", eleves);
+    	model.put("profs", profs);
+    	model.put("prof", new Prof());
     	
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
@@ -108,10 +126,68 @@ public class ResponsableController {
     }
     
     @PostMapping("/new")
-    public RedirectView newAction(@ModelAttribute Responsable responsable) {
+    public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
+			@ModelAttribute("login") String login, RedirectAttributes attrs) {
     	
-    	responsablerepo.save(responsable);
-    	return new RedirectView("/responsables");
+    	vue.addData("affichage", false);
+		Optional<User> opt2 = userrepo.findByLogin(login);
+		if (opt2.isPresent()) {
+			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
+			return new RedirectView("/responsables");
+		}
+		if (login.length() < 5 || login.length() > 20) {
+			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
+		}
+		if (!rService.NomEstValide(responsable.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("/responsables");
+		}
+		if (!rService.NomEstValide(responsable.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("/responsables");
+		}
+		Optional<Responsable> opt = responsablerepo.findByEmail(responsable.getEmail());
+		if (opt.isPresent()) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
+			return new RedirectView("/responsables");
+		}
+		if (!rService.EmailEstValide(responsable.getEmail())) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
+			return new RedirectView("/responsables");
+		}
+		if (password.length() < 8) {
+			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caracteres");
+			return new RedirectView("/responsables");
+		}
+		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
+			return new RedirectView("/responsables");
+		}
+		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
+			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
+			return new RedirectView("/responsables");
+		}
+		if (!rService.NuméroEstValide(responsable.getTel1())) {
+			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
+			return new RedirectView("/responsables");
+		}
+		responsablerepo.save(responsable);
+		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
+				&& !responsable.getVille().equals("IFS")) {
+			responsable.setQuotient_familial(null);
+		}
+		if(responsable.getToken() == null) {
+			String token = tokgen.generateToken(login);
+			User us = ((UserService) uService).createUser(login, password);
+			us.setAuthorities("PARENT");
+			us.setToken(token);
+			userrepo.save(us);
+			responsable.setToken(us.getToken());
+		}
+		responsablerepo.save(responsable);
+		return new RedirectView("/responsables");
     	
     }
     

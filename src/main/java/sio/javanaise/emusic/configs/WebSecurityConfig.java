@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 				.antMatchers("/", "/parent/**", "/images/**", "/css/**", "/index", "/new/", "/new", "/h2-console/**",
 						"/webjars/**")
 				.permitAll() // (3)
-				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PARENT", "ROLE_ELEVE").anyRequest()
+				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PROF", "ROLE_PARENT", "ROLE_ELEVE").anyRequest()
 				.authenticated() // (4)
 				.and().formLogin() // (5)
 				.loginPage("/login").defaultSuccessUrl("/").failureUrl("/failure/") // (5)

@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +38,7 @@ public class Facture {
 	@ManyToOne
 	private Inscription inscription;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "facture", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Paiement> paiements = new ArrayList<>();
 	
