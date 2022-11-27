@@ -70,11 +70,13 @@ public class ResponsableController {
 		
     	vue.addData("messageOption");
     	vue.addData("membre");
+    	vue.addData("user");
     	vue.addData("toDelete");
     	vue.addData("unRole");
-//    	vue.addData("responsables", responsablerepo.findAll());
-//    	vue.addData("eleves", eleverepo.findAll());
-//    	vue.addData("profs", profRepository.findAll());
+    	vue.addData("users", userrepo.findAll());
+    	vue.addData("responsables", responsablerepo.findAll());
+    	vue.addData("eleves", eleverepo.findAll());
+    	vue.addData("profs", profRepository.findAll());
     	Iterable<Responsable> responsables = responsablerepo.findAll();
     	Iterable<Eleve> eleves = eleverepo.findAll();
     	Iterable<Prof> profs = profRepository.findAll();
@@ -82,8 +84,8 @@ public class ResponsableController {
     	vue.addMethod("confMessageOption", "this.messageOption=membre; this.unRole=unRole;", "membre, unRole");
     	vue.addMethod("popupDelete", "this.toDelete=membre;"
 				+ responsableService.modalDelete() + ";", "membre");
-    	vue.addMethod("popupSuspendre", "this.membre=membre;"
-    			+ responsableService.modalSuspendre() + ";", "membre");
+    	vue.addMethod("popupSuspendre", "this.membre=membre; this.user=user;"
+    			+ responsableService.modalSuspendre() + ";", "membre, user");
     	
     	model.put("responsables", responsables);
     	model.put("responsable", new Responsable());
@@ -223,19 +225,19 @@ public class ResponsableController {
     @GetMapping("/suspendre/{id}")
     public RedirectView suspendreAction(@PathVariable int id) {
     	
-//    	Optional<Responsable> opt = responsablerepo.findById(id);
-//    	
-//    	if(opt.isPresent()) {
-//    		
-//    		if(opt.get().isSuspendre() == true) {
-//    			opt.get().setSuspendre(false);
-//    		} else {
-//    			opt.get().setSuspendre(true);
-//    		}
-//    		
-//    		responsablerepo.save(opt.get());
-//    		
-//    	}
+    	Optional<User> opt = userrepo.findById(id);
+    	
+    	if(opt.isPresent()) {
+    		
+    		if(opt.get().isSuspended() == true) {
+    			opt.get().setSuspended(false);
+    		} else {
+    			opt.get().setSuspended(true);
+    		}
+    		
+    		userrepo.save(opt.get());
+    		
+    	}
     	
     	return new RedirectView("/responsables");
     	

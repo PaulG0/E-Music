@@ -39,7 +39,7 @@
 		
 		<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
 		
-		<input type="hidden" name="responsable" v-bind:value="messageOption">
+		<input type="hidden" name="responsable" v-bind:value="messageOption.id">
 		
 		<button class="ui button" type="submit">Valider</button>
 		{{/eleve}}
