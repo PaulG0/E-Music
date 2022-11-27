@@ -1,0 +1,15 @@
+{{> /include/header}}
+
+<h1>notre equipe</h1>
+<div class="boxwrap">
+    {{#profs}}
+    <div class="boxprofil">
+        <img class="imgbox" src="./images/prof/{{nom}}.jpg">
+        <br>
+        {{nom}} {{prenom}}
+    </div>
+
+    {{/profs}}
+</div>
+
+{{> /include/footer}}

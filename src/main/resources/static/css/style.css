@@ -1,83 +1,106 @@
-.button{
-    display: flex;
-    justify-content:flex-end;
+.button {
+	display: flex;
+	justify-content: flex-end;
 }
 
-.erreur{
-    color: red;
-}
-h1{
-	color:white;
+.erreur {
+	color: red;
 }
 
-.white{
-	color:white;
+h1 {
+	color: white;
 }
 
-.colonne{
-	display:inline-flex;
+.white {
+	color: white;
+}
+
+.colonne {
+	display: inline-flex;
 	flex-direction: column;
 }
 
-.boxprofil{
-	margin-top:10px;
-	border-radius:10px;
-	background-color : #3c3e40;
+.boxprofil {
+	margin-top: 10px;
+	border-radius: 10px;
+	color: white;
+	background-color: #3c3e40;
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
-	padding-top:10px;
+	padding-top: 10px;
 	padding-left: 15px;
-	padding-right:10px;
-	padding-bottom:10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+
+.imgbox {
+	height: 250px;
+	width: 250px;
+}
+
+.boxwrap {
+
+
+
+
+	display: flex;
+	justify-content: space-around;
+
+
+	flex-wrap: wrap;
+
+
 }
 
 body {
-    height: 100%;
-    width: 100%;
-    background-color: #1b1c1d!important;
+	height: 100%;
+	width: 100%;
+	background-color: #1b1c1d !important;
 }
 
-body.pushable>.pusher{
-	background: #1b1c1d!important;
+body.pushable>.pusher {
+	background: #1b1c1d !important;
 }
 
-.imgacccenter{
-    display: flex;
-    justify-content: center;
+.imgacccenter {
+	display: flex;
+	justify-content: center;
 }
 
 .img {
 	max-width: 100%;
 	height: auto;
-    width: auto;
+	width: auto;
 }
 
 .logo {
-	height:4em;
-	width:auto;
-	display:flex;
+	height: 4em;
+	width: auto;
+	display: flex;
 	justify-content: left;
 }
-.ui.modal{
-	color : white;
+
+.ui.modal {
+	color: white;
 	border-radius: 20px;
 }
 
 .ui.form:not(.inverted) .field>label:not(.button) {
-    color: white;
+	color: white;
 }
 
 .ui.header.white {
-	color:white;
+	color: white;
 }
+
 .ui.modal>.content {
-    background: #1b1c1d!important;
-    border-radius: 20px;
-    color : white;
+	background: #1b1c1d !important;
+	border-radius: 20px;
+	color: white;
 }
 
 
 .ui.segment {
-	background: #1b1c1d!important;
-	color : white;
+	background: #1b1c1d !important;
+	color: white;
 
 }

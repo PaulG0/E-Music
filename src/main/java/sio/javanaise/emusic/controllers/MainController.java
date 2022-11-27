@@ -18,9 +18,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Eleve;
+import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveDAO;
+import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.IResponsableDAO;
 import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.ResponsableService;
@@ -51,6 +53,9 @@ public class MainController {
 
 	@Autowired
 	private TokenGenerator tokgen;
+
+	@Autowired
+	private IProfRepository profRepository;
 
 	@ModelAttribute("vue")
 	public VueJS getVue() {
@@ -133,38 +138,39 @@ public class MainController {
 	}
 
 	/*
-	@GetMapping("new")
-	public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
-		Iterable<Responsable> responsables = parentrepo.findAll();
-		if (authUser != null) {
-			String role = authUser.getAuthorities().toString();
-			if (role.equals("[ROLE_PARENT]")) {
-
-				for (Responsable responsable : responsables) {
-					if (responsable.getToken().equals(authUser.getToken())) {
-						parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
-
-							model2.put("authResponsable", authResponsable);
-							vue.addData("authResponsable", authResponsable);
-						});
-
-					}
-				}
-
-			}
-		}
-
-		model.put("responsables", responsables);
-		model.put("authUser", authUser);
-		model.put("signup", "$('.ui.modal.signup').modal('show');");
-		model.put("login", "");
-		vue.addData("affichage", true);
-		vue.addData("authUser", authUser);
-		vue.addData("villeAction");
-		model.put("responsable", new Responsable());
-		return "index";
-	}
-*/
+	 * @GetMapping("new")
+	 * public String newAction(@AuthenticationPrincipal User authUser, ModelMap
+	 * model, ModelMap model2) {
+	 * Iterable<Responsable> responsables = parentrepo.findAll();
+	 * if (authUser != null) {
+	 * String role = authUser.getAuthorities().toString();
+	 * if (role.equals("[ROLE_PARENT]")) {
+	 *
+	 * for (Responsable responsable : responsables) {
+	 * if (responsable.getToken().equals(authUser.getToken())) {
+	 * parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+	 *
+	 * model2.put("authResponsable", authResponsable);
+	 * vue.addData("authResponsable", authResponsable);
+	 * });
+	 *
+	 * }
+	 * }
+	 *
+	 * }
+	 * }
+	 *
+	 * model.put("responsables", responsables);
+	 * model.put("authUser", authUser);
+	 * model.put("signup", "$('.ui.modal.signup').modal('show');");
+	 * model.put("login", "");
+	 * vue.addData("affichage", true);
+	 * vue.addData("authUser", authUser);
+	 * vue.addData("villeAction");
+	 * model.put("responsable", new Responsable());
+	 * return "index";
+	 * }
+	 */
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {
@@ -232,5 +238,13 @@ public class MainController {
 			RedirectAttributes attrs) {
 		session.invalidate();
 		return new RedirectView("/");
+	}
+
+	@GetMapping("personnelle")
+	public String personnelleAction(ModelMap model) {
+		Iterable<Prof> profs = profRepository.findAll();
+		model.put("profs", profs);
+		return "/main/personnelle";
+
 	}
 }
