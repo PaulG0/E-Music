@@ -36,7 +36,7 @@ public class Eleve {
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateNaiss;
 
-	private String DateNaissString;
+
 
 	private String token;
 

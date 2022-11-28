@@ -3,7 +3,7 @@
 		<h1 class="ui header white">Suspendre un membre ?</h1>
 		<p v-if="user.suspended == false">Êtes-vous sûr(e) de suspendre <b><% membre.prenom %> <% membre.nom %></b> de la liste des membres ?</p>
 		<p v-if="user.suspended == true">Êtes-vous sûr(e) de ne plus suspendre <b><% membre.prenom %> <% membre.nom %></b> de la liste des membres ?</p>
-		<a v-if="user.suspended == false" :href="'/responsables/suspendre/' + user.id" class="ui button">Suspendre</a>
-		<a v-if="user.suspended == true" :href="'/responsables/suspendre/' + user.id" class="ui button">Ne plus suspendre</a>
+		<a v-if="user.suspended == false" :href="'./responsables/suspendre/' + user.id" class="ui button">Suspendre</a>
+		<a v-if="user.suspended == true" :href="'./responsables/suspendre/' + user.id" class="ui button">Ne plus suspendre</a>
 	</div>
 </div>
