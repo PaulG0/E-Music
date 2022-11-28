@@ -109,7 +109,7 @@ public class ResponsableController {
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
@@ -117,37 +117,37 @@ public class ResponsableController {
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.NomEstValide(responsable.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prénom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		Optional<Responsable> opt = responsablerepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisé");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.EmailEstValide(responsable.getEmail())) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (password.length() < 8) {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
 			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffres");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
 			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.NuméroEstValide(responsable.getTel1())) {
 			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		responsablerepo.save(responsable);
 		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
@@ -163,7 +163,7 @@ public class ResponsableController {
 			responsable.setToken(us.getToken());
 		}
 		responsablerepo.save(responsable);
-		return new RedirectView("/responsables");
+		return new RedirectView("../responsables");
     	
     }
     
@@ -183,7 +183,7 @@ public class ResponsableController {
     		eleverepo.deleteById(id);
     		
     	}
-    	return new RedirectView("/responsables");
+    	return new RedirectView("../../../responsables");
     	
     }
     
@@ -212,7 +212,7 @@ public class ResponsableController {
     		
     	}
     	
-    	return new RedirectView("/responsables");
+    	return new RedirectView("../../responsables");
     	
     }
 	

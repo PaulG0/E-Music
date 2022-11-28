@@ -19,7 +19,7 @@
 
 <h4>le(s) eleve est(sont) :</h4>
 
-<form class="ui form"  method="post" action="./inscrit/add/{{id}}">
+<form class="ui form"  method="post" action="./planning/inscrit/add/{{id}}">
 
 
 
@@ -52,7 +52,7 @@
 		{{#incriptions}}
 		<tr>
 			<td>{{eleve.nom}} {{eleve.prenom}} </td>
-			<td><a href="delete/inscrit/{{id}}/{{cour.id}}"><i class="delete icon black"
+			<td><a href="./planning/delete/inscrit/{{id}}/{{planning.id}}"><i class="delete icon black"
 						style="visibility: visible;"></i></a></td>
 		</tr>
 		{{/incriptions}}

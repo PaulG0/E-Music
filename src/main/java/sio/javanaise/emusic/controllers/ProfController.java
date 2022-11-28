@@ -54,7 +54,7 @@ public class ProfController {
     	Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
@@ -62,25 +62,25 @@ public class ProfController {
 		if (!rService.NomEstValide(prof.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.NomEstValide(prof.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		Optional<Prof> opt = profRepository.findByEmail(prof.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisée");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.EmailEstValide(prof.getEmail())) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (password.length() < 8) {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if(prof.getToken() == null) {
 			String token = tokgen.generateToken(login);
@@ -91,7 +91,7 @@ public class ProfController {
 			prof.setToken(us.getToken());
 		}
 		profRepository.save(prof);
-		return new RedirectView("/responsables");
+		return new RedirectView("../responsables");
     	
     }
 	

@@ -61,7 +61,7 @@ public class EleveController {
     	Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
@@ -69,16 +69,16 @@ public class EleveController {
 		if (!rService.NomEstValide(eleve.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.NomEstValide(eleve.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (password.length() < 8) {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if(eleve.getToken() == null) {
 			String token = tokgen.generateToken(login);
@@ -91,7 +91,7 @@ public class EleveController {
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
     	eleveRepository.save(eleve);
-    	return new RedirectView("/responsables");
+    	return new RedirectView("../responsables");
     	
     }
 	

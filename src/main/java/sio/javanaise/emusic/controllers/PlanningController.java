@@ -94,18 +94,18 @@ public class PlanningController {
 		Optional<Planning> opt = planningRepository.findById(id);
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("msg", UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
-					.addLinks(new UILink("oui", "/planning/delete/force/" + id), new UILink("non", "")));
+					.addLinks(new UILink("oui", "planning/delete/force/" + id), new UILink("non", "planning/")));
 		}
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-		return new RedirectView("/planning");
+		return new RedirectView("../../planning");
 	}
 
 	@GetMapping("delete/force/{id}")
 	public RedirectView deleteAction(@PathVariable int id, ModelMap model) {
 
 		planningRepository.deleteById(id);
-		return new RedirectView("/planning");
+		return new RedirectView("../../../planning");
 	}
 
 //add inscrit
@@ -130,7 +130,7 @@ public class PlanningController {
 
 		}
 
-		return new RedirectView("/planning/" + id);
+		return new RedirectView("../../../planning/" + id);
 	}
 	// Delete inscrit
 
@@ -141,10 +141,10 @@ public class PlanningController {
 			Eleve eleve = opt.get().getEleve();
 			attrs.addFlashAttribute("inscrit", UIMessage
 					.error("Suppression", "Voulez vous supprimer " + eleve.getPrenom() + " " + eleve.getNom() + " ?")
-					.addLinks(new UILink("oui", "delete/inscrit/force/" + id + "/" + idCour), new UILink("non", "")));
+					.addLinks(new UILink("oui", "planning/delete/inscrit/force/" + id + "/" + idCour), new UILink("non", "")));
 		}
 
-		return new RedirectView("/planning/" + idCour);
+		return new RedirectView("../../../../planning/" + idCour);
 	}
 
 
@@ -153,7 +153,7 @@ public class PlanningController {
 	public RedirectView deleteInscritAction(@PathVariable int id, @PathVariable int idCour) {
 		inscriptionRepository.deleteById(id);
 
-		return new RedirectView("/planning/" + idCour);
+		return new RedirectView("../../../../../planning/" + idCour);
 	}
 
 
