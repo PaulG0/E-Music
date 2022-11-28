@@ -18,9 +18,7 @@ import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Cour;
 import sio.javanaise.emusic.models.Paiement;
 import sio.javanaise.emusic.repositories.ICoursRepository;
-import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IPaiementRepository;
-import sio.javanaise.emusic.repositories.IResponsableRepository;
 import sio.javanaise.emusic.services.UIPaiementService;
 
 @Controller

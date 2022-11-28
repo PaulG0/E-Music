@@ -54,6 +54,11 @@ public class CoursController {
 
 		Iterable<Cour> cours = courRepository.findAll();
 		model.put("cours", cours);
+		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
+		Iterable<Prof> profs = profRepository.findAll();
+		model.put("cour", new Cour());
+		model.put("typeCours", typeCours);
+		model.put("profs", profs);
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/indexCours";
@@ -68,22 +73,6 @@ public class CoursController {
 		model2.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/detail";
-
-	}
-
-//new Cours
-
-	@GetMapping("/new")
-	public String newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2,
-			ModelMap model3) {
-
-		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
-		Iterable<Prof> profs = profRepository.findAll();
-		model.put("cour", new Cour());
-		model2.put("typeCours", typeCours);
-		model3.put("profs", profs);
-
-		return "/cours/formCours";
 
 	}
 

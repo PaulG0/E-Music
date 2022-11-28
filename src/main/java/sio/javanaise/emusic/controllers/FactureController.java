@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Cour;
 import sio.javanaise.emusic.models.Eleve;
 import sio.javanaise.emusic.models.Facture;
-import sio.javanaise.emusic.models.Inscription;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IFactureRepository;

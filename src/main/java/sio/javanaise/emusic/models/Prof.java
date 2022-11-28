@@ -31,6 +31,8 @@ public class Prof {
 	private String prenom;
 
 	private String email;
+	
+	private String token;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "prof", cascade = { CascadeType.MERGE, CascadeType.PERSIST })

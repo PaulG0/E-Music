@@ -1,7 +1,9 @@
 {{> /include/header }}
 
+
 <h1 onload="signup()">Bienvenue sur EMusic<span v-if="authUser">, {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}}{{#authEleve.prenom}}{{.}}{{/authEleve.prenom}}</span> !</h1>
 {{#authUser.authorities}}{{.}}{{/authUser.authorities}}
+
 
 
 

@@ -5,10 +5,10 @@
 <a href="/cours" class="ui icon button">
 	<i class="angle left icon"></i>
 </a>
-<a href="/cours/new" class="ui labeled green icon button">
+<button class="ui labeled green icon button" onclick="newcours()">
 	<i class="plus icon"></i>
 	Nouveau Cours
-</a>
+</button>
 
 <table class="ui single line table">
 	<thead>
@@ -35,4 +35,17 @@
 	</tbody>
 </table>
 
+<div class="ui modal newcours">
+	<div class="content">
+		{{>/cours/formCours}}
+	</div>
+</div>
+
 {{>/include/footer}}
+<script>
+function newcours(){
+	$('.ui.modal.newcours')
+	  .modal('show')
+	;
+};
+</script>

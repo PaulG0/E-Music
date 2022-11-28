@@ -36,8 +36,9 @@ public class Responsable {
 	private String tel2;
 	private String tel3;
 	private String token;
-	@OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL)
+	
 	@JsonIgnore
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL)
 	private List<Eleve> eleves = new ArrayList<>();
 
 }

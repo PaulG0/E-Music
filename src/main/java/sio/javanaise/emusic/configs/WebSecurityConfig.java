@@ -29,11 +29,11 @@ public class WebSecurityConfig {
 	@Bean // (2)
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/e-music", "/personnelle", "/parent/**", "/images/**", "/css/**", "/index", "/new/",
-						"/new", "/h2-console/**", "/webjars/**")
+				.antMatchers("/", "/e-music", "/data/**", "/personnelle", "/parent/**", "/images/**", "/css/**",
+						"/index", "/new/", "/new", "/h2-console/**", "/webjars/**")
 				.permitAll() // (3)
-				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PARENT", "ROLE_ELEVE").anyRequest()
-				.authenticated() // (4)
+				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PROF", "ROLE_PARENT", "ROLE_ELEVE")
+				.anyRequest().authenticated() // (4)
 				.and().formLogin() // (5)
 				.loginPage("/login").defaultSuccessUrl("/").failureUrl("/failure/") // (5)
 				.permitAll().and().logout().logoutSuccessUrl("/exit") // (6)

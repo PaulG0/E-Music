@@ -38,8 +38,6 @@ public class Planning {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureFin;
 
-
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)
 	private List<Inscription> incriptions;
