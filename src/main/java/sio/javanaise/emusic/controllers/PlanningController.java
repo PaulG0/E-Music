@@ -170,18 +170,20 @@ public class PlanningController {
 	// affichage du planning prof
 	@GetMapping("/prof/{id}")
 
-	private String planingProfActionGet(@PathVariable int id, ModelMap model) {
+	private String planingProfActionGet(@AuthenticationPrincipal User authUser, @PathVariable int id, ModelMap model) {
 
 		List<Planning> planning = planService.planningProf(id);
 
 		model.put("planning", planning);
 		model.put("idProf", id);
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 
 		return "/planning/prof";
 	}
 
 	@PostMapping("/prof/{id}")
-	private String planingProfActionPost(@PathVariable int id, ModelMap model,
+	private String planingProfActionPost(@AuthenticationPrincipal User authUser, @PathVariable int id, ModelMap model,
 			@ModelAttribute("datePlanning") String datePlanning) {
 
 		LocalDate date = formatService.formatdate(datePlanning);
@@ -193,6 +195,8 @@ public class PlanningController {
 		model.put("plannings", planning);
 		model.put("idProf", id);
 		model.put("datePlanning", date);
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 
 		return "/planning/prof";
 

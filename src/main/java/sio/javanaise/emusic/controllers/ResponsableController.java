@@ -101,33 +101,6 @@ public class ResponsableController {
 		
 	}
     
-    @GetMapping("/new/{role}")
-    public String newAction(ModelMap model, @PathVariable String role) {
-    	
-    	if(role.equals("prof")) {
-    		
-    		model.put("prof", new Prof());
-        	return "/profs/form";
-    		
-    	} else if(role.equals("parent")) {
-    		
-    		model.put("responsable", new Responsable());
-        	return "/responsables/form";
-    		
-    	} else if(role.equals("eleve")) {
-    		
-    		model.put("eleve", new Eleve());
-        	return "/eleves/form";
-    		
-    	} else {
-    		
-    		model.put("responsable", new Responsable());
-        	return "/responsables/form";
-        	
-		}
-    	
-    }
-    
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {

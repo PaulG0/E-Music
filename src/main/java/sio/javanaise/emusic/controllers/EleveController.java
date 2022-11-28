@@ -53,15 +53,6 @@ public class EleveController {
     @Autowired
 	private TokenGenerator tokgen;
     
-    @GetMapping("/new/{idResponsable}")
-    public String newAction(ModelMap model, @PathVariable int idResponsable) {
-    	
-    	vue.addData("idResponsable", idResponsable);
-		model.put("eleve", new Eleve());
-    	return "/eleves/form";
-    	
-    }
-    
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Eleve eleve, @ModelAttribute("dateNaissa") String dateNaissa, 
     		@ModelAttribute("password") String password, @ModelAttribute("login") String login, 
