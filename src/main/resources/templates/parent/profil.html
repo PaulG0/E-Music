@@ -1,6 +1,14 @@
 {{> /include/header}}
 {{#authUser}}
 <div v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
+	<div v-if="infoAff==true">
+		<div onload="edit()">
+		</div>
+	</div>
+	<div v-if="modPass==true">
+		<div onload="editPassword()">
+		</div>
+	</div>
 	<div class="dispocolonne">
 		<div class="colonne">
 			<div class="white boxprofil">
@@ -35,10 +43,24 @@
 					{{> /parent/signup}}
 				</div>
 			</div>
+			<div class="ui modal editPassword">
+				<div class="content">
+					{{> /parent/newPassword}}
+				</div>
+			</div>
+			<div class="ui modal editLogin">
+				<div class="content">
+					{{> /parent/newLogin}}
+				</div>
+			</div>
 			<div class="colonne">
 				<h2 class="white">Actions sur le profil</h2>
 				<a href="/parent/add/" class="ui orange button">Ajouter un enfant</a>
 				<a class="ui blue button" onclick="edit()">Modifier mes informations</a>
+				<a class="ui blue button" onclick="editLogin()">Modifier mon login</a>
+				<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
+				<a class="ui blue button" onclick="editPassword()">Modifier mon mot de passe</a>
+				<div class="erreur">{{#erreurPass}}{{.}}{{/erreurPass}}</div>
 				<a href="/parent/delete/" class="ui red button">Suprimer son compte :(</a>
 			</div>
 		</div>
@@ -89,8 +111,19 @@
 {{/authUser}}
 <script>
 {{{edit}}}
+{{{editPassword}}}
 function edit(){
 	$('.ui.modal.edit')
+	  .modal('show')
+	;
+};
+function editPassword(){
+	$('.ui.modal.editPassword')
+	  .modal('show')
+	;
+};
+function editLogin(){
+	$('.ui.modal.editLogin')
 	  .modal('show')
 	;
 };

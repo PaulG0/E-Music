@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,9 @@ public class MainController {
 
 	@Autowired
 	private ResponsableService rService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired(required = true)
 	private VueJS vue;
