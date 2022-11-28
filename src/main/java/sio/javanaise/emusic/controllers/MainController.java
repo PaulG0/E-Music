@@ -66,6 +66,7 @@ public class MainController {
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		Iterable<Eleve> eleves = enfantrepo.findAll();
+		Iterable<Prof> profs = profRepository.findAll();
 		if (authUser != null) {
 			String role = authUser.getAuthorities().toString();
 			if (role.equals("[ROLE_PARENT]")) {
@@ -88,6 +89,16 @@ public class MainController {
 						enfantrepo.findById(eleve.getId()).ifPresent(authEleve -> {
 							model2.put("authEleve", authEleve);
 							vue.addData("authEleve", authEleve);
+						});
+					}
+				}
+			}
+			if (role.equals("[ROLE_PROF]")) {
+				for (Prof prof : profs) {
+					if (prof.getToken().equals(authUser.getToken())) {
+						profRepository.findById(prof.getId()).ifPresent(authProf -> {
+							model2.put("authProf", authProf);
+							vue.addData("authProf", authProf);
 						});
 					}
 				}
@@ -244,9 +255,11 @@ public class MainController {
 	}
 
 	@GetMapping("personnelle")
-	public String personnelleAction(ModelMap model) {
+	public String personnelleAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		Iterable<Prof> profs = profRepository.findAll();
 		model.put("profs", profs);
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		return "/main/personnelle";
 
 	}
