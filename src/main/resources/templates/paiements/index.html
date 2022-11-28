@@ -2,7 +2,7 @@
 
 <h1>Paiements</h1>
 
-<form method="post" action="/paiements/datepaiement">
+<form method="post" action="./paiements/datepaiement">
 	<div class="ui search">
 		<label>Entre</label>
 		<input class="prompt" type="text" name="dateStart" placeholder="Rechercher date..." required>
@@ -12,19 +12,19 @@
 		<input class="prompt" type="text" name="dateEnd" placeholder="Rechercher date..." required>
 		<div class="results"></div>
 		<div class="ui buttons">
-			<a href="/paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
+			<a href="./paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
 			<div class="or" data-text="ou"></div>
 			<button class="ui button" type="submit">Valider</button>
 		</div>
 	</div>
 </form>
 <br>
-<form method="post" action="/paiements/cours">
+<form method="post" action="./paiements/cours">
 	<div class="ui search">
 		<input class="prompt" type="text" name="libelle" placeholder="Rechercher cours..." required>
 		<div class="results"></div>
 		<div class="ui buttons">
-			<a href="/paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
+			<a href="./paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
 			<div class="or" data-text="ou"></div>
 			<button class="ui button" type="submit">Valider</button>
 		</div>

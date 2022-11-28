@@ -84,7 +84,7 @@ public class CoursController {
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		courRepository.save(cour);
-		return new RedirectView("/cours");
+		return new RedirectView("./cours");
 
 	}
 
