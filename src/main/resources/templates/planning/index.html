@@ -30,22 +30,20 @@
 
 
 <td>
-<a href="/cours/{{id}}"><i class="file alternate outline black icon" ></i></a>
+<a href="/planning/{{id}}"><i class="file alternate outline black icon" ></i></a>
 
 
 
-<a href="/cours/delete/{{id}}"><i class="delete   black icon" ></i></a>
+<a href="/planning/delete/{{id}}"><i class="delete   black icon" ></i></a>
+
 </td>
 
 
 
 
+
 </tr>
-
 {{/plannings}}
-</tbody>
-
-</table>
 {{#msg}}
 		<div class="ui red icon message" id="delete">
 		  <i class="trash icon"></i>
@@ -62,5 +60,8 @@
 		  </div>
 		</div>
 	{{/msg}}
+</tbody>
+
+</table>
 
 {{>/include/footer}}

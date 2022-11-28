@@ -1,21 +1,141 @@
 {{>/include/header}}
 <div class="ui calendar" id="inline_calendar"></div>
 
-<form method="post" action="" id="form">
-<input type="text" id="datePlanning">
+<form method="post" action="/planning/prof/{{#idProf}}{{.}}{{/idProf}}"
+  id="form">
+  <input type="hidden" name="datePlanning" id="datePlanning">
 </form>
-<p ></p>
-zdq
-{{#planning}}
-{{dateDebut}}
-{{/planning}}
-dzq
 
-{{>/include/footer}}
-<script>
+
+
+
+<table class="ui table">
+  <thead>
+    <th>heure</th>
+    <th>cours</th>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>8:00</td>
+      <td>
+        <div v-for="planning in plannings"
+            v-if="planning.heureDebut =='08:00:00'">
+             <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div>
+        </td>
+      </tr>
+      <tr>
+        <td>9:00</td>
+        <td> <div v-for="planning in plannings"
+            v-if="planning.heureDebut <='09:00:00' && '09:00:00' <=planning.heureFin">
+             <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+        </tr>
+        <tr>
+          <td>10:00</td>
+          <td> <div v-for="planning in plannings"
+              v-if="planning.heureDebut <='10:00:00'&& '10:00:00'<=planning.heureFin">
+            <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+          </tr>
+          <tr>
+            <td>11:00</td>
+            <td> <div v-for="planning in plannings"
+                v-if="planning.heureDebut <='11:00:00'&& '11:00:00'<=planning.heureFin">
+               <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+            </tr>
+            <tr>
+              <td>12:00</td>
+              <td> <div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='12:00:00'&& '12:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              
+              </tr>
+              
+              
+              
+              
+              
+              
+              
+              <tr>
+                <td>13:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='13:00:00'&& '13:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>14:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='14:00:00'&& '14:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>15:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='15:00:00'&& '15:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>16:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='16:00:00'&& '16:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>17:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='17:00:00'&& '17:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>18:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='18:00:00'&& '18:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>19:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='19:00:00'&& '19:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>20:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='20:00:00'&& '20:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>21:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='21:00:00'&& '21:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>22:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='22:00:00'&& '22:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+              <tr>
+                <td>23:00</td>
+                <td><div v-for="planning in plannings"
+                  v-if="planning.heureDebut <='23:00:00'&& '23:00:00'<=planning.heureFin">
+                 <a :href=" '/cours/'+planning.id" class=" colored black" > <% planning.cour.libelle  %> </a></div></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
+          {{>/include/footer}}
+          <script>
 $('#inline_calendar')
 .calendar({
 	type: 'date',
+	formatter: {
+	      date:'YYYY-MM-dd',
+	    },
 	text: {
         days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
         dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
@@ -31,53 +151,11 @@ $('#inline_calendar')
     onChange: function(date){
     	$("#datePlanning").val(date);
     	$("#form").submit();
-    }
-	
-	
-	
+    	
+    },
 	})
 ;
 
-function dzmyFunction() {
-let day = document.getElementsByClassName('link active')[0].innerHTML;
-if(day.length == 1) {
-  day = "0" + day;
-}
-let monthYear = document.getElementsByTagName('thead')[0].getElementsByTagName('span')[0].innerHTML.split(" ");
-let month = monthYear[0];
-let year = monthYear[1];
-if(month == "Janvier") {
-  month = "01";
-} else if(month == "Février") {
-  month = "02";
-} else if(month == "Mars") {
-  month = "03";
-} else if(month == "Avril") {
-  month = "04";
-} else if(month == "Mai") {
-  month = "05";
-} else if(month == "Juin") {
-  month = "06";
-} else if(month == "Juillet") {
-  month = "07";
-} else if(month == "Août") {
-  month = "08";
-} else if(month == "Septembre") {
-  month = "09";
-} else if(month == "Octobre") {
-  month = "10";
-} else if(month == "Novembre") {
-  month = "11";
-} else if(month == "Decembre") {
-  month = "12";
-}
-let DateCompile=year + "-" + month + "-" + day;
-
-document.getElementById("datePlanning").value = DateCompile;
-}
-
-  
   
   
 </script>
-

@@ -10,4 +10,5 @@ public class EMusicApplication {
 		SpringApplication.run(EMusicApplication.class, args);
 	}
 
+
 }

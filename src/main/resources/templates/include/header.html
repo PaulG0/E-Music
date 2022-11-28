@@ -1,21 +1,24 @@
 <!doctype html>
 <html lang="fr">
 <head>
+
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.0/semantic.min.css" integrity="sha512-PwhgdrueUt7iVICnZMjYcbiLalCztrVfzUIYXekIK8hZu4DQP141GrKh6fUHmNERWi4bGdBXIZqtBZnsSzHEMg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="../css/style.css">
 	<title>Emusic</title>
 </head>
 <body class="black">
 <button class="ui black icon button" onclick="nav()" onmouseover="nav()"><i class="white angle right icon"></i></button>
 <div id="app" class="ui container" v-cloak>
+
 	<div class="logo">
-		<img src="/images/Emusic.jpg">
+		<img src="../images/Emusic.jpg">
 	</div>
 	<div class="black">
 		<div class="ui sidebar inverted vertical menu" onmouseleave="nav()">
 			{{#authUser}}
 				<a href="/cours/" class="item">Liste des cours</a>
+				<a href="/planning/" class="item">Liste des planning</a>
 				<a href="/parent/" class="item" v-if="authUser.authorities[0].authority=='ROLE_PARENT'||'ROLE_ENFANT'">Profil Utilisateur</a>
 				<a href="/responsables/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des membres</a>
 				<a href="/factures/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des factures</a>
@@ -29,4 +32,5 @@
 				<a href="/deco/" class="item">Déconnexion</a>
 			{{/authUser}}
 		</div>
+
 	</div>
