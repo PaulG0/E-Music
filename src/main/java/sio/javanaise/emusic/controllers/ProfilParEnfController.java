@@ -22,9 +22,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Eleve;
+import sio.javanaise.emusic.models.Inscription;
+import sio.javanaise.emusic.models.Planning;
 import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveDAO;
+import sio.javanaise.emusic.repositories.IInscriptionRepository;
+import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IResponsableDAO;
 import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.ResponsableService;
@@ -34,7 +38,7 @@ import sio.javanaise.emusic.ui.UILink;
 import sio.javanaise.emusic.ui.UIMessage;
 
 @Controller
-@RequestMapping({ "/parent/", "/parent/profil" })
+@RequestMapping({ "/parent", "/parent/", "/parent/profil" })
 public class ProfilParEnfController {
 
 	@Autowired
@@ -45,6 +49,12 @@ public class ProfilParEnfController {
 
 	@Autowired
 	private IEleveDAO enfantrepo;
+
+	@Autowired
+	private IPlanningRepository planrepo;
+
+	@Autowired
+	private IInscriptionRepository inscrepo;
 
 	@Autowired()
 	private UserDetailsService uService;
@@ -71,6 +81,7 @@ public class ProfilParEnfController {
 		String role = authUser.getAuthorities().toString();
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		Iterable<Eleve> eleves = enfantrepo.findAll();
+		Iterable<Planning> plannings = planrepo.findAll();
 		if (role.equals("[ROLE_PARENT]")) {
 
 			for (Responsable responsable : responsables) {
@@ -94,6 +105,7 @@ public class ProfilParEnfController {
 				}
 			}
 		}
+		model.put("plannings", plannings);
 		model.put("authUser", authUser);
 		model.put("edit", "");
 		model.put("editPassword", "");
@@ -301,4 +313,13 @@ public class ProfilParEnfController {
 		return new RedirectView("/index");
 	}
 
+	@Secured("ROLE_PARENT")
+	@PostMapping("inscription")
+	public RedirectView insAction(@ModelAttribute Inscription inscription, @ModelAttribute("eleve") Eleve eleve,
+			@ModelAttribute("planning") Planning planning) {
+		inscription.setEleve(eleve);
+		inscription.setPlanning(planning);
+		inscrepo.save(inscription);
+		return new RedirectView("/cours/");
+	}
 }

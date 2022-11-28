@@ -53,9 +53,15 @@
 					{{> /parent/newLogin}}
 				</div>
 			</div>
+			<div class="ui modal insEleve">
+				<div class="content">
+					{{> /parent/inscrEleve}}
+				</div>
+			</div>
 			<div class="colonne">
 				<h2 class="white">Actions sur le profil</h2>
 				<a href="/parent/add/" class="ui orange button">Ajouter un enfant</a>
+				<a class="ui orange button" onclick="insEleve()">Inscrire mon enfant à un cours</a>
 				<a class="ui blue button" onclick="edit()">Modifier mes informations</a>
 				<a class="ui blue button" onclick="editLogin()">Modifier mon login</a>
 				<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
@@ -124,6 +130,11 @@ function editPassword(){
 };
 function editLogin(){
 	$('.ui.modal.editLogin')
+	  .modal('show')
+	;
+};
+function insEleve(){
+	$('.ui.modal.insEleve')
 	  .modal('show')
 	;
 };

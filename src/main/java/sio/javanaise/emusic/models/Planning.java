@@ -34,7 +34,8 @@ public class Planning {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureDebut;
 
-	private Time duree;
+	@DateTimeFormat(pattern = "HH:mm")
+	private Time heureFin;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)
@@ -42,5 +43,4 @@ public class Planning {
 
 	@ManyToOne
 	private Cour cour;
-
 }

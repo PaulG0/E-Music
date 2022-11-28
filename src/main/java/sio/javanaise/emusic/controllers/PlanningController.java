@@ -46,21 +46,19 @@ public class PlanningController {
 //affichage du planning prof
 	@GetMapping("/prof/{id}")
 	private String planingProfAction(@PathVariable int id, ModelMap model) {
-		vue.addData("vodk", 0);
-		vue.addMethod("message", "this.vodk=1");
 
 		ArrayList<Planning> planning = planService.planningProf(id);
 		model.put("planning", planning);
 		return "/planning/prof";
 	}
-	
+
 	@PostMapping("/prof/{id}")
 	private String planingProfAction(@PathVariable int id, ModelMap model, @RequestParam String date) {
-		
+
 		ArrayList<Planning> planning = planService.planningProf(id);
 		model.put("planning", planning);
 		return "/planning/prof";
-		
+
 	}
 
 }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import sio.javanaise.emusic.models.Planning;
 import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.TypeCour;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IFactureRepository;
@@ -34,7 +36,9 @@ import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.IResponsableRepository;
 import sio.javanaise.emusic.repositories.ITypeCoursRepository;
+import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.TokenGenerator;
+import sio.javanaise.emusic.services.UserService;
 
 @Controller
 @RequestMapping("/data")
@@ -48,6 +52,9 @@ public class devController {
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate date_naissance;
+
+	@Autowired
+	private IUserDAO userrepo;
 
 	@Autowired
 	private IProfRepository profRepo;
@@ -82,6 +89,9 @@ public class devController {
 	@Autowired
 	private TokenGenerator token;
 
+	@Autowired
+	private UserDetailsService uService;
+
 	@GetMapping("/{nb}")
 	private @ResponseBody String ajoutData(@PathVariable int nb) {
 
@@ -93,14 +103,26 @@ public class devController {
 		typeCour.setId(1);
 		typeCourRepo.save(typeCour);
 
+		// admin
+		User userAdmin = ((UserService) uService).createUser("Admin", "Admin");
+		userAdmin.setAuthorities("ADMIN");
+		userAdmin.setToken(token.generateToken());
+		userrepo.save(userAdmin);
+
 		for (int o = 0; o < nb; o++) {
 
+			// prof
 			Prof prof = new Prof();
 			Faker fake = new Faker();
 			prof.setEmail(fake.internet().emailAddress());
 			prof.setNom(fake.name().lastName());
 			prof.setPrenom(fake.leagueOfLegends().champion());
+			prof.setToken(token.generateToken());
 			profRepo.save(prof);
+			User user = ((UserService) uService).createUser(prof.getPrenom() + "-" + prof.getNom(), "Azerty1234");
+			user.setAuthorities("PROF");
+			user.setToken(prof.getToken());
+			userrepo.save(user);
 
 			// responsable
 			Responsable respon = new Responsable();
@@ -116,6 +138,10 @@ public class devController {
 			respon.setToken(token.generateToken());
 			respon.setVille(fake.address().cityName());
 			responRepo.save(respon);
+			user = ((UserService) uService).createUser(respon.getPrenom() + "-" + respon.getNom(), "Azerty1234");
+			user.setAuthorities("PARENT");
+			user.setToken(respon.getToken());
+			userrepo.save(user);
 
 			// eleve
 			fake = new Faker();
@@ -127,9 +153,12 @@ public class devController {
 			eleve.setToken(token.generateToken());
 			eleve.setResponsable(respon);
 			eleveRepo.save(eleve);
+			user = ((UserService) uService).createUser(eleve.getPrenom() + "-" + eleve.getNom(), "Azerty1234");
+			user.setAuthorities("ELEVE");
+			user.setToken(eleve.getToken());
+			userrepo.save(user);
 
 			// instru
-
 			fake = new Faker();
 			Instrument instru = new Instrument();
 			instru.setIntitule(fake.music().instrument());
@@ -147,17 +176,14 @@ public class devController {
 			courRepo.save(cour);
 
 			// planning
-
 			Planning planning = new Planning();
 			planning.setCour(cour);
-			planning.setDateDebut(dateDebut.parse("2018-11-01"));
-			planning.setDuree(duree.valueOf("1:30:00"));
+			planning.setDateDebut(dateDebut.parse("2022-11-01"));
 			planning.setHeureDebut(heureDebut.valueOf("10:30:00"));
-
+			planning.setHeureFin(heureDebut.valueOf("12:00:00"));
 			planningRepo.save(planning);
 
 			// inscrit
-
 			Inscription inscrit = new Inscription();
 			inscrit.setEleve(eleve);
 			inscrit.setPlanning(planning);
@@ -166,14 +192,14 @@ public class devController {
 			// facture
 			Facture fact = new Facture();
 			fake = new Faker();
-			fact.setDateFacture(dateDebut.parse("2018-11-01"));
+			fact.setDateFacture(dateDebut.parse("2022-11-01"));
 			fact.setInscription(inscrit);
 			fact.setPrix(fake.number().numberBetween(10, 500));
 			factRepo.save(fact);
 
 			// paiemment
 			Paiement paye = new Paiement();
-			paye.setDateTransmission(dateDebut.parse("2018-11-11"));
+			paye.setDateTransmission(dateDebut.parse("2022-11-11"));
 			paye.setFacture(fact);
 			paye.setPrix(5);
 			payeRepo.save(paye);

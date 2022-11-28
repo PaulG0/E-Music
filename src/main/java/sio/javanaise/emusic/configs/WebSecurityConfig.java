@@ -30,7 +30,7 @@ public class WebSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/", "/parent/**", "/images/**", "/css/**", "/index", "/new/", "/new", "/h2-console/**",
-						"/webjars/**")
+						"/webjars/**", "/data/**")
 				.permitAll() // (3)
 				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PARENT", "ROLE_ELEVE").anyRequest()
 				.authenticated() // (4)
