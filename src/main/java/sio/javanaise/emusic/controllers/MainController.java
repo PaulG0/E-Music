@@ -103,7 +103,7 @@ public class MainController {
 					}
 				}
 			}
-			if(role.equals("[ROLE_ADMIN]")) {
+			if (role.equals("[ROLE_ADMIN]")) {
 				model2.put("authAdmin", authUser.getUsername());
 			}
 		}
@@ -252,4 +252,15 @@ public class MainController {
 		return "/main/personnelle";
 
 	}
+
+
+	@GetMapping("find")
+	public String findAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/main/find";
+
+	}
+
 }

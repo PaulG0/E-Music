@@ -15,10 +15,23 @@
 <body class="black">
 <button class="ui black icon button" onclick="nav()" onmouseover="nav()"><i class="white angle right icon"></i></button>
 <div id="app" class="ui container" v-cloak>
-
+	
+	
 	<div class="logo">
 		<img src="./images/Emusic.jpg">
 	</div>
+	
+	
+<!-- menu ALL -->
+<div class="ui three item menu">
+  <a href="./personnelle" class="item ">personnelle</a>
+  <a href="./" class="item">accueil</a>
+  <a href="./find"class="item">nous trouver</a>
+</div>
+
+
+
+<!-- menu connecter -->
 	<div class="black">
 		<div class="ui sidebar inverted vertical menu" onmouseleave="nav()">
 			{{#authUser}}

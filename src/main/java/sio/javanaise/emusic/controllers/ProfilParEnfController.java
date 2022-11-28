@@ -140,7 +140,6 @@ public class ProfilParEnfController {
 		eleve.setToken(us.getToken());
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
-		eleve.setDateNaissString(eleve.getDateNaiss().format(DateTimeFormatter.ofPattern("dd MMM yyy")));
 		enfantrepo.save(eleve);
 		return new RedirectView("/parent/profil");
 	}
