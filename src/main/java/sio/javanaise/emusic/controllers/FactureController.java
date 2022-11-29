@@ -24,7 +24,6 @@ import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IFactureRepository;
 import sio.javanaise.emusic.repositories.IInscriptionRepository;
-import sio.javanaise.emusic.services.UIPaiementService;
 
 @Controller
 @RequestMapping("/factures")
@@ -49,9 +48,6 @@ public class FactureController {
     
     @Autowired
     private IEleveRepository eleveRepository;
-    
-    @Autowired
-    private UIPaiementService paiementService;
     
     @GetMapping("")
     public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
@@ -151,7 +147,6 @@ public class FactureController {
     public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2, @PathVariable int idEleve, @PathVariable int idinscription) {
     	
     	inscriptionRepository.findById(idinscription).ifPresent(inscription -> model2.put("inscription", inscription));
-    	vue.addMethod("foncCalendar", paiementService.calendarUI());
     	model.put("facture", new Facture());
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);

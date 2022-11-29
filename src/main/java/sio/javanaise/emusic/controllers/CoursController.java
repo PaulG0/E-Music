@@ -1,5 +1,7 @@
 package sio.javanaise.emusic.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -59,6 +61,15 @@ public class CoursController {
 		model.put("cour", new Cour());
 		model.put("typeCours", typeCours);
 		model.put("profs", profs);
+		
+		vue.addData("cours", courRepository.findAll());
+		vue.addData("coursEdit");
+		vue.addData("idProf");
+		vue.addData("idTypeCours");
+		
+		vue.addMethod("popupEditCours", "this.coursEdit=coursEdit; this.idProf=idProf; this.idTypeCours=idTypeCours", 
+				"coursEdit, idProf, idTypeCours");
+		
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/indexCours";
@@ -81,10 +92,24 @@ public class CoursController {
 	@PostMapping("/new")
 	public RedirectView newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute Cour cour) {
+		
+		Optional<Cour> opt = courRepository.findById(cour.getId());
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
+		if(opt.isPresent()) {
+			
+			if(cour.getProf() == null) {
+				cour.setProf(opt.get().getProf());
+			}
+
+			if(cour.getTypeCour() == null) {
+				cour.setTypeCour(opt.get().getTypeCour());
+			}
+			
+		}
+		
 		courRepository.save(cour);
-		return new RedirectView("./cours");
+		return new RedirectView("../cours");
 
 	}
 

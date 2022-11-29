@@ -110,8 +110,13 @@ public class EleveController {
 			return new RedirectView("../responsables");
 		}
 		Optional<Eleve> opt = eleveRepository.findById(eleve.getId());
-		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
-		eleve.setDateNaiss(dateNaissance);
+		if(dateNaissa == "" || dateNaissa == null) {
+			eleve.setDateNaiss(opt.get().getDateNaiss());
+		} else {
+			LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
+			eleve.setDateNaiss(dateNaissance);
+		}
+		
 		eleve.setToken(opt.get().getToken());
     	eleveRepository.save(eleve);
     	return new RedirectView("../responsables");

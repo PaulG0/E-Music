@@ -21,7 +21,6 @@ import sio.javanaise.emusic.models.Paiement;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IPaiementRepository;
-import sio.javanaise.emusic.services.UIPaiementService;
 
 @Controller
 @RequestMapping("/paiements")
@@ -40,9 +39,6 @@ public class PaiementController {
     
     @Autowired
     private ICoursRepository coursRepository;
-    
-    @Autowired
-    private UIPaiementService paiementService;
     
     @GetMapping("")
     public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
@@ -108,8 +104,6 @@ public class PaiementController {
     public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idFacture) {
     	
     	vue.addData("facture", idFacture);
-    	vue.addMethod("foncCalendar", paiementService.calendarUI());
-    	
     	model.put("paiement", new Paiement());
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
@@ -124,7 +118,7 @@ public class PaiementController {
     	paiement.setDateTransmission(dateTransmission);
     	
     	paiementRepository.save(paiement);
-    	return new RedirectView("/responsables");
+    	return new RedirectView("../paiements");
     	
     }
     
