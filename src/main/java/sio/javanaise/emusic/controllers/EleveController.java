@@ -94,5 +94,28 @@ public class EleveController {
     	return new RedirectView("../responsables");
     	
     }
+    
+    @PostMapping("/edit")
+    public RedirectView editAction(@ModelAttribute Eleve eleve, @ModelAttribute("dateNaissa") String dateNaissa, 
+    		RedirectAttributes attrs) {
+    	
+		if (!rService.NomEstValide(eleve.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.NomEstValide(eleve.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		Optional<Eleve> opt = eleveRepository.findById(eleve.getId());
+		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
+		eleve.setDateNaiss(dateNaissance);
+		eleve.setToken(opt.get().getToken());
+    	eleveRepository.save(eleve);
+    	return new RedirectView("../responsables");
+    	
+    }
 	
 }

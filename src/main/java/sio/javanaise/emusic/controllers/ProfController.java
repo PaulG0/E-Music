@@ -94,5 +94,35 @@ public class ProfController {
 		return new RedirectView("../responsables");
     	
     }
+    
+    @PostMapping("/edit")
+    public RedirectView editAction(@ModelAttribute Prof prof, RedirectAttributes attrs) {
+    	
+		if (!rService.NomEstValide(prof.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.NomEstValide(prof.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		Optional<Prof> opt = profRepository.findByEmail(prof.getEmail());
+		Optional<Prof> opt2 = profRepository.findById(prof.getId());
+		if (opt.isPresent() && opt2.get().getId() != opt.get().getId()) {
+			System.out.println(opt2.get().getId() + " " + opt.get().getId());
+			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisée");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.EmailEstValide(prof.getEmail())) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
+			return new RedirectView("../responsables");
+		}
+		prof.setToken(opt2.get().getToken());
+		profRepository.save(prof);
+		return new RedirectView("../responsables");
+    	
+    }
 	
 }

@@ -58,6 +58,11 @@
 		<button v-if="user.suspended == true" class="circular ui red icon button" @click="popupSuspendre(messageOption, user)"><i class="user slash icon"></i></button>
 		<button v-if="user.suspended == false" class="circular ui icon button" @click="popupSuspendre(messageOption, user)"><i class="user icon"></i></button>
 		<div v-if="unRole =='eleve'" v-model="idResponsable=messageOption.responsable.id"></div>
+		<div v-if="unRole =='eleve'" v-model="yearN=messageOption.dateNaiss[0], monthN=messageOption.dateNaiss[1], dayN=messageOption.dateNaiss[2]">
+			<div v-if="monthN == 1 || monthN == 2 || monthN == 3 || monthN == 4 || monthN == 5 || monthN == 6 || monthN == 7 || monthN == 8 || monthN == 9" v-model="monthN= '0' + monthN"></div>
+			<div v-if="dayN == 1 || dayN == 2 || dayN == 3 || dayN == 4 || dayN == 5 || dayN == 6 || dayN == 7 || dayN == 8 || dayN == 9" v-model="dayN= '0' + dayN"></div>
+			<div v-model="dateNaissEleve=yearN+'-'+monthN+'-'+dayN"></div>
+		</div>
 	</div>
 </div>
 
@@ -101,6 +106,11 @@ function modalfunction(type){
 	  .modal('show')
 	;
 };
+
+function formatterDate() {
+	const up_names = document.getElementById("dateNaissa");
+	console.log(up_names);
+}
 
 $('#standard_calendar').calendar({
 	type:'date',

@@ -1,6 +1,6 @@
-<h1 class="ui header white">Créer un compte élève</h1>
+<h1 class="ui header white" onclick="formatterDate()">Créer un compte élève</h1>
 <div class="ui segment black">
-	<form class="ui form" method="post" action="./eleves/new">
+	<form class="ui form" method="post" action="./eleves/edit">
 		
 		{{#eleve}}
 		<div class="field">
@@ -20,7 +20,7 @@
 			<div class="ui calendar" id="standard_calendar">
 					<div class="ui input left icon">
 						<i class="calendar icon"></i>
-						<input type="text" required="required" name="dateNaissa" placeholder="Date de naissance" v-bind:value="messageOption.dateNaiss">
+						<input type="text" required="required" id="dateNaissa" name="dateNaissa" placeholder="Date de naissance" v-bind:value="dateNaissEleve">
 					</div>
 			</div>
 		</div>

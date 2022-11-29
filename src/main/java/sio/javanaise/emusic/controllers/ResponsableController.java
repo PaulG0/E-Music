@@ -73,6 +73,9 @@ public class ResponsableController {
     	vue.addData("user");
     	vue.addData("toDelete");
     	vue.addData("unRole");
+    	vue.addData("villeAction");
+    	vue.addData("idResponsable");
+    	vue.addData("dateNaissEleve");
     	vue.addData("users", userrepo.findAll());
     	vue.addData("responsables", responsablerepo.findAll());
     	vue.addData("eleves", eleverepo.findAll());
