@@ -37,6 +37,7 @@ public class Facture {
 	private Inscription inscription;
 
 	@OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
+
 	private List<Paiement> paiements = new ArrayList<>();
 
 }
