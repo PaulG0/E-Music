@@ -149,7 +149,6 @@ public class ResponsableController {
 			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
 			return new RedirectView("../responsables");
 		}
-		responsablerepo.save(responsable);
 		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
 				&& !responsable.getVille().equals("IFS")) {
 			responsable.setQuotient_familial(null);
@@ -162,6 +161,52 @@ public class ResponsableController {
 			userrepo.save(us);
 			responsable.setToken(us.getToken());
 		}
+		responsablerepo.save(responsable);
+		return new RedirectView("../responsables");
+    	
+    }
+    
+    @PostMapping("/edit")
+    public RedirectView editAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
+    	
+    	vue.addData("affichage", false);
+		if (!rService.NomEstValide(responsable.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.NomEstValide(responsable.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prénom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		Optional<Responsable> opt = responsablerepo.findByEmail(responsable.getEmail());
+		Optional<Responsable> opt2 = responsablerepo.findById(responsable.getId());
+		if (opt.isPresent() && opt2.get().getId() != opt.get().getId()) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisé");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.EmailEstValide(responsable.getEmail())) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffres");
+			return new RedirectView("../responsables");
+		}
+		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
+			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.NuméroEstValide(responsable.getTel1())) {
+			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
+			return new RedirectView("../responsables");
+		}
+		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
+				&& !responsable.getVille().equals("IFS")) {
+			responsable.setQuotient_familial(null);
+		}
+		responsable.setToken(opt2.get().getToken());
 		responsablerepo.save(responsable);
 		return new RedirectView("../responsables");
     	
@@ -184,14 +229,6 @@ public class ResponsableController {
     		
     	}
     	return new RedirectView("../../../responsables");
-    	
-    }
-    
-    @GetMapping("/edit/{id}")
-    public String editAction(ModelMap model, @PathVariable int id) {
-    	
-    	responsablerepo.findById(id).ifPresent(responsable -> model.put("responsable", responsable));
-    	return "/responsables/form";
     	
     }
     

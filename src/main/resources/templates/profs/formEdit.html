@@ -1,0 +1,30 @@
+<h1 class="ui header white">Créer un compte professeur</h1>
+<div class="ui segment black">
+	<form class="ui form" method="post" action="./profs/new">
+		
+		{{#prof}}
+		<div class="field">
+			<label>*Nom :</label>
+			<input type="text" name="nom" placeholder="Nom" v-bind:value="messageOption.nom" required>
+		</div>
+		<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
+		
+		<div class="field">
+			<label>*Prénom :</label>
+			<input type="text" name="prenom" placeholder="Prénom" v-bind:value="messageOption.prenom" required>
+		</div>
+		<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
+		
+		<div class="field">
+			<label>*Adresse courriel :</label>
+			<input type="email" name="email" placeholder="Email" v-bind:value="messageOption.email" required>
+		</div>
+		<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
+		
+		<input type="hidden" name="id" v-bind:value="messageOption.id">
+		
+		<button class="ui button" type="submit">Valider</button>
+		{{/prof}}
+		
+	</form>
+</div>
