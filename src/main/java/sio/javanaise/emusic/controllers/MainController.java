@@ -66,6 +66,7 @@ public class MainController {
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		Iterable<Eleve> eleves = enfantrepo.findAll();
+		Iterable<Prof> profs = profRepository.findAll();
 		if (authUser != null) {
 			String role = authUser.getAuthorities().toString();
 			if (role.equals("[ROLE_PARENT]")) {
@@ -92,7 +93,17 @@ public class MainController {
 					}
 				}
 			}
-			if(role.equals("[ROLE_ADMIN]")) {
+			if (role.equals("[ROLE_PROF]")) {
+				for (Prof prof : profs) {
+					if (prof.getToken().equals(authUser.getToken())) {
+						profRepository.findById(prof.getId()).ifPresent(authProf -> {
+							model2.put("authProf", authProf);
+							vue.addData("authProf", authProf);
+						});
+					}
+				}
+			}
+			if (role.equals("[ROLE_ADMIN]")) {
 				model2.put("authAdmin", authUser.getUsername());
 			}
 		}
@@ -141,38 +152,27 @@ public class MainController {
 	}
 
 	/*
-	 * @GetMapping("new")
-	 * public String newAction(@AuthenticationPrincipal User authUser, ModelMap
-	 * model, ModelMap model2) {
-	 * Iterable<Responsable> responsables = parentrepo.findAll();
-	 * if (authUser != null) {
-	 * String role = authUser.getAuthorities().toString();
-	 * if (role.equals("[ROLE_PARENT]")) {
+	 * @GetMapping("new") public String newAction(@AuthenticationPrincipal User
+	 * authUser, ModelMap model, ModelMap model2) { Iterable<Responsable>
+	 * responsables = parentrepo.findAll(); if (authUser != null) { String role =
+	 * authUser.getAuthorities().toString(); if (role.equals("[ROLE_PARENT]")) {
 	 *
-	 * for (Responsable responsable : responsables) {
-	 * if (responsable.getToken().equals(authUser.getToken())) {
+	 * for (Responsable responsable : responsables) { if
+	 * (responsable.getToken().equals(authUser.getToken())) {
 	 * parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
 	 *
 	 * model2.put("authResponsable", authResponsable);
-	 * vue.addData("authResponsable", authResponsable);
-	 * });
+	 * vue.addData("authResponsable", authResponsable); });
 	 *
-	 * }
-	 * }
+	 * } }
 	 *
-	 * }
-	 * }
+	 * } }
 	 *
-	 * model.put("responsables", responsables);
-	 * model.put("authUser", authUser);
+	 * model.put("responsables", responsables); model.put("authUser", authUser);
 	 * model.put("signup", "$('.ui.modal.signup').modal('show');");
-	 * model.put("login", "");
-	 * vue.addData("affichage", true);
-	 * vue.addData("authUser", authUser);
-	 * vue.addData("villeAction");
-	 * model.put("responsable", new Responsable());
-	 * return "index";
-	 * }
+	 * model.put("login", ""); vue.addData("affichage", true);
+	 * vue.addData("authUser", authUser); vue.addData("villeAction");
+	 * model.put("responsable", new Responsable()); return "index"; }
 	 */
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
@@ -240,14 +240,27 @@ public class MainController {
 	public RedirectView decoAction(HttpSession session, @AuthenticationPrincipal User authUser,
 			RedirectAttributes attrs) {
 		session.invalidate();
-		return new RedirectView("/");
+		return new RedirectView("/e-music");
 	}
 
 	@GetMapping("personnelle")
-	public String personnelleAction(ModelMap model) {
+	public String personnelleAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		Iterable<Prof> profs = profRepository.findAll();
 		model.put("profs", profs);
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		return "/main/personnelle";
 
 	}
+
+
+	@GetMapping("find")
+	public String findAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/main/find";
+
+	}
+
 }
