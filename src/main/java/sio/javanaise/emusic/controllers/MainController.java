@@ -243,13 +243,15 @@ public class MainController {
 		return new RedirectView("/e-music");
 	}
 
-	@GetMapping("personnelle")
+	@GetMapping("personnel")
 	public String personnelleAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		Iterable<Prof> profs = profRepository.findAll();
 		model.put("profs", profs);
+		model.put("responsable", new Responsable());
+		vue.addData("villeAction");
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-		return "/main/personnelle";
+		return "/main/personnel";
 
 	}
 
@@ -257,6 +259,8 @@ public class MainController {
 	@GetMapping("find")
 	public String findAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 
+		model.put("responsable", new Responsable());
+		vue.addData("villeAction");
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/main/find";
