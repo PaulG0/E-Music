@@ -1,31 +1,43 @@
 {{> /include/header}}
 <div class="ui segment">
-	<form method="post" class="ui form" action="/parent/add/">
+	<form method="post" class="ui form" action="./parent/add/">
 			<div class="field">
-				<label>Login (nom d'utilisateur) : </label>
+				<label>*Login (nom d'utilisateur) : </label>
 				<input type="text" required="required" name="login" value="{{#login}}{{.}}{{/login}}">
 			</div>
 			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
 			<div class="field">
-				<label>Nom :</label>
+				<label>*Nom :</label>
 				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
 			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
-				<label>Prenom :</label>
+				<label>*Prenom :</label>
 				<input type="text" required="required" name="prenom" value={{#prenom}}{{.}}{{/prenom}}>
 			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
-				<label>Mot de passe (de votre enfant)</label>
+				<label>*Mot de passe (de votre enfant)</label>
 				<input type="password" required="required" name="password" value="{{#password}}{{.}}{{/password}}">
 			</div>
-			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
-			<div class="field">
-				<label>Date de naissance :</label>
-				<input name ="date" type="datetime-local" value="{{#date_naiss}}{{.}}{{/date_naiss}}">
+				<div class="field">
+			<label>*Date de naissance</label>
+			<div class="ui calendar" id="standard_calendar" @click="foncCalendar()">
+				<div class="ui input left icon">
+					<i class="calendar icon"></i>
+					<input type="text" required="required" name="dateNaissa" placeholder="Date de naissance" value="{{#dateNaiss}}{{.}}{{/dateNaiss}}">
+				</div>
 			</div>
+	</div>
 			<button class="ui button" type="submit">Valider</button>
 	</form>
 </div>
 {{> /include/footer}}
+<script>
+$('#standard_calendar').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+	});
+</script>

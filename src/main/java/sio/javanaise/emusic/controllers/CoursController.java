@@ -1,47 +1,37 @@
 package sio.javanaise.emusic.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import io.github.jeemv.springboot.vuejs.VueJS;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Cour;
-import sio.javanaise.emusic.models.Eleve;
-import sio.javanaise.emusic.models.Inscription;
-import sio.javanaise.emusic.models.Planning;
 import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.TypeCour;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
-import sio.javanaise.emusic.repositories.IInscriptionRepository;
-import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.ITypeCoursRepository;
 import sio.javanaise.emusic.services.CoursService;
-import sio.javanaise.emusic.ui.UILink;
-import sio.javanaise.emusic.ui.UIMessage;
 
 @Controller
 @RequestMapping({ "/cours", "/cours/" })
 public class CoursController {
 
 	@Autowired
-	private ICoursRepository courRepo;
-	
-	@Autowired
-	private IPlanningRepository planningRepository;
 
-	@Autowired
-	private IInscriptionRepository inscriptionRepository;
+	private ICoursRepository courRepository;
+
+
 
 	@Autowired
 	private ITypeCoursRepository typeCoursRepository;
@@ -60,106 +50,83 @@ public class CoursController {
 		return this.vue;
 	}
 
-//liste
-	@RequestMapping("")
-	public String indexCoursAction(ModelMap model) {
-Iterable<Planning>plannings=planningRepository.findAll();
-		model.put("plannings", plannings);
-		return "/cours/index";
-	}
-
-//detail
-	@GetMapping("/{id}")
-	public String detailCoursAction(@PathVariable int id, ModelMap model) {
-
-		planningRepository.findById(id).ifPresent(planning -> model.put("planning", planning));
-		Iterable<Eleve> eleve = courService.listeleve(id);
-		model.put("eleve", eleve);
-		return "/cours/detail";
-	}
-
-//delete Cours
-	@GetMapping("/delete/{id}")
-	public RedirectView DeleteCourAction(@PathVariable int id, RedirectAttributes attrs) {
-
-		Optional<Planning> opt = planningRepository.findById(id);
-		if (opt.isPresent()) {
-			attrs.addFlashAttribute("msg", UIMessage.error("Suppression", "Voulez vous supprimer " + opt.get() + " ?")
-					.addLinks(new UILink("oui", "/cours/delete/force/" + id), new UILink("non", "")));
-		}
-
-		return new RedirectView("/cours");
-	}
-
-	@GetMapping("delete/force/{id}")
-	public RedirectView deleteAction(@PathVariable int id, ModelMap model) {
-		planningRepository.deleteById(id);
-		return new RedirectView("/cours");
-	}
-
 //List Cours
-	@GetMapping("/cours")
-	public String indexCoursCAction(ModelMap model) {
+	@GetMapping("")
+	public String indexCoursCAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 
-		Iterable<Cour> cours = courRepo.findAll();
+		Iterable<Cour> cours = courRepository.findAll();
 		model.put("cours", cours);
+		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
+		Iterable<Prof> profs = profRepository.findAll();
+		model.put("cour", new Cour());
+		model.put("typeCours", typeCours);
+		model.put("profs", profs);
+		
+		vue.addData("cours", courRepository.findAll());
+		vue.addData("coursEdit");
+		vue.addData("idProf");
+		vue.addData("idTypeCours");
+		
+		vue.addMethod("popupEditCours", "this.coursEdit=coursEdit; this.idProf=idProf; this.idTypeCours=idTypeCours", 
+				"coursEdit, idProf, idTypeCours");
+		
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		return "/cours/indexCours";
 
 	}
 
-//new Cours
-	@GetMapping("/cours/new")
-	public String newCoursAction(ModelMap model, ModelMap model2, ModelMap model3) {
-
-		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
-		Iterable<Prof> profs = profRepository.findAll();
-		model.put("cour", new Cour());
-		model2.put("typeCours", typeCours);
-		model3.put("profs", profs);
-		return "/cours/formCours";
+// detail Cours
+	@GetMapping("/{id}")
+	public String detailCoursCAction(@AuthenticationPrincipal User authUser, @PathVariable int id, ModelMap model,
+			ModelMap model2) {
+		courRepository.findById(id).ifPresent(cour -> model.put("cour", cour));
+		model2.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/cours/detail";
 
 	}
 
 //add / modify Cours
-	@PostMapping("/cours/new")
-	public RedirectView newCoursAction(@ModelAttribute Cour cour) {
 
-		courRepo.save(cour);
-		return new RedirectView("/cours");
+	@PostMapping("/new")
+	public RedirectView newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model,
+			@ModelAttribute Cour cour) {
+		
+		Optional<Cour> opt = courRepository.findById(cour.getId());
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		if(opt.isPresent()) {
+			
+			if(cour.getProf() == null) {
+				cour.setProf(opt.get().getProf());
+			}
+
+			if(cour.getTypeCour() == null) {
+				cour.setTypeCour(opt.get().getTypeCour());
+			}
+			
+		}
+		
+		courRepository.save(cour);
+		return new RedirectView("../cours");
 
 	}
 
 //edit Cours
-	@GetMapping("/cours/edit/{id}")
-	public String editCoursAction(ModelMap model, ModelMap model2, ModelMap model3, @PathVariable int id) {
+	@GetMapping("/edit/{id}")
+	public String editCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2,
+			ModelMap model3, @PathVariable int id) {
 
 		Iterable<TypeCour> typeCours = typeCoursRepository.findAll();
 		Iterable<Prof> profs = profRepository.findAll();
-		courRepo.findById(id).ifPresent(cour -> model.put("cour", cour));
+		courRepository.findById(id).ifPresent(cour -> model.put("cour", cour));
 		model2.put("typeCours", typeCours);
 		model3.put("profs", profs);
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		return "/cours/formCours";
 
 	}
 
-//Delete inscrit
-
-	@GetMapping("delete/inscrit/{id}/{idCour}")
-	public RedirectView DeleteInscritAction(@PathVariable int id, @PathVariable int idCour, RedirectAttributes attrs) {
-		Optional<Inscription> opt = inscriptionRepository.findById(id);
-		if (opt.isPresent()) {
-			Eleve eleve = opt.get().getEleve();
-			attrs.addFlashAttribute("inscrit", UIMessage
-					.error("Suppression", "Voulez vous supprimer " + eleve.getPrenom() + " " + eleve.getNom() + " ?")
-					.addLinks(new UILink("oui", "delete/inscrit/force/" + id + "/" + idCour), new UILink("non", "")));
-		}
-
-		return new RedirectView("/cours/" + idCour);
-	}
-
-	@GetMapping("delete/inscrit/force/{id}/{idCour}")
-	public RedirectView deleteInscritAction(@PathVariable int id, @PathVariable int idCour, ModelMap model) {
-		inscriptionRepository.deleteById(id);
-		return new RedirectView("/cours/" + idCour);
-	}
 }

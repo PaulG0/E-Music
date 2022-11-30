@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Cour;
 import sio.javanaise.emusic.models.Paiement;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
-import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IPaiementRepository;
-import sio.javanaise.emusic.repositories.IResponsableRepository;
-import sio.javanaise.emusic.services.UIPaiementService;
 
 @Controller
 @RequestMapping("/paiements")
@@ -41,32 +40,33 @@ public class PaiementController {
     @Autowired
     private ICoursRepository coursRepository;
     
-    @Autowired
-    private UIPaiementService paiementService;
-    
     @GetMapping("")
-    public String indexAction(ModelMap model) {
+    public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
     	
     	Iterable<Paiement> paiements = paiementRepository.findAllByOrderByDateTransmission();
     	model.put("paiements", paiements);
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/paiements/index";
     	
     }
     
     @PostMapping("/datepaiement")
-    public String indexDatePaiementAction(ModelMap model, @ModelAttribute("dateStart") String dateStart, @ModelAttribute("dateEnd") String dateEnd) {
+    public String indexDatePaiementAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("dateStart") String dateStart, @ModelAttribute("dateEnd") String dateEnd) {
     	
     	LocalDate theDateStart = LocalDate.parse(dateStart, DateTimeFormatter.ofPattern("yyy-MM-dd"));
     	LocalDate theDateEnd = LocalDate.parse(dateEnd, DateTimeFormatter.ofPattern("yyy-MM-dd"));
     	
     	Iterable<Paiement> paiements = paiementRepository.findByDateTransmissionBetween(theDateStart, theDateEnd);
     	model.put("paiements", paiements);
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/paiements/index";
     	
     }
     
     @PostMapping("/cours")
-    public String indexCoursAction(ModelMap model, @ModelAttribute("libelle") String libelle) {
+    public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("libelle") String libelle) {
     	
     	Cour cour = coursRepository.findOneByLibelleContainingIgnoreCase(libelle);
     	
@@ -94,17 +94,19 @@ public class PaiementController {
     		
     	}
     	
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/paiements/index";
     	
     }
     
     @GetMapping("/new/{idFacture}")
-    public String newAction(ModelMap model, @PathVariable int idFacture) {
+    public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idFacture) {
     	
     	vue.addData("facture", idFacture);
-    	vue.addMethod("foncCalendar", paiementService.calendarUI());
-    	
     	model.put("paiement", new Paiement());
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/paiements/form";
     	
     }
@@ -116,14 +118,16 @@ public class PaiementController {
     	paiement.setDateTransmission(dateTransmission);
     	
     	paiementRepository.save(paiement);
-    	return new RedirectView("/responsables");
+    	return new RedirectView("../paiements");
     	
     }
     
     @GetMapping("/edit/{id}")
-    public String editAction(ModelMap model, @PathVariable int id) {
+    public String editAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int id) {
     	
     	paiementRepository.findById(id).ifPresent(paiement -> model.put("paiement", paiement));
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/paiements/form";
     	
     }

@@ -1,8 +1,39 @@
 {{> /include/header }}
-<h1>Bienvenue sur EMusic,
-	zqdzqdzqdijzij
-	{{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}}</h1>
+
+
+<h1 onload="signup()">Bienvenue sur EMusic<span v-if="authUser">, {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}}{{#authEleve.prenom}}{{.}}{{/authEleve.prenom}} {{#authProf.prenom}}{{.}}{{/authProf.prenom}} {{#authAdmin}}{{.}}{{/authAdmin}}</span> !</h1>
+
 <div class="imgacccenter">
-	<img src="/images/acceuil.jpg">
+	<img src="./images/acceuil.jpg" class="img">
+</div>
+
+<div v-if="affichage==true">
+	<div onload="signup()">
+	</div>
+</div>
+<div class="ui modal signup">
+	<div class="content">
+		{{> /signup}}
+	</div>
+</div>
+<div class="ui modal login">
+	<div class="content">
+		{{> /login}}
+	</div>
 </div>
 {{> /include/footer }}
+<script>
+function login(){
+	$('.ui.modal.login')
+	  .modal('show')
+	;
+};
+{{{signup}}}
+{{{login}}}
+function signup(){
+	$('.ui.modal.signup')
+	  .modal('show')
+	;
+};
+</script>
+

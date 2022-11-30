@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -31,6 +33,7 @@ public class TypeCour {
 	@NonNull
 	private TypeCourEnum libelle;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "typeCour", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Cour> cour = new ArrayList<>();
 

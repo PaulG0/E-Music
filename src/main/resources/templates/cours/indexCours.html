@@ -2,34 +2,54 @@
 
 <h1>Liste de tous les cours</h1>
 
-<a href="/cours" class="ui icon button">
+<a href="./cours" class="ui icon button">
 	<i class="angle left icon"></i>
 </a>
-<a href="/cours/cours/new" class="ui labeled green icon button">
+<button class="ui labeled green icon button" onclick="modalfunction('newcours')" @click="popupEditCours('', '', '')">
 	<i class="plus icon"></i>
 	Nouveau Cours
-</a>
+</button>
 
 <table class="ui single line table">
 	<thead>
 		<tr>
 	    	<th>Nom du cours</th>
 	    	<th>Professeur</th>
-	    	<th></th>
+	    	<th>type de cours</th>
+	    	<th>action</th>
     	</tr>
 	</thead>
 	
 	<tbody>
-	{{#cours}}
-		<tr>
-			<td>{{libelle}}</td>
-			<td>{{prof.prenom}} {{prof.nom}}</td>
+		<tr v-for="cour in cours">
+			<td><%cour.libelle%></td>
+			<td><%cour.prof.prenom%> <%cour.prof.nom%></td>
+			<td><%cour.typeCour.libelle%></td>
 			<td>
-				<a href="/cours/cours/edit/{{id}}" class="circular ui blue icon button"><i class="edit icon"></i></a>
+				<a onclick="modalfunction('newcours')" @click="popupEditCours(cour, cour.prof, cour.typeCour)" class="circular ui blue icon button"><i class="edit icon"></i></a>
+				<a :href="'./cours/' + cour.id" class="circular ui black icon button"><i class="file icon"></i></a>
 			</td>
 		</tr>
-	{{/cours}}
 	</tbody>
 </table>
 
+<div class="ui modal newcours">
+	<div class="content">
+		{{>/cours/formCours}}
+	</div>
+</div>
+
+<div class="ui modal editcours">
+	<div class="content">
+		{{>/cours/formCours}}
+	</div>
+</div>
+
 {{>/include/footer}}
+<script>
+function modalfunction(type){
+	$('.ui.modal.' + type)
+	  .modal('show')
+	;
+};
+</script>

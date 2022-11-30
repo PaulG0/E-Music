@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,8 +31,9 @@ public class Inscription {
 
 	@ManyToOne
 	private Planning planning;
-	
-	@OneToMany(mappedBy = "inscription", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "inscription", cascade = CascadeType.ALL)
 	private List<Facture> factures = new ArrayList<>();
 
 }
