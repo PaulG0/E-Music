@@ -3,8 +3,11 @@ package sio.javanaise.emusic.services;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 
 import org.springframework.stereotype.Service;
+
+import sio.javanaise.emusic.models.Eleve;
 
 @Service
 public class FormatService {
@@ -12,6 +15,11 @@ public class FormatService {
 	private DateFormat formatter = new SimpleDateFormat("HH:mm");
 	private LocalDate formDate;
 
+	public int getAge(Eleve enfant) {
+		Period period = Period.between(enfant.getDateNaiss(), LocalDate.now());
+		int age = period.getYears();
+		return age;
+	}
 
 	public LocalDate formatdate(String date) {
 		String[] oldDate = date.split(" ");
@@ -48,6 +56,5 @@ public class FormatService {
 
 		return newDate;
 	}
-
 
 }

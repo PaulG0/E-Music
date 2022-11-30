@@ -35,10 +35,8 @@ public class CoursController {
 	@Autowired
 	private IPlanningRepository planningRepository;
 
-
+	@Autowired
 	private ICoursRepository courRepository;
-
-
 
 	@Autowired
 	private ITypeCoursRepository typeCoursRepository;
@@ -56,7 +54,6 @@ public class CoursController {
 	public VueJS getVue() {
 		return this.vue;
 	}
-
 
 //List Cours
 	@GetMapping("")
