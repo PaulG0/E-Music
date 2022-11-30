@@ -37,7 +37,7 @@ public class Facture {
 
 	@ManyToOne
 	private Inscription inscription;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
 	private List<Paiement> paiements = new ArrayList<>();
