@@ -22,7 +22,7 @@
 	</a>
 	
 	<div class="ui three item menu">
-		<a href="./personnel" class="item ">personnel</a>
+		<a href="./personnel" class="item">personnel</a>
 		<a href="./" class="item">accueil</a>
 		<a href="./find"class="item">nous trouver</a>
 	</div>
@@ -30,6 +30,7 @@
 	<div class="black">
 		<div class="ui sidebar inverted vertical menu" onmouseleave="nav()">
 			{{#authUser}}
+				<div class="item"><h1>{{login}}</h1></div>
 				<a href="./cours/" class="item">Liste des cours</a>
 				<a href="./planning/" class="item">Liste des planning</a>
 				<a href="./parent/" class="item" v-if="authUser.authorities[0].authority=='ROLE_PARENT'||'ROLE_ENFANT'">Profil Utilisateur</a>
