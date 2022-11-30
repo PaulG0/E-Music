@@ -2,19 +2,19 @@
 
 <h1>Liste de tous les membres</h1>
 
-<a href="/" class="ui purple icon button">
+<a href="./" class="ui purple icon button">
 	<i class="angle left icon"></i>
 </a>
 
-<a href="/responsables/new/prof" class="ui labeled green icon button">
+<button class="ui labeled green icon button" onclick="modalfunction('newprof')">
 	<i class="user plus icon"></i>
 	Ajouter un professeur
-</a>
+</button>
 
-<a href="/new" class="ui labeled green icon button">
+<button class="ui labeled green icon button" onclick="modalfunction('signup')">
 	<i class="user plus icon"></i>
 	Ajouter un responsable
-</a>
+</button>
 
 <table class="ui celled table">
 	<thead>
@@ -26,19 +26,13 @@
 	<tbody>
 		<tr class="top aligned">
 			<td>
-			{{#profs}}
-				<p><a class="ui item" @click="confMessageOption({{id}}, 'prof')">{{prenom}} {{nom}}</a></p>
-			{{/profs}}
+				<p v-for="prof in profs"><a class="ui item" @click="confMessageOption(prof, 'prof')"><%prof.prenom%> <%prof.nom%></a></p>
 			</td>
 			<td>
-			{{#responsables}}
-				<p><a class="ui item" @click="confMessageOption({{id}}, 'parent')">{{prenom}} {{nom}}</a></p>
-			{{/responsables}}
+				<p v-for="responsable in responsables"><a class="ui item" @click="confMessageOption(responsable, 'parent')"><%responsable.prenom%> <%responsable.nom%></a></p>
 			</td>
 			<td>
-			{{#eleves}}
-				<p><a class="ui item" @click="confMessageOption({{id}}, 'eleve')">{{prenom}} {{nom}}</a></p>
-			{{/eleves}}
+				<p v-for="eleve in eleves"><a class="ui item" @click="confMessageOption(eleve, 'eleve')"><%eleve.prenom%> <%eleve.nom%></a></p>
 			</td>
 		</tr>
 	</tbody>
@@ -46,21 +40,77 @@
 
 <div v-if="messageOption" class="ui message">
 	<div class="header">
+		<%messageOption.prenom%> <%messageOption.nom%>
 	</div>
-	<button class="circular ui icon button"><i class="eye icon"></i></button>
-	<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'/responsables/edit/' + messageOption" class="circular ui blue icon button"><i class="ui edit icon"></i></a>
-	<a v-if="unRole == 'parent'" :href="'/eleves/new/' + messageOption" class="ui labeled green icon button">
-		<i class="user plus icon"></i>
-		Ajouter un élève
-	</a>
-	<a v-if="unRole == 'eleve'" :href="'/factures/' + messageOption" class="circular ui icon button"><i class="euro sign icon"></i> Facture</a>
-	<a v-if="unRole == 'eleve'" :href="'/paiements/new/' + messageOption" class="circular ui icon button"><i class="euro sign icon"></i> Paiement</a>
-	<button class="circular ui red icon button" @click="popupDelete(messageOption)"><i class="ui trash icon"></i></button>
-	<button v-if="messageOption.suspendre == true && (unRole == 'prof' || unRole == 'parent')" class="circular ui red icon button" @click="popupSuspendre(messageOption)"><i class="user slash icon"></i></button>
-	<button v-if="messageOption.suspendre == false && (unRole == 'prof' || unRole == 'parent')" class="circular ui icon button" @click="popupSuspendre(messageOption)"><i class="user icon"></i></button>
+	<br>
+	<div v-for="user in users" v-if="user.token == messageOption.token">
+		<button class="circular ui icon button"><i class="eye icon"></i></button>
+		<button v-if="unRole == 'prof'" class="circular ui blue icon button" onclick="modalfunction('profedit')"><i class="ui edit icon"></i></button>
+		<button v-if="unRole == 'parent'" class="circular ui blue icon button" onclick="modalfunction('responsableedit')"><i class="ui edit icon"></i></button>
+		<button v-if="unRole == 'eleve'" class="circular ui blue icon button" onclick="modalfunction('eleveedit')"><i class="ui edit icon"></i></button>
+		<button v-if="unRole == 'parent'" class="ui labeled green icon button" onclick="modalfunction('neweleve')">
+			<i class="user plus icon"></i>
+			Ajouter un élève
+		</button>
+		<a v-if="unRole == 'eleve'" :href="'./factures/' + messageOption.id" class="circular ui icon button"><i class="euro sign icon"></i> Facture</a>
+		<a v-if="unRole == 'eleve'" :href="'./paiements/new/' + messageOption.id" class="circular ui icon button"><i class="euro sign icon"></i> Paiement</a>
+		<button class="circular ui red icon button" @click="popupDelete(messageOption.id)"><i class="ui trash icon"></i></button>
+		<button v-if="user.suspended == true" class="circular ui red icon button" @click="popupSuspendre(messageOption, user)"><i class="user slash icon"></i></button>
+		<button v-if="user.suspended == false" class="circular ui icon button" @click="popupSuspendre(messageOption, user)"><i class="user icon"></i></button>
+		<div v-if="unRole =='eleve'" v-model="idResponsable=messageOption.responsable.id"></div>
+		<div v-if="unRole =='eleve'" v-model="yearN=messageOption.dateNaiss[0], monthN=messageOption.dateNaiss[1], dayN=messageOption.dateNaiss[2]">
+			<div v-if="monthN == 1 || monthN == 2 || monthN == 3 || monthN == 4 || monthN == 5 || monthN == 6 || monthN == 7 || monthN == 8 || monthN == 9" v-model="monthN= '0' + monthN"></div>
+			<div v-if="dayN == 1 || dayN == 2 || dayN == 3 || dayN == 4 || dayN == 5 || dayN == 6 || dayN == 7 || dayN == 8 || dayN == 9" v-model="dayN= '0' + dayN"></div>
+			<div v-model="dateNaissEleve=yearN+'-'+monthN+'-'+dayN"></div>
+		</div>
+	</div>
 </div>
 
+<div class="ui modal signup">
+	<div class="content">
+		{{>/responsables/form}}
+	</div>
+</div>
+<div class="ui modal profedit">
+	<div class="content">
+		{{>/profs/formEdit}}
+	</div>
+</div>
+<div class="ui modal responsableedit">
+	<div class="content">
+		{{>/responsables/formEdit}}
+	</div>
+</div>
+<div class="ui modal eleveedit">
+	<div class="content">
+		{{>/eleves/formEdit}}
+	</div>
+</div>
+<div class="ui modal neweleve">
+	<div class="content">
+		{{>/eleves/form}}
+	</div>
+</div>
+<div class="ui modal newprof">
+	<div class="content">
+		{{>/profs/form}}
+	</div>
+</div>
 {{>/responsables/deletePopup}}
 {{>/responsables/suspendrePopup}}
 
 {{>/include/footer}}
+<script>
+function modalfunction(type){
+	$('.ui.modal.' + type)
+	  .modal('show')
+	;
+};
+
+$('#standard_calendar').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+});
+</script>

@@ -19,14 +19,17 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Eleve;
+import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveDAO;
+import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.IResponsableDAO;
 import sio.javanaise.emusic.repositories.IUserDAO;
 import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
+
 
 @Controller
 @RequestMapping({ "/", "" })
@@ -56,6 +59,9 @@ public class MainController {
 	@Autowired
 	private TokenGenerator tokgen;
 
+	@Autowired
+	private IProfRepository profRepository;
+
 	@ModelAttribute("vue")
 	public VueJS getVue() {
 		return this.vue;
@@ -65,6 +71,8 @@ public class MainController {
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		Iterable<Eleve> eleves = enfantrepo.findAll();
+		Iterable<Prof> profs = profRepository.findAll();
+
 		if (authUser != null) {
 			String role = authUser.getAuthorities().toString();
 			if (role.equals("[ROLE_PARENT]")) {
@@ -90,6 +98,20 @@ public class MainController {
 						});
 					}
 				}
+			}
+
+			if (role.equals("[ROLE_PROF]")) {
+				for (Prof prof : profs) {
+					if (prof.getToken().equals(authUser.getToken())) {
+						profRepository.findById(prof.getId()).ifPresent(authProf -> {
+							model2.put("authProf", authProf);
+							vue.addData("authProf", authProf);
+						});
+					}
+				}
+			}
+			if (role.equals("[ROLE_ADMIN]")) {
+				model2.put("authAdmin", authUser.getUsername());
 			}
 		}
 
@@ -141,6 +163,7 @@ public class MainController {
 	 * authUser, ModelMap model, ModelMap model2) { Iterable<Responsable>
 	 * responsables = parentrepo.findAll(); if (authUser != null) { String role =
 	 * authUser.getAuthorities().toString(); if (role.equals("[ROLE_PARENT]")) {
+	 * <<<<<<< HEAD
 	 * 
 	 * for (Responsable responsable : responsables) { if
 	 * (responsable.getToken().equals(authUser.getToken())) {
@@ -153,8 +176,21 @@ public class MainController {
 	 * 
 	 * } }
 	 * 
-	 * model.put("responsables", responsables); model.put("authUser", authUser);
-	 * model.put("signup", "$('.ui.modal.signup').modal('show');");
+	 * =======
+	 *
+	 * for (Responsable responsable : responsables) { if
+	 * (responsable.getToken().equals(authUser.getToken())) {
+	 * parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+	 *
+	 * model2.put("authResponsable", authResponsable);
+	 * vue.addData("authResponsable", authResponsable); });
+	 *
+	 * } }
+	 *
+	 * } }
+	 *
+	 * >>>>>>> main model.put("responsables", responsables); model.put("authUser",
+	 * authUser); model.put("signup", "$('.ui.modal.signup').modal('show');");
 	 * model.put("login", ""); vue.addData("affichage", true);
 	 * vue.addData("authUser", authUser); vue.addData("villeAction");
 	 * model.put("responsable", new Responsable()); return "index"; }
@@ -169,21 +205,26 @@ public class MainController {
 			return new RedirectView("");
 		}
 		if (login.length() < 5 || login.length() > 20) {
-			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
+			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
 		}
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
-					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+
 			return new RedirectView("");
 		}
 		if (!rService.NomEstValide(responsable.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
-					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+
+					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+
 			return new RedirectView("");
 		}
 		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
-			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
+			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisée");
+
 			return new RedirectView("");
 		}
 		if (!rService.EmailEstValide(responsable.getEmail())) {
@@ -191,11 +232,13 @@ public class MainController {
 			return new RedirectView("");
 		}
 		if (password.length() < 8) {
-			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caracteres");
+			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
 			return new RedirectView("/new/");
 		}
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
-			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
+
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffres");
+
 			return new RedirectView("");
 		}
 		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
@@ -225,6 +268,28 @@ public class MainController {
 	public RedirectView decoAction(HttpSession session, @AuthenticationPrincipal User authUser,
 			RedirectAttributes attrs) {
 		session.invalidate();
-		return new RedirectView("/");
+		return new RedirectView("/e-music");
+
 	}
+
+	@GetMapping("personnelle")
+	public String personnelleAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+		Iterable<Prof> profs = profRepository.findAll();
+		model.put("profs", profs);
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/main/personnelle";
+
+	}
+
+
+	@GetMapping("find")
+	public String findAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/main/find";
+
+	}
+
 }

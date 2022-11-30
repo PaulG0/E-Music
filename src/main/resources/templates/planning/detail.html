@@ -1,0 +1,98 @@
+{{>/include/header}}
+
+
+{{#planning}}
+{{#cour}}
+<div class="ui boxprofil white">
+<h1>{{libelle}}</h1>
+
+<h2>type de cour : {{typeCour.libelle}} </h2>
+<h3> date du cour : {{dateDebut}}</h3>
+<a href="./planning"><button class="tiny ui black button"><i class="arrow white
+			left icon"></i></button></a>
+<h4> heure du cour : {{heureDebut}}</h4>
+<h4>nombre de place : {{nbPlace}}</h4>
+
+
+
+{{/cour}}
+
+<h4>le(s) eleve est(sont) :</h4>
+
+<form class="ui form"  method="post" action="./planning/inscrit/add/{{id}}">
+
+
+
+	<select name="ajoutEleve"  class="ui fluid clearable search
+		dropdown">
+		<option value="">ajouter un eleve</option>
+		{{#eleve}}
+		<option value="{{id}}">{{nom}} {{prenom}} </option>
+		{{/eleve}}
+	</select>
+
+	<input type="submit" value="Valider" class="ui green button">
+</form>
+
+
+
+
+
+
+
+
+
+
+<table class="ui table">
+	<thead>
+		<th>nom prenom </th>
+		<th> action</th>
+	</thead>
+	<tbody>
+		{{#incriptions}}
+		<tr>
+			<td>{{eleve.nom}} {{eleve.prenom}} </td>
+			<td><a href="./planning/delete/inscrit/{{id}}/{{planning.id}}"><i class="delete icon black"
+						style="visibility: visible;"></i></a></td>
+		</tr>
+		{{/incriptions}}
+	</tbody>
+</table>
+
+
+
+
+
+
+
+
+{{/planning}}
+
+
+
+{{#inscrit}}
+<div class="ui red icon message" id="delete">
+	<i class="trash icon"></i>
+	<div class="content">
+		<div class="header">
+			{{title}}
+		</div>
+		<p>{{content}}</p>
+		<p>
+			{{#links}}
+			<a class="ui red button" href="{{href}}">{{libelle}}</a>
+			{{/links}}
+		</p>
+	</div>
+</div>
+{{/inscrit}}
+</div>
+{{>/include/footer}}
+
+
+
+<script>
+$('.ui.dropdown')
+.dropdown()
+;
+</script>

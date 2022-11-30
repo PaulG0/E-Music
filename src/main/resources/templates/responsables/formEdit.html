@@ -1,64 +1,54 @@
-<h1 class="ui header white">Créer un compte parent</h1>
+<h1 class="ui header white">Modifier le compte parent de <%messageOption.prenom%> <%messageOption.nom%></h1>
 {{#responsable}}
 <div class="ui segment black">
-	<form method="post" class="ui form validForm" action="./responsables/new">
-	<input type="hidden" name="id" value="{{id}}">
+	<form method="post" class="ui form validForm" action="./responsables/edit">
+	<input type="hidden" name="id" v-bind:value="messageOption.id">
 		<div>
 			<div class="field">
-				<label>*Login (nom d'utilisateur) :</label>
-				<input type="text" required="required" name="login" value="">
-			</div>
-			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
-			<div class="field">
 				<label>*Nom :</label>
-				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
+				<input type="text" required="required" name="nom" v-bind:value="messageOption.nom">
 			</div>
 			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
 				<label>*Prénom :</label>
-				<input type="text" required="required" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
+				<input type="text" required="required" name="prenom" v-bind:value="messageOption.prenom">
 			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
 				<label>*Adresse :</label>
-				<input type="text" required="required" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
+				<input type="text" required="required" name="adresse" v-bind:value="messageOption.adresse">
 			</div>
 			<div class="field">
 				<label>*Ville (si vous habitez à Ifs, indiquez votre quotient familial) :</label>
-				<input v-model="villeAction" type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
+				<input v-model="villeAction=messageOption.ville" type="text" required="required" name="ville">
 			</div>
 			<div class="field" v-if="villeAction=='ifs' || villeAction=='Ifs' || villeAction=='IFS'">
 				<label>Quotient familial :</label>
-				<input type="text" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
+				<input type="text" required="required" name="quotient_familial" v-bind:value="messageOption.quotient_familial">
 			</div>
 			<div class="field">
 				<label>*Code postal :</label>
-				<input type="text" required="required" name="code_postal" value="{{#code_postal}}{{.}}{{/code_postal}}">
+				<input type="text" required="required" name="code_postal" v-bind:value="messageOption.code_postal">
 			</div>
 			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
 				<label>*Adresse courriel :</label>
-				<input type="email" required="required" name="email" value="{{#email}}{{.}}{{/email}}">
+				<input type="email" required="required" name="email" v-bind:value="messageOption.email">
 			</div>
 			<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
-			<div class="field">
-				<label>*Mot de passe (au minimum 8 caractères) :</label>
-				<input type="password" required="required" name="password" value="">
-			</div>
-			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
 			<div class="field" >
 				<label>*Numéro de téléphone :</label>
-				<input type="text" required="required" name="tel1" value={{#tel1}}{{.}}{{/tel1}}>
+				<input type="text" required="required" name="tel1" v-bind:value="messageOption.tel1">
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 			<div class="field">
 				<label>Numéro de téléphone (optionnel) :</label>
-				<input type="text" name="tel2" value={{#tel2}}{{.}}{{/tel2}}>
+				<input type="text" name="tel2" v-bind:value="messageOption.tel2">
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 			<div class="field">
 				<label>Numéro de téléphone (optionnel) :</label>
-				<input type="text" name="tel3" value={{#tel3}}{{.}}{{/tel3}}>
+				<input type="text" name="tel3" v-bind:value="messageOption.tel3">
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 		</div>
@@ -78,15 +68,6 @@ $(function(){
 		          {
 		            type   : 'email',
 		            prompt : 'Veuillez entrer un email valide'
-		          }
-		        ]
-		      },
-		  login: {
-		        identifier  : 'login',
-		        rules: [
-		          {
-		            type   : 'empty',
-		            prompt : 'Veuillez entrer un login valide'
 		          }
 		        ]
 		      },
@@ -132,15 +113,6 @@ $(function(){
 		          {
 		            type   : 'empty',
 		            prompt : 'Veuillez entrer un code postal valide'
-		          }
-		        ]
-		      },
-		  password: {
-		        identifier  : 'password',
-		        rules: [
-		          {
-		            type   : 'empty',
-		            prompt : 'Veuillez entrer un mot de passe valide'
 		          }
 		        ]
 		      },

@@ -31,6 +31,7 @@ public class Planning {
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateDebut;
+
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureDebut;
 

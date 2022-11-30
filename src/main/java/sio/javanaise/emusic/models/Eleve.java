@@ -37,13 +37,11 @@ public class Eleve {
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateNaiss;
 
-	private String DateNaissString;
+	private String token;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Inscription> inscrits = new ArrayList<>();
-
-	private String token;
 
 	@ManyToOne(optional = true)
 	private Responsable responsable;

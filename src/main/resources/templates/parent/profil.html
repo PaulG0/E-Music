@@ -1,5 +1,6 @@
 {{> /include/header}}
 {{#authUser}}
+
 <div v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
 	<div v-if="infoAff==true">
 		<div onload="edit()">
@@ -108,13 +109,16 @@
 		    <p>{{content}}</p>
 		    <p>
 		    {{#links}}
-		    	<a class="ui red button" href="{{href}}">{{libelle}}</a>
+
+		    	<a class="ui red button" href="./{{href}}">{{libelle}}</a>
+
 		    {{/links}}
 		    </p>
 		  </div>
 		</div>
 	{{/msg}}
 {{/authUser}}
+
 <script>
 {{{edit}}}
 {{{editPassword}}}
@@ -139,4 +143,5 @@ function insEleve(){
 	;
 };
 </script>
+
 {{> /include/footer}}

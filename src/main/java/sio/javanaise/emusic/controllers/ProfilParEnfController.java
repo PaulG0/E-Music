@@ -105,7 +105,9 @@ public class ProfilParEnfController {
 				}
 			}
 		}
+
 		model.put("plannings", plannings);
+
 		model.put("authUser", authUser);
 		model.put("edit", "");
 		model.put("editPassword", "");
@@ -117,14 +119,16 @@ public class ProfilParEnfController {
 
 	@Secured("ROLE_PARENT")
 	@GetMapping("add")
-	public String addAction(ModelMap model) {
+	public String addAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		model.put("eleve", new Eleve());
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
 		return "/parent/form";
 	}
 
 	@Secured("ROLE_PARENT")
 	@PostMapping("add")
-	public RedirectView addAction(@AuthenticationPrincipal User authUser,
+	public RedirectView addAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute("dateNaissa") String dateNaissa, @ModelAttribute Eleve eleve,
 			@ModelAttribute("password") String password, @ModelAttribute("login") String login, ModelMap model2,
 			RedirectAttributes attrs) {
@@ -142,7 +146,9 @@ public class ProfilParEnfController {
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
-			return new RedirectView("/parent/add/");
+			model.put("authUser", authUser);
+			vue.addData("authUser", authUser);
+			return new RedirectView("../../parent/add/");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
@@ -150,12 +156,16 @@ public class ProfilParEnfController {
 		if (!rService.NomEstValide(eleve.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/parent/add/");
+			model.put("authUser", authUser);
+			vue.addData("authUser", authUser);
+			return new RedirectView("../../parent/add/");
 		}
 		if (!rService.NomEstValide(eleve.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/parent/add/");
+			model.put("authUser", authUser);
+			vue.addData("authUser", authUser);
+			return new RedirectView("../../parent/add/");
 		}
 		String token = tokgen.generateToken(login);
 		User us = ((UserService) uService).createUser(login, password);
@@ -165,13 +175,14 @@ public class ProfilParEnfController {
 		eleve.setToken(us.getToken());
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
-		eleve.setDateNaissString(eleve.getDateNaiss().format(DateTimeFormatter.ofPattern("dd MMM yyy")));
+
 		enfantrepo.save(eleve);
-		return new RedirectView("/parent/profil");
+		return new RedirectView("../../parent/profil");
 	}
 
 	@Secured("ROLE_PARENT")
 	@PostMapping("edit")
+
 	public RedirectView editAction(@AuthenticationPrincipal User authUser, @ModelAttribute Responsable responsable,
 			RedirectAttributes attrs) {
 		System.out.println("L'erreur est au debut");

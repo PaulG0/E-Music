@@ -103,7 +103,9 @@ public class devController {
 		typeCour.setId(1);
 		typeCourRepo.save(typeCour);
 
+
 		// admin
+
 		User userAdmin = ((UserService) uService).createUser("Admin", "Admin");
 		userAdmin.setAuthorities("ADMIN");
 		userAdmin.setToken(token.generateToken());

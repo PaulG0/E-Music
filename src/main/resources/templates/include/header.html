@@ -1,32 +1,59 @@
 <!doctype html>
 <html lang="fr">
 <head>
+
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.0/semantic.min.css" integrity="sha512-PwhgdrueUt7iVICnZMjYcbiLalCztrVfzUIYXekIK8hZu4DQP141GrKh6fUHmNERWi4bGdBXIZqtBZnsSzHEMg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="/e-music/css/style.css">
+	<link rel="icon" href="/e-music/images/Emusic.jpg">
+	<base href="http://srv2-vm-2100.sts-sio-caen.info/e-music/">
+
 	<title>Emusic</title>
 </head>
 <body class="black">
-<button class="ui black icon button" onclick="nav()"><i class="white angle right icon"></i></button>
+
+<button class="ui black icon button" onclick="nav()" onmouseover="nav()"><i class="white angle right icon"></i></button>
 <div id="app" class="ui container" v-cloak>
-	<a href="/">
-		<img class="logo" src="/images/Emusic.jpg">
-	</a>
+	
+	
+	<div class="logo">
+		<img src="./images/Emusic.jpg">
+	</div>
+	
+	
+<!-- menu ALL -->
+<div class="ui three item menu">
+  <a href="./personnelle" class="item ">personnelle</a>
+  <a href="./" class="item">accueil</a>
+  <a href="./find"class="item">nous trouver</a>
+</div>
+
+
+
+<!-- menu connecter -->
 	<div class="black">
-		<div class="ui sidebar inverted vertical menu">
+		<div class="ui sidebar inverted vertical menu" onmouseleave="nav()">
 			{{#authUser}}
-				<a href="/cours/" class="item">Liste des cours</a>
-				<a href="/parent/" class="item" v-if="authUser.authorities[0].authority=='ROLE_PARENT'||'ROLE_ENFANT'">Profil Utilisateur</a>
-				<a href="/responsables/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des membres</a>
-				<a href="/factures/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des factures</a>
-				<a href="/paiements/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des paiements</a>
+				<a href="./cours/" class="item">Liste des cours</a>
+				<a href="./planning/" class="item">Liste des planning</a>
+				<a href="./parent/" class="item" v-if="authUser.authorities[0].authority=='ROLE_PARENT'||'ROLE_ENFANT'">Profil Utilisateur</a>
+				<a href="./responsables/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des membres</a>
+				<a href="./factures/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des factures</a>
+				<a href="./paiements/" class="item" v-if="authUser.authorities[0].authority=='ROLE_ADMIN'">Liste des paiements</a>
+
 			{{/authUser}}
 			{{^authUser}}
 				<a v-if="!authUser" class="item" onclick="signup()">Créer un compte parent</a>
 				<a v-if="!authUser" class="item" onclick="login()">Connexion</a>
 			{{/authUser}}
 			{{#authUser}}
-				<a href="/deco/" class="item">Deconnexion</a>
+
+				<a href="./deco/" class="item">Déconnexion</a>
+
 			{{/authUser}}
 		</div>
+
+
 	</div>

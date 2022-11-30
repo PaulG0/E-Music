@@ -2,32 +2,59 @@
 
 <h1>Paiements</h1>
 
-<form method="post" action="/paiements/datepaiement">
-	<div class="ui search">
-		<label>Entre</label>
-		<input class="prompt" type="text" name="dateStart" placeholder="Rechercher date..." required>
-		<div class="results"></div>
-		
-		<label>et</label>
-		<input class="prompt" type="text" name="dateEnd" placeholder="Rechercher date..." required>
-		<div class="results"></div>
-		<div class="ui buttons">
-			<a href="/paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
-			<div class="or" data-text="ou"></div>
-			<button class="ui button" type="submit">Valider</button>
+<form class="ui form" method="post" action="./paiements/datepaiement">
+	
+	<div class="ui center grid">
+			
+		<div class="center aligned one wide column white"><b>Entre</b></div>
+		<div class="four wide column">
+			<div class="field">
+				<div class="ui calendar" id="standard_calendar">
+						<div class="ui input left icon">
+							<i class="calendar icon"></i>
+							<input class="prompt" type="text" required="required" name="dateStart" placeholder="Rechercher date...">
+						</div>
+				</div>
+			</div>
 		</div>
+		<div class="center aligned one wide column white"><b>et</b></div>
+		<div class="four wide column">
+			<div class="field">
+				<div class="ui calendar" id="standard_calendar2">
+						<div class="ui input left icon">
+							<i class="calendar icon"></i>
+							<input class="prompt" type="text" required="required" name="dateEnd" placeholder="Rechercher date...">
+						</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="three wide column">
+			<div class="ui buttons">
+				<a href="./paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
+				<div class="or" data-text="ou"></div>
+				<button class="ui button" type="submit">Rechercher</button>
+			</div>
+		</div>
+		
 	</div>
+	
 </form>
 <br>
-<form method="post" action="/paiements/cours">
-	<div class="ui search">
-		<input class="prompt" type="text" name="libelle" placeholder="Rechercher cours..." required>
-		<div class="results"></div>
-		<div class="ui buttons">
-			<a href="/paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
-			<div class="or" data-text="ou"></div>
-			<button class="ui button" type="submit">Valider</button>
+<form class="ui form" method="post" action="./paiements/cours">
+	<div class="ui center grid">
+		<div class="center aligned one wide column white"></div>
+		<div class="four wide column">
+			<input class="prompt" type="text" name="libelle" placeholder="Rechercher cours..." required>
 		</div>
+		<div class="three wide column">
+			<div class="ui buttons">
+				<a href="./paiements" class="ui icon button"><i class="sync alternate icon"></i></a>
+				<div class="or" data-text="ou"></div>
+				<button class="ui button" type="submit">Rechercher</button>
+			</div>
+		</div>
+		
 	</div>
 </form>
 
@@ -57,3 +84,17 @@
 </table>
 
 {{>/include/footer}}
+<script>
+$('#standard_calendar').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+});
+$('#standard_calendar2').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+});
+</script>
