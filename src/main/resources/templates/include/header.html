@@ -8,7 +8,8 @@
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="stylesheet" href="/e-music/css/style.css">
 	<link rel="icon" href="/e-music/images/Emusic.jpg">
-	<base href="http://127.0.0.1:8080/e-music/">
+	<base href="http://srv2-vm-2100.sts-sio-caen.info/e-music/">
+	<!-- <base href="http://127.0.0.1:8080/e-music/"> -->
 
 	<title>Emusic</title>
 </head>
@@ -16,9 +17,16 @@
 <button class="ui black icon button" onclick="nav()" onmouseover="nav()"><i class="white angle right icon"></i></button>
 <div id="app" class="ui container" v-cloak>
 
-	<div class="logo">
-		<img src="./images/Emusic.jpg">
+	<a href="./">
+		<img class="logo" src="/images/Emusic.jpg">
+	</a>
+	
+	<div class="ui three item menu">
+		<a href="./personnel" class="item ">personnel</a>
+		<a href="./" class="item">accueil</a>
+		<a href="./find"class="item">nous trouver</a>
 	</div>
+	
 	<div class="black">
 		<div class="ui sidebar inverted vertical menu" onmouseleave="nav()">
 			{{#authUser}}

@@ -32,11 +32,10 @@ public class Eleve {
 
 	private String nom;
 	private String prenom;
+	private String sexe;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateNaiss;
-
-
 
 	private String token;
 

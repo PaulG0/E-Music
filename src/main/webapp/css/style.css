@@ -1,0 +1,110 @@
+.button{
+    display: flex;
+    justify-content:flex-end;
+}
+
+.erreur{
+    color: red;
+}
+h1{
+	color:white;
+}
+.white{
+	color:white;
+}
+
+
+
+@media screen and (max-width: 800px) {
+	.dispocolonne {
+		display:flex;
+		flex-direction: column;
+	}
+	.colonne{
+		margin-bottom:10px;
+		display:flex;
+		flex-direction: column;
+	}
+}
+
+@media screen and (min-width: 800px) {
+	.dispocolonne{
+		display:flex;
+		flex-direction: row;
+		justify-content: space-around;
+	} 
+	.colonne{
+		display:flex;
+		flex-direction: column;
+		max-width: 30em;
+	}
+}
+.ui.button{
+	margin-bottom: 5px;
+}
+.boxprofil{
+	margin-top:10px;
+	border-radius:10px;
+	background-color : #3c3e40;
+	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
+	padding-top:10px;
+	padding-left: 15px;
+	padding-right:10px;
+	padding-bottom:10px;
+	margin-bottom: 10px;
+}
+
+.boxenfant{
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #1b1c1d!important;
+}
+
+body.pushable>.pusher{
+	background: #1b1c1d!important;
+}
+
+.imgacccenter{
+    display: flex;
+    justify-content: center;
+}
+
+.img {
+	max-width: 100%;
+	height: auto;
+    width: auto;
+}
+
+.logo {
+	height:4em;
+	width:auto;
+	display:flex;
+	justify-content: left;
+}
+.ui.modal{
+	color : white;
+	border-radius: 20px;
+}
+
+.ui.form:not(.inverted) .field>label:not(.button) {
+    color: white;
+}
+
+.ui.header.white {
+	color:white;
+}
+.ui.modal>.content {
+    background: #1b1c1d!important;
+    border-radius: 20px;
+    color : white;
+}
+
+
+.ui.segment {
+	background: #1b1c1d!important;
+	color : white;
+
+}
