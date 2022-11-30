@@ -6,12 +6,12 @@
 	<i class="angle left icon"></i>
 </a>
 
-<button class="ui labeled green icon button" onclick="newprof()">
+<button class="ui labeled green icon button" onclick="modalfunction('newprof')">
 	<i class="user plus icon"></i>
 	Ajouter un professeur
 </button>
 
-<button class="ui labeled green icon button" onclick="signup()">
+<button class="ui labeled green icon button" onclick="modalfunction('signup')">
 	<i class="user plus icon"></i>
 	Ajouter un responsable
 </button>
@@ -45,8 +45,10 @@
 	<br>
 	<div v-for="user in users" v-if="user.token == messageOption.token">
 		<button class="circular ui icon button"><i class="eye icon"></i></button>
-		<a v-if="unRole == 'prof' || unRole == 'parent'" :href="'./responsables/edit/' + messageOption.id" class="circular ui blue icon button"><i class="ui edit icon"></i></a>
-		<button v-if="unRole == 'parent'" class="ui labeled green icon button" onclick="neweleve()">
+		<button v-if="unRole == 'prof'" class="circular ui blue icon button" onclick="modalfunction('profedit')"><i class="ui edit icon"></i></button>
+		<button v-if="unRole == 'parent'" class="circular ui blue icon button" onclick="modalfunction('responsableedit')"><i class="ui edit icon"></i></button>
+		<button v-if="unRole == 'eleve'" class="circular ui blue icon button" onclick="modalfunction('eleveedit')"><i class="ui edit icon"></i></button>
+		<button v-if="unRole == 'parent'" class="ui labeled green icon button" onclick="modalfunction('neweleve')">
 			<i class="user plus icon"></i>
 			Ajouter un élève
 		</button>
@@ -55,12 +57,33 @@
 		<button class="circular ui red icon button" @click="popupDelete(messageOption.id)"><i class="ui trash icon"></i></button>
 		<button v-if="user.suspended == true" class="circular ui red icon button" @click="popupSuspendre(messageOption, user)"><i class="user slash icon"></i></button>
 		<button v-if="user.suspended == false" class="circular ui icon button" @click="popupSuspendre(messageOption, user)"><i class="user icon"></i></button>
+		<div v-if="unRole =='eleve'" v-model="idResponsable=messageOption.responsable.id"></div>
+		<div v-if="unRole =='eleve'" v-model="yearN=messageOption.dateNaiss[0], monthN=messageOption.dateNaiss[1], dayN=messageOption.dateNaiss[2]">
+			<div v-if="monthN == 1 || monthN == 2 || monthN == 3 || monthN == 4 || monthN == 5 || monthN == 6 || monthN == 7 || monthN == 8 || monthN == 9" v-model="monthN= '0' + monthN"></div>
+			<div v-if="dayN == 1 || dayN == 2 || dayN == 3 || dayN == 4 || dayN == 5 || dayN == 6 || dayN == 7 || dayN == 8 || dayN == 9" v-model="dayN= '0' + dayN"></div>
+			<div v-model="dateNaissEleve=yearN+'-'+monthN+'-'+dayN"></div>
+		</div>
 	</div>
 </div>
 
 <div class="ui modal signup">
 	<div class="content">
 		{{>/responsables/form}}
+	</div>
+</div>
+<div class="ui modal profedit">
+	<div class="content">
+		{{>/profs/formEdit}}
+	</div>
+</div>
+<div class="ui modal responsableedit">
+	<div class="content">
+		{{>/responsables/formEdit}}
+	</div>
+</div>
+<div class="ui modal eleveedit">
+	<div class="content">
+		{{>/eleves/formEdit}}
 	</div>
 </div>
 <div class="ui modal neweleve">
@@ -78,20 +101,8 @@
 
 {{>/include/footer}}
 <script>
-function signup(){
-	$('.ui.modal.signup')
-	  .modal('show')
-	;
-};
-
-function neweleve(){
-	$('.ui.modal.neweleve')
-	  .modal('show')
-	;
-};
-
-function newprof(){
-	$('.ui.modal.newprof')
+function modalfunction(type){
+	$('.ui.modal.' + type)
 	  .modal('show')
 	;
 };

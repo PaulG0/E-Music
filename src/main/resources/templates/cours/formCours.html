@@ -1,34 +1,31 @@
-
-{{>/include/header}}
-
-<h1 class="ui header white">Créer un cours</h1>
+<h1 class="ui header white">Créer un cours <%coursEdit.libelle%></h1>
 <form class="ui form" method="post" action="./cours/new">
 	
 	{{#cour}}
 	<div class="field">
 		<label>Nom du cours</label>
-		<input type="text" name="libelle" placeholder="Nom du cours" value="{{#libelle}}{{.}}{{/libelle}}" required>
+		<input type="text" name="libelle" placeholder="Nom du cours" v-bind:value="coursEdit.libelle" required>
 	</div>
 	
 	<div class="field">
 		<label>L'âge minimum</label>
-		<input type="number" name="ageMin" placeholder="L'âge minimum" value="{{#ageMin}}{{.}}{{/ageMin}}" required>
+		<input type="number" name="ageMin" placeholder="L'âge minimum" v-bind:value="coursEdit.ageMin" required>
 	</div>
 	
 	<div class="field">
 		<label>L'âge maximum</label>
-		<input type="number" name="ageMAx" placeholder="L'âge maximum" value="{{#ageMAx}}{{.}}{{/ageMAx}}" required>
+		<input type="number" name="ageMAx" placeholder="L'âge maximum" v-bind:value="coursEdit.ageMAx" required>
 	</div>
 	
 	<div class="field">
 		<label>nombre de place</label>
-		<input type="number" name="nbPlace" placeholder="nombre de place" value="{{#nbPlace}}{{.}}{{/nbPlace}}" required>
+		<input type="number" name="nbPlace" placeholder="nombre de place" v-bind:value="coursEdit.nbPlace" required>
 	</div>
 	
 	<div class="field">
 		<label>Professeur</label>
 		<select class="ui selection dropdown" required name="prof">
-		<option disabled selected hidden value="{{#prof}}{{.}}{{/prof}}">{{#prof.prenom}}{{.}}{{/prof.prenom}} {{#prof.nom}}{{.}}{{/prof.nom}}</option>
+		<option disabled selected hidden v-bind:value="idProf.id"><%idProf.prenom%> <%idProf.nom%></option>
 		{{#profs}}
 			<option value="{{#id}}{{.}}{{/id}}">{{prenom}} {{nom}}</option>
 		{{/profs}}
@@ -38,20 +35,16 @@
 	<div class="field">
 		<label>Type de cours</label>
 		<select class="ui selection dropdown" required name="typeCour">
-		<option disabled selected hidden value="{{#typeCour}}{{.}}{{/typeCour}}">{{#typeCour.libelle}}{{.}}{{/typeCour.libelle}}</option>
+		<option disabled selected hidden v-bind:value="idTypeCours.id"><%idTypeCours.libelle%></option>
 		{{#typeCours}}
 			<option value="{{#id}}{{.}}{{/id}}">{{libelle}}</option>
 		{{/typeCours}}
 		</select>
 	</div>
 	
-	<input type="hidden" name="id" value="{{#id}}{{.}}{{/id}}">
+	<input type="hidden" name="id" v-bind:value="coursEdit.id">
 	
 	<button class="ui button" type="submit">Valider</button>
 	{{/cour}}
 	
 </form>
-
-
-
-{{>/include/footer}}

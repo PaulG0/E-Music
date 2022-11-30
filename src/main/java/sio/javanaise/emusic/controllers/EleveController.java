@@ -53,15 +53,6 @@ public class EleveController {
     @Autowired
 	private TokenGenerator tokgen;
     
-    @GetMapping("/new/{idResponsable}")
-    public String newAction(ModelMap model, @PathVariable int idResponsable) {
-    	
-    	vue.addData("idResponsable", idResponsable);
-		model.put("eleve", new Eleve());
-    	return "/eleves/form";
-    	
-    }
-    
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Eleve eleve, @ModelAttribute("dateNaissa") String dateNaissa, 
     		@ModelAttribute("password") String password, @ModelAttribute("login") String login, 
@@ -70,7 +61,7 @@ public class EleveController {
     	Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
@@ -78,16 +69,16 @@ public class EleveController {
 		if (!rService.NomEstValide(eleve.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (!rService.NomEstValide(eleve.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if (password.length() < 8) {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
-			return new RedirectView("/responsables");
+			return new RedirectView("../responsables");
 		}
 		if(eleve.getToken() == null) {
 			String token = tokgen.generateToken(login);
@@ -100,7 +91,35 @@ public class EleveController {
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
     	eleveRepository.save(eleve);
-    	return new RedirectView("/responsables");
+    	return new RedirectView("../responsables");
+    	
+    }
+    
+    @PostMapping("/edit")
+    public RedirectView editAction(@ModelAttribute Eleve eleve, @ModelAttribute("dateNaissa") String dateNaissa, 
+    		RedirectAttributes attrs) {
+    	
+		if (!rService.NomEstValide(eleve.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		if (!rService.NomEstValide(eleve.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			return new RedirectView("../responsables");
+		}
+		Optional<Eleve> opt = eleveRepository.findById(eleve.getId());
+		if(dateNaissa == "" || dateNaissa == null) {
+			eleve.setDateNaiss(opt.get().getDateNaiss());
+		} else {
+			LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
+			eleve.setDateNaiss(dateNaissance);
+		}
+		
+		eleve.setToken(opt.get().getToken());
+    	eleveRepository.save(eleve);
+    	return new RedirectView("../responsables");
     	
     }
 	

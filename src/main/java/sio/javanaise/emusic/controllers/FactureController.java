@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,11 @@ import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Cour;
 import sio.javanaise.emusic.models.Eleve;
 import sio.javanaise.emusic.models.Facture;
+import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IFactureRepository;
 import sio.javanaise.emusic.repositories.IInscriptionRepository;
-import sio.javanaise.emusic.services.UIPaiementService;
 
 @Controller
 @RequestMapping("/factures")
@@ -48,32 +49,33 @@ public class FactureController {
     @Autowired
     private IEleveRepository eleveRepository;
     
-    @Autowired
-    private UIPaiementService paiementService;
-    
     @GetMapping("")
-    public String indexAction(ModelMap model) {
+    public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
     	
     	Iterable<Facture> factures = factureRepository.findAllByOrderByDateFacture();
     	model.put("factures", factures);
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/factures/index";
     	
     }
     
     @PostMapping("/datefacture")
-    public String indexDateFactureAction(ModelMap model, @ModelAttribute("dateStart") String dateStart, @ModelAttribute("dateEnd") String dateEnd) {
+    public String indexDateFactureAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("dateStart") String dateStart, @ModelAttribute("dateEnd") String dateEnd) {
     	
     	LocalDate theDateStart = LocalDate.parse(dateStart, DateTimeFormatter.ofPattern("yyy-MM-dd"));
     	LocalDate theDateEnd = LocalDate.parse(dateEnd, DateTimeFormatter.ofPattern("yyy-MM-dd"));
     	
     	Iterable<Facture> factures = factureRepository.findByDateFactureBetween(theDateStart, theDateEnd);
     	model.put("factures", factures);
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/factures/index";
     	
     }
     
     @PostMapping("/cours")
-    public String indexCoursAction(ModelMap model, @ModelAttribute("libelle") String libelle) {
+    public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("libelle") String libelle) {
     	
     	Cour cour = coursRepository.findOneByLibelleContainingIgnoreCase(libelle);
     	
@@ -100,12 +102,14 @@ public class FactureController {
     		
     	}
     	
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/factures/index";
     	
     }
     
     @GetMapping("/{idEleve}")
-    public String listEleveAction(ModelMap model, @PathVariable int idEleve) {
+    public String listEleveAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idEleve) {
     	
     	Optional<Eleve> eleve = eleveRepository.findById(idEleve);
     	
@@ -122,25 +126,30 @@ public class FactureController {
 		}
     	
     	model.put("factures", listFactures);	
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	
     	return "/factures/listEleve";
     	
     }
     
     @GetMapping("/{idEleve}/{id}")
-    public String detailAction(ModelMap model, @PathVariable int idEleve, @PathVariable int id) {
+    public String detailAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idEleve, @PathVariable int id) {
     	
     	factureRepository.findById(id).ifPresent(facture -> model.put("facture", facture));
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "/factures/detail";
     	
     }
     
     @GetMapping("/{idEleve}/new/{idinscription}")
-    public String newAction(ModelMap model, ModelMap model2, @PathVariable int idEleve, @PathVariable int idinscription) {
+    public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2, @PathVariable int idEleve, @PathVariable int idinscription) {
     	
     	inscriptionRepository.findById(idinscription).ifPresent(inscription -> model2.put("inscription", inscription));
-    	vue.addMethod("foncCalendar", paiementService.calendarUI());
     	model.put("facture", new Facture());
+    	model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
     	return "factures/form";
     	
     }

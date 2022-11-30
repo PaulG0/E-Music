@@ -5,7 +5,7 @@
 <a href="./cours" class="ui icon button">
 	<i class="angle left icon"></i>
 </a>
-<button class="ui labeled green icon button" onclick="newcours()">
+<button class="ui labeled green icon button" onclick="modalfunction('newcours')" @click="popupEditCours('', '', '')">
 	<i class="plus icon"></i>
 	Nouveau Cours
 </button>
@@ -21,17 +21,15 @@
 	</thead>
 	
 	<tbody>
-	{{#cours}}
-		<tr>
-			<td>{{libelle}}</td>
-			<td>{{#prof.prenom}}{{.}}{{/prof.prenom}} {{#prof.nom}}{{.}}{{/prof.nom}}</td>
-			<td>{{#typeCour.libelle}}{{.}}{{/typeCour.libelle}}</td>
+		<tr v-for="cour in cours">
+			<td><%cour.libelle%></td>
+			<td><%cour.prof.prenom%> <%cour.prof.nom%></td>
+			<td><%cour.typeCour.libelle%></td>
 			<td>
-				<a href="./cours/edit/{{id}}" class="circular ui blue icon button"><i class="edit icon"></i></a>
-				<a href="./cours/{{id}}" class="circular ui black icon button"><i class="file icon"></i></a>
+				<a onclick="modalfunction('newcours')" @click="popupEditCours(cour, cour.prof, cour.typeCour)" class="circular ui blue icon button"><i class="edit icon"></i></a>
+				<a :href="'./cours/' + cour.id" class="circular ui black icon button"><i class="file icon"></i></a>
 			</td>
 		</tr>
-	{{/cours}}
 	</tbody>
 </table>
 
@@ -41,10 +39,16 @@
 	</div>
 </div>
 
+<div class="ui modal editcours">
+	<div class="content">
+		{{>/cours/formCours}}
+	</div>
+</div>
+
 {{>/include/footer}}
 <script>
-function newcours(){
-	$('.ui.modal.newcours')
+function modalfunction(type){
+	$('.ui.modal.' + type)
 	  .modal('show')
 	;
 };

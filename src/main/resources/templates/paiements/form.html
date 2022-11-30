@@ -10,7 +10,7 @@
 	
 	<div class="field">
 		<label>Date de transmission</label>
-		<div class="ui calendar" id="standard_calendar" @click="foncCalendar()">
+		<div class="ui calendar" id="standard_calendar">
 			<div class="ui input left icon">
 				<i class="calendar icon"></i>
 				<input type="text" name="laDateTransmission" placeholder="Date de transmission" value="{{#date_transmission}}{{.}}{{/date_transmission}}" required>
@@ -28,3 +28,11 @@
 </form>
 
 {{>/include/footer}}
+<script>
+$('#standard_calendar').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+});
+</script>
