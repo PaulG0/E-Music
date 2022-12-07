@@ -124,15 +124,6 @@ public class ProfilParEnfController {
 	}
 
 	@Secured("ROLE_PARENT")
-	@GetMapping("add")
-	public String addAction(@AuthenticationPrincipal User authUser, ModelMap model) {
-		model.put("eleve", new Eleve());
-		model.put("authUser", authUser);
-		vue.addData("authUser", authUser);
-		return "./parent/form";
-	}
-
-	@Secured("ROLE_PARENT")
 	@PostMapping("add")
 	public RedirectView addAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute("dateNaissa") String dateNaissa, @ModelAttribute Eleve eleve,
@@ -182,11 +173,9 @@ public class ProfilParEnfController {
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
 
-
 		enfantrepo.save(eleve);
 		return new RedirectView("../../parent/profil");
 	}
-
 
 	@Secured("ROLE_PARENT")
 	@PostMapping("edit")
@@ -242,7 +231,7 @@ public class ProfilParEnfController {
 		responsable.setToken(us.getToken());
 		parentrepo.save(responsable);
 		System.out.println("Il a sauvegarder");
-		return new RedirectView("./parent/");
+		return new RedirectView("././parent/");
 	}
 
 	@Secured("ROLE_PARENT")
@@ -303,7 +292,6 @@ public class ProfilParEnfController {
 		return new RedirectView("../");
 	}
 
-
 	@Secured("ROLE_PARENT")
 	@GetMapping("delete/force")
 	public RedirectView deleteForceAction(HttpSession session, @AuthenticationPrincipal User authUser, ModelMap model2,
@@ -354,19 +342,29 @@ public class ProfilParEnfController {
 
 	@Secured("ROLE_PARENT")
 	@PostMapping("inscrPar")
-	public RedirectView insParAction(@AuthenticationPrincipal User authUser, @ModelAttribute Inscription inscription,
-			@ModelAttribute("planning") Planning planning, @ModelAttribute("dateNaissa") String dateNaissa,
-			@ModelAttribute Eleve eleve, ModelMap model2) {
+	public RedirectView insParAction(@AuthenticationPrincipal User authUser, @ModelAttribute Eleve eleve,
+			@ModelAttribute("dateNaissa") String dateNaissa, ModelMap model2) {
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		for (Responsable responsable : responsables) {
 			if (responsable.getToken().equals(authUser.getToken())) {
 				parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
 					model2.put("authResponsable", authResponsable);
 					vue.addData("authResponsable", authResponsable);
+					if (authResponsable.getCivilite().equals("Mr")) {
+						eleve.setSexe("Homme");
+					} else {
+						eleve.setSexe("Femme");
+					}
+					eleve.setNom(authResponsable.getNom());
+					eleve.setPrenom(authResponsable.getPrenom());
 					eleve.setResponsable(authResponsable);
+					eleve.setToken(authResponsable.getToken());
 				});
 			}
 		}
-		return new RedirectView();
+		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
+		eleve.setDateNaiss(dateNaissance);
+		enfantrepo.save(eleve);
+		return new RedirectView("../parent/");
 	}
 }
