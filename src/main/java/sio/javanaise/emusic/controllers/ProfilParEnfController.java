@@ -330,10 +330,36 @@ public class ProfilParEnfController {
 	@PostMapping("inscription")
 	public RedirectView insAction(@ModelAttribute Inscription inscription, @ModelAttribute("eleve") Eleve eleve,
 			@ModelAttribute("planning") Planning planning) {
-		System.out.println(fService.getAge(eleve));
-		inscription.setEleve(eleve);
-		inscription.setPlanning(planning);
-		inscrepo.save(inscription);
-		return new RedirectView("../cours/");
+		if ((fService.getAge(eleve) > planning.getCour().getAgeMin())
+				&& (fService.getAge(eleve) < planning.getCour().getAgeMAx())) {
+			for (Inscription inscr : inscrepo.findAll()) {
+				if ((inscr.getEleve() == eleve) && (inscr.getPlanning() == planning)) {
+					return new RedirectView("../parent/");
+				}
+			}
+			inscription.setEleve(eleve);
+			inscription.setPlanning(planning);
+			inscrepo.save(inscription);
+			return new RedirectView("../planning/");
+		}
+		return new RedirectView("../parent/");
+	}
+
+	@Secured("ROLE_PARENT")
+	@PostMapping("inscrPar")
+	public RedirectView insParAction(@AuthenticationPrincipal User authUser, @ModelAttribute Inscription inscription,
+			@ModelAttribute("planning") Planning planning, @ModelAttribute("dateNaissa") String dateNaissa,
+			@ModelAttribute Eleve eleve, ModelMap model2) {
+		Iterable<Responsable> responsables = parentrepo.findAll();
+		for (Responsable responsable : responsables) {
+			if (responsable.getToken().equals(authUser.getToken())) {
+				parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+					model2.put("authResponsable", authResponsable);
+					vue.addData("authResponsable", authResponsable);
+					eleve.setResponsable(authResponsable);
+				});
+			}
+		}
+		return new RedirectView();
 	}
 }
