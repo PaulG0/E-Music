@@ -34,5 +34,5 @@ build/
 
 
 ## eclipse ##
-/data/
+/data/**
 src\main\resources\static\images\prof/
