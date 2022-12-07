@@ -32,8 +32,19 @@ public class Planning {
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateDebut;
 
+
+	@DateTimeFormat(pattern = "yyy-MM-dd")
+	private LocalDate dateFin;
+
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureDebut;
+
+
+
+	private String jourSemaine;
+
+
+	private String Status;
 
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureFin;

@@ -115,6 +115,7 @@ public class devController {
 		userAdmin.setToken(token.generateToken());
 		userrepo.save(userAdmin);
 
+
 		for (int o = 0; o < nb; o++) {
 
 			// prof
@@ -185,9 +186,13 @@ public class devController {
 			// planning
 			Planning planning = new Planning();
 			planning.setCour(cour);
-			planning.setDateDebut(dateDebut.parse("2022-11-01"));
+			planning.setDateDebut(dateDebut.parse("2022-12-01"));
 			planning.setHeureDebut(heureDebut.valueOf("10:30:00"));
 			planning.setHeureFin(heureDebut.valueOf("12:00:00"));
+			planning.setStatus("ok");
+			planning.setJourSemaine("l");
+			planning.setDateFin(dateDebut.parse("2025-11-01"));
+
 			planningRepo.save(planning);
 
 			// inscrit

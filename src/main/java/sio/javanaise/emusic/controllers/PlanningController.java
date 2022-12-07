@@ -200,7 +200,7 @@ public class PlanningController {
 
 		LocalDate date = formatService.formatdate(datePlanning);
 
-		List<Planning> planning = planService.planningJour(id, date);
+		List<Planning> planning = planService.planningPeriode(id, date);
 
 		vue.addData("plannings", planning);
 

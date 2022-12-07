@@ -1,14 +1,14 @@
 {{>/include/header}}
 <div class="ui calendar" id="inline_calendar"></div>
 
-<form method="post" action="/planning/prof/{{#idProf}}{{.}}{{/idProf}}"
+<form method="post" action="./planning/prof/{{#idProf}}{{.}}{{/idProf}}"
   id="form">
   <input type="hidden" name="datePlanning" id="datePlanning">
 </form>
 
 
-
-
+{{#plannings}}{{.}}
+{{/plannings}}
 <table class="ui table">
   <thead>
     <th>heure</th>
@@ -55,7 +55,7 @@
               
               
               
-              
+
               <tr>
                 <td>13:00</td>
                 <td><div v-for="planning in plannings"
@@ -125,7 +125,6 @@
 
             </tbody>
           </table>
-
 
 
           {{>/include/footer}}

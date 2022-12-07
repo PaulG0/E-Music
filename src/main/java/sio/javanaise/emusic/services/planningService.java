@@ -15,6 +15,7 @@ import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 
+
 @Service
 public class planningService {
 
@@ -59,19 +60,22 @@ public class planningService {
 		return planningProf;
 	}
 
-	public List<Planning> planningJour(int idProf, LocalDate date) {
+	public ArrayList<Planning> planningPeriode(int idProf, LocalDate date) {
 		List<Planning> plannings = planningProf(idProf);
-		List<Planning> newPlanning = new ArrayList<>();
+		ArrayList<Planning> newPlanning = new ArrayList<>() {
+		};
 
 
 		for (Planning planning : plannings) {
-			if (planning.getDateDebut().equals(date)) {
+			//if (planning.getDateDebut().isBefore(date) &&  planning.getDateFin().isAfter(date)) {
+			if (planning.getDateDebut().isEqual(date)){
 				newPlanning.add(planning);
 			}
 		}
 
 		return newPlanning;
 	}
+
 
 
 }
