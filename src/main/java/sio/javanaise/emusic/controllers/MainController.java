@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +34,9 @@ import sio.javanaise.emusic.services.UserService;
 @Controller
 @RequestMapping({ "/", "" })
 public class MainController {
+
+	@Autowired
+	Environment environment;
 
 	@Autowired
 	private IResponsableDAO parentrepo;
@@ -107,7 +111,7 @@ public class MainController {
 					}
 				}
 			}
-			if(role.equals("[ROLE_ADMIN]")) {
+			if (role.equals("[ROLE_ADMIN]")) {
 				model2.put("authAdmin", authUser.getUsername());
 			}
 		}
@@ -116,6 +120,7 @@ public class MainController {
 		model.put("authUser", authUser);
 		model.put("signup", "");
 		model.put("login", "");
+		model.put("base", environment.getProperty("app.base"));
 		vue.addData("affichage", false);
 		vue.addData("authUser", authUser);
 		vue.addData("villeAction");
@@ -152,7 +157,7 @@ public class MainController {
 		vue.addData("authUser", authUser);
 		vue.addData("villeAction");
 		model.put("responsable", new Responsable());
-		return "index";
+		return "/index";
 	}
 
 	/*
