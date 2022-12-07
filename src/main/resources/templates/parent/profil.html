@@ -55,9 +55,15 @@
 					{{> /parent/newLogin}}
 				</div>
 			</div>
+			<div class="ui modal insEleve">
+				<div class="content">
+					{{> /parent/inscrEleve}}
+				</div>
+			</div>
 			<div class="colonne">
 				<h2 class="white">Actions sur le profil</h2>
 				<a href="./parent/add/" class="ui orange button">Ajouter un enfant</a>
+				<a class="ui orange button" onclick="insEleve()">Inscrire mon enfant à un cours</a>
 				<a class="ui blue button" onclick="edit()">Modifier mes informations</a>
 				<a class="ui blue button" onclick="editLogin()">Modifier mon login</a>
 				<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
@@ -77,7 +83,7 @@
 						Sexe : {{#sexe}}{{.}}{{/sexe}}
 					</p>
 					<p>
-						Date de naissance : {{dateNaissString}}
+						Date de naissance : {{dateNaiss}}
 					</p>
 				</div>
 			{{/authResponsable.eleves}}
@@ -85,11 +91,12 @@
 		{{/authResponsable.eleves.0}}
 	</div>
 
+
 </div>
 <div class="white boxprofil" v-if="authUser.authorities[0].authority=='ROLE_ELEVE'">
 	<h1>Profil de {{#authEleve.prenom}}{{.}}{{/authEleve.prenom}} {{#authEleve.nom}}{{.}}{{/authEleve.nom}}</h1>
 	<p>
-		Date de naissance : {{#authEleve.dateNaissString}}{{.}}{{/authEleve.dateNaissString}}
+		Date de naissance : {{#authEleve.dateNaiss}}{{.}}{{/authEleve.dateNaiss}}
 	</p>
 	<p>
 		Parent : {{#authEleve.responsable}}{{nom}} {{prenom}}{{/authEleve.responsable}}
@@ -128,6 +135,11 @@ function editPassword(){
 };
 function editLogin(){
 	$('.ui.modal.editLogin')
+	  .modal('show')
+	;
+};
+function insEleve(){
+	$('.ui.modal.insEleve')
 	  .modal('show')
 	;
 };

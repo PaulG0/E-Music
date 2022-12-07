@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,6 +27,9 @@ import sio.javanaise.emusic.repositories.IPaiementRepository;
 @RequestMapping("/paiements")
 public class PaiementController {
 
+
+	@Autowired
+	Environment environment;
 	@Autowired(required = true)
     private VueJS vue;
 
@@ -45,6 +49,7 @@ public class PaiementController {
     	
     	Iterable<Paiement> paiements = paiementRepository.findAllByOrderByDateTransmission();
     	model.put("paiements", paiements);
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/paiements/index";
@@ -59,6 +64,7 @@ public class PaiementController {
     	
     	Iterable<Paiement> paiements = paiementRepository.findByDateTransmissionBetween(theDateStart, theDateEnd);
     	model.put("paiements", paiements);
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/paiements/index";
@@ -93,7 +99,7 @@ public class PaiementController {
     		model.put("paiements", listPaiements);
     		
     	}
-    	
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/paiements/index";
@@ -126,6 +132,7 @@ public class PaiementController {
     public String editAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int id) {
     	
     	paiementRepository.findById(id).ifPresent(paiement -> model.put("paiement", paiement));
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/paiements/form";

@@ -45,5 +45,4 @@ public class Planning {
 
 	@ManyToOne
 	private Cour cour;
-
 }

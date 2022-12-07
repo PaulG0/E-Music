@@ -75,6 +75,8 @@ public class MainController {
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		Iterable<Eleve> eleves = enfantrepo.findAll();
 		Iterable<Prof> profs = profRepository.findAll();
+
+
 		if (authUser != null) {
 			String role = authUser.getAuthorities().toString();
 			if (role.equals("[ROLE_PARENT]")) {
@@ -101,6 +103,8 @@ public class MainController {
 					}
 				}
 			}
+
+
 			if (role.equals("[ROLE_PROF]")) {
 				for (Prof prof : profs) {
 					if (prof.getToken().equals(authUser.getToken())) {
@@ -142,7 +146,6 @@ public class MainController {
 				for (Responsable responsable : responsables) {
 					if (responsable.getToken().equals(authUser.getToken())) {
 						parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
-
 							model2.put("authResponsable", authResponsable);
 							vue.addData("authResponsable", authResponsable);
 						});
@@ -157,6 +160,7 @@ public class MainController {
 		model.put("authUser", authUser);
 		model.put("signup", "");
 		model.put("login", "$('.ui.modal.login').modal('show');");
+		model.put("base", environment.getProperty("app.base"));
 		vue.addData("affichage", true);
 		vue.addData("authUser", authUser);
 		vue.addData("villeAction");
@@ -164,54 +168,37 @@ public class MainController {
 		return "/index";
 	}
 
-	/*
-	 * @GetMapping("new") public String newAction(@AuthenticationPrincipal User
-	 * authUser, ModelMap model, ModelMap model2) { Iterable<Responsable>
-	 * responsables = parentrepo.findAll(); if (authUser != null) { String role =
-	 * authUser.getAuthorities().toString(); if (role.equals("[ROLE_PARENT]")) {
-	 *
-	 * for (Responsable responsable : responsables) { if
-	 * (responsable.getToken().equals(authUser.getToken())) {
-	 * parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
-	 *
-	 * model2.put("authResponsable", authResponsable);
-	 * vue.addData("authResponsable", authResponsable); });
-	 *
-	 * } }
-	 *
-	 * } }
-	 *
-	 * model.put("responsables", responsables); model.put("authUser", authUser);
-	 * model.put("signup", "$('.ui.modal.signup').modal('show');");
-	 * model.put("login", ""); vue.addData("affichage", true);
-	 * vue.addData("authUser", authUser); vue.addData("villeAction");
-	 * model.put("responsable", new Responsable()); return "index"; }
-	 */
+
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {
 		vue.addData("affichage", false);
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
+
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
+
 			return new RedirectView("");
 		}
 		if (login.length() < 5 || login.length() > 20) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
 		}
 		if (!rService.NomEstValide(responsable.getNom())) {
-			attrs.addFlashAttribute("erreurNom",
-					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			attrs.addFlashAttribute("erreurNom", "Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+
+
 			return new RedirectView("");
 		}
 		if (!rService.NomEstValide(responsable.getPrenom())) {
-			attrs.addFlashAttribute("erreurPrenom",
-					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			attrs.addFlashAttribute("erreurPrenom", "Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+
 			return new RedirectView("");
 		}
 		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisée");
+
+
 			return new RedirectView("");
 		}
 		if (!rService.EmailEstValide(responsable.getEmail())) {
@@ -223,7 +210,9 @@ public class MainController {
 			return new RedirectView("/new/");
 		}
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
+
 			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffres");
+
 			return new RedirectView("");
 		}
 		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
@@ -254,6 +243,7 @@ public class MainController {
 			RedirectAttributes attrs) {
 		session.invalidate();
 		return new RedirectView("/e-music");
+
 	}
 
 	@GetMapping("personnel")
@@ -262,6 +252,7 @@ public class MainController {
 		model.put("profs", profs);
 		model.put("responsable", new Responsable());
 		vue.addData("villeAction");
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/main/personnel";
@@ -275,6 +266,7 @@ public class MainController {
 
 		model.put("responsable", new Responsable());
 		vue.addData("villeAction");
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/main/find";

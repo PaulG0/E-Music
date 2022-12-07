@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +35,10 @@ import sio.javanaise.emusic.ui.UIMessage;
 @Controller
 @RequestMapping({ "/planning", "/planning/" })
 public class PlanningController {
+
+
+	@Autowired
+	Environment environment;
 
 	@Autowired
 	private IProfRepository profRepository;
@@ -69,6 +74,7 @@ public class PlanningController {
 	public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		Iterable<Planning> plannings = planningRepository.findAll();
 		model.put("plannings", plannings);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/planning/index";
@@ -81,6 +87,7 @@ public class PlanningController {
 		planningRepository.findById(id).ifPresent(planning -> model.put("planning", planning));
 		Iterable<Eleve> eleve = courService.listeleve(id);
 		model.put("eleve", eleve);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/planning/detail";
@@ -139,9 +146,12 @@ public class PlanningController {
 		Optional<Inscription> opt = inscriptionRepository.findById(id);
 		if (opt.isPresent()) {
 			Eleve eleve = opt.get().getEleve();
-			attrs.addFlashAttribute("inscrit", UIMessage
-					.error("Suppression", "Voulez vous supprimer " + eleve.getPrenom() + " " + eleve.getNom() + " ?")
-					.addLinks(new UILink("oui", "planning/delete/inscrit/force/" + id + "/" + idCour), new UILink("non", "")));
+			attrs.addFlashAttribute("inscrit",
+					UIMessage
+							.error("Suppression",
+									"Voulez vous supprimer " + eleve.getPrenom() + " " + eleve.getNom() + " ?")
+							.addLinks(new UILink("oui", "planning/delete/inscrit/force/" + id + "/" + idCour),
+									new UILink("non", "")));
 		}
 
 		return new RedirectView("../../../../planning/" + idCour);
@@ -174,8 +184,10 @@ public class PlanningController {
 
 		List<Planning> planning = planService.planningProf(id);
 
+
 		model.put("planning", planning);
 		model.put("idProf", id);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 
@@ -195,8 +207,10 @@ public class PlanningController {
 		model.put("plannings", planning);
 		model.put("idProf", id);
 		model.put("datePlanning", date);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
+
 
 		return "/planning/prof";
 

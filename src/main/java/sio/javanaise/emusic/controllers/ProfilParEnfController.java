@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,11 +23,16 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
 import sio.javanaise.emusic.models.Eleve;
+import sio.javanaise.emusic.models.Inscription;
+import sio.javanaise.emusic.models.Planning;
 import sio.javanaise.emusic.models.Responsable;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.IEleveDAO;
+import sio.javanaise.emusic.repositories.IInscriptionRepository;
+import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IResponsableDAO;
 import sio.javanaise.emusic.repositories.IUserDAO;
+import sio.javanaise.emusic.services.FormatService;
 import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
@@ -34,9 +40,10 @@ import sio.javanaise.emusic.ui.UILink;
 import sio.javanaise.emusic.ui.UIMessage;
 
 @Controller
-@RequestMapping({ "/parent/", "/parent/profil" })
+@RequestMapping({ "/parent", "/parent/", "/parent/profil" })
 public class ProfilParEnfController {
-
+	@Autowired
+	Environment environment;
 	@Autowired
 	private IResponsableDAO parentrepo;
 
@@ -46,11 +53,20 @@ public class ProfilParEnfController {
 	@Autowired
 	private IEleveDAO enfantrepo;
 
+	@Autowired
+	private IPlanningRepository planrepo;
+
+	@Autowired
+	private IInscriptionRepository inscrepo;
+
 	@Autowired()
 	private UserDetailsService uService;
 
 	@Autowired
 	private ResponsableService rService;
+
+	@Autowired
+	private FormatService fService;
 
 	@Autowired
 	private TokenGenerator tokgen;
@@ -71,8 +87,8 @@ public class ProfilParEnfController {
 		String role = authUser.getAuthorities().toString();
 		Iterable<Responsable> responsables = parentrepo.findAll();
 		Iterable<Eleve> eleves = enfantrepo.findAll();
+		Iterable<Planning> plannings = planrepo.findAll();
 		if (role.equals("[ROLE_PARENT]")) {
-
 			for (Responsable responsable : responsables) {
 				if (responsable.getToken().equals(authUser.getToken())) {
 					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
@@ -94,16 +110,9 @@ public class ProfilParEnfController {
 				}
 			}
 		}
-		if (role.equals("[ROLE_ELEVE]")) {
-			for (Eleve eleve : eleves) {
-				if (eleve.getToken().equals(authUser.getToken())) {
-					enfantrepo.findById(eleve.getId()).ifPresent(authEleve -> {
-						model2.put("authEleve", authEleve);
-						vue.addData("authEleve", authEleve);
-					});
-				}
-			}
-		}
+
+		model.put("plannings", plannings);
+
 		model.put("authUser", authUser);
 		model.put("edit", "");
 		model.put("editPassword", "");
@@ -119,7 +128,7 @@ public class ProfilParEnfController {
 		model.put("eleve", new Eleve());
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-		return "/parent/form";
+		return "./parent/form";
 	}
 
 	@Secured("ROLE_PARENT")
@@ -171,6 +180,8 @@ public class ProfilParEnfController {
 		eleve.setToken(us.getToken());
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
+
+
 		enfantrepo.save(eleve);
 		return new RedirectView("../../parent/profil");
 	}
@@ -185,13 +196,13 @@ public class ProfilParEnfController {
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le nom");
 		if (!rService.NomEstValide(responsable.getPrenom())) {
 			attrs.addFlashAttribute("erreurPrenom",
 					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le prenom");
 		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
@@ -199,27 +210,27 @@ public class ProfilParEnfController {
 		String emailResp = opt2.get().getEmail();
 		if (opt.isPresent() && !responsable.getEmail().equals(emailResp)) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le mail");
 		if (!rService.EmailEstValide(responsable.getEmail())) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le mail2");
 		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
 			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le cp");
 		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
 			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le tel1");
 		if (!rService.NuméroEstValide(responsable.getTel1())) {
 			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		System.out.println("Il passe le tel2");
 		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
@@ -230,7 +241,7 @@ public class ProfilParEnfController {
 		responsable.setToken(us.getToken());
 		parentrepo.save(responsable);
 		System.out.println("Il a sauvegarder");
-		return new RedirectView("/parent/");
+		return new RedirectView("./parent/");
 	}
 
 	@Secured("ROLE_PARENT")
@@ -240,15 +251,15 @@ public class ProfilParEnfController {
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		if ((login.length() < 5) || (login.length() > 20)) {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
-			return new RedirectView("/parent/");
+			return new RedirectView("./parent/");
 		}
 		authUser.setLogin(login);
 		userrepo.save(authUser);
-		return new RedirectView("/parent/");
+		return new RedirectView("./parent/");
 	}
 
 	@Secured("ROLE_PARENT")
@@ -265,11 +276,12 @@ public class ProfilParEnfController {
 		} else {
 			attrs.addFlashAttribute("erreurPass", "Mot de passe invalide");
 		}
-		return new RedirectView("/parent/");
+		return new RedirectView("./parent/");
 	}
 
 	@Secured("ROLE_PARENT")
-	@GetMapping("delete/")
+	@GetMapping("delete")
+
 	public RedirectView deleteAction(@AuthenticationPrincipal User authUser, ModelMap model2,
 			RedirectAttributes attrs) {
 		String role = authUser.getAuthorities().toString();
@@ -281,13 +293,13 @@ public class ProfilParEnfController {
 						model2.put("authResponsable", authResponsable);
 						attrs.addFlashAttribute("msg",
 								UIMessage.error("Suppression", "Voulez vous vraiment supprimer votre compte ?")
-										.addLinks(new UILink("oui", "/parent/delete/force/"),
-												new UILink("non", "/parent/")));
+										.addLinks(new UILink("oui", "./parent/delete/force/"),
+												new UILink("non", "./parent/")));
 					});
 				}
 			}
 		}
-		return new RedirectView("/parent/");
+		return new RedirectView("../");
 	}
 
 
@@ -317,7 +329,43 @@ public class ProfilParEnfController {
 				}
 			}
 		}
-		return new RedirectView("/index");
+		return new RedirectView("./index");
 	}
 
+	@Secured("ROLE_PARENT")
+	@PostMapping("inscription")
+	public RedirectView insAction(@ModelAttribute Inscription inscription, @ModelAttribute("eleve") Eleve eleve,
+			@ModelAttribute("planning") Planning planning) {
+		if ((fService.getAge(eleve) > planning.getCour().getAgeMin())
+				&& (fService.getAge(eleve) < planning.getCour().getAgeMAx())) {
+			for (Inscription inscr : inscrepo.findAll()) {
+				if ((inscr.getEleve() == eleve) && (inscr.getPlanning() == planning)) {
+					return new RedirectView("../parent/");
+				}
+			}
+			inscription.setEleve(eleve);
+			inscription.setPlanning(planning);
+			inscrepo.save(inscription);
+			return new RedirectView("../planning/");
+		}
+		return new RedirectView("../parent/");
+	}
+
+	@Secured("ROLE_PARENT")
+	@PostMapping("inscrPar")
+	public RedirectView insParAction(@AuthenticationPrincipal User authUser, @ModelAttribute Inscription inscription,
+			@ModelAttribute("planning") Planning planning, @ModelAttribute("dateNaissa") String dateNaissa,
+			@ModelAttribute Eleve eleve, ModelMap model2) {
+		Iterable<Responsable> responsables = parentrepo.findAll();
+		for (Responsable responsable : responsables) {
+			if (responsable.getToken().equals(authUser.getToken())) {
+				parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
+					model2.put("authResponsable", authResponsable);
+					vue.addData("authResponsable", authResponsable);
+					eleve.setResponsable(authResponsable);
+				});
+			}
+		}
+		return new RedirectView();
+	}
 }

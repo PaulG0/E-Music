@@ -3,6 +3,7 @@ package sio.javanaise.emusic.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import sio.javanaise.emusic.models.Prof;
 import sio.javanaise.emusic.models.TypeCour;
 import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
+import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.ITypeCoursRepository;
 import sio.javanaise.emusic.services.CoursService;
@@ -28,10 +30,13 @@ import sio.javanaise.emusic.services.CoursService;
 public class CoursController {
 
 	@Autowired
+	Environment environment;
+	@Autowired
+	private IPlanningRepository planningRepository;
 
+
+	@Autowired
 	private ICoursRepository courRepository;
-
-
 
 	@Autowired
 	private ITypeCoursRepository typeCoursRepository;
@@ -61,15 +66,16 @@ public class CoursController {
 		model.put("cour", new Cour());
 		model.put("typeCours", typeCours);
 		model.put("profs", profs);
-		
+
 		vue.addData("cours", courRepository.findAll());
 		vue.addData("coursEdit");
 		vue.addData("idProf");
 		vue.addData("idTypeCours");
-		
-		vue.addMethod("popupEditCours", "this.coursEdit=coursEdit; this.idProf=idProf; this.idTypeCours=idTypeCours", 
+
+		vue.addMethod("popupEditCours", "this.coursEdit=coursEdit; this.idProf=idProf; this.idTypeCours=idTypeCours",
 				"coursEdit, idProf, idTypeCours");
-		
+
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/indexCours";
@@ -81,6 +87,7 @@ public class CoursController {
 	public String detailCoursCAction(@AuthenticationPrincipal User authUser, @PathVariable int id, ModelMap model,
 			ModelMap model2) {
 		courRepository.findById(id).ifPresent(cour -> model.put("cour", cour));
+		model.put("base", environment.getProperty("app.base"));
 		model2.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/detail";
@@ -92,22 +99,22 @@ public class CoursController {
 	@PostMapping("/new")
 	public RedirectView newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute Cour cour) {
-		
+
 		Optional<Cour> opt = courRepository.findById(cour.getId());
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-		if(opt.isPresent()) {
-			
-			if(cour.getProf() == null) {
+		if (opt.isPresent()) {
+
+			if (cour.getProf() == null) {
 				cour.setProf(opt.get().getProf());
 			}
 
-			if(cour.getTypeCour() == null) {
+			if (cour.getTypeCour() == null) {
 				cour.setTypeCour(opt.get().getTypeCour());
 			}
-			
+
 		}
-		
+
 		courRepository.save(cour);
 		return new RedirectView("../cours");
 
@@ -123,6 +130,7 @@ public class CoursController {
 		courRepository.findById(id).ifPresent(cour -> model.put("cour", cour));
 		model2.put("typeCours", typeCours);
 		model3.put("profs", profs);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/formCours";

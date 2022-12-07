@@ -40,6 +40,7 @@ public class Facture {
 
 
 	@JsonIgnore
+
 	@OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
 	private List<Paiement> paiements = new ArrayList<>();
 

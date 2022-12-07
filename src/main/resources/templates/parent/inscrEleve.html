@@ -1,0 +1,22 @@
+<h1 class="ui header white">Modifier mon login</h1>
+<div class="ui segment">
+	<form method="post" class="ui form validForm" action="./parent/inscription">
+		<div>
+			<div>
+				<label>*Eleve </label>
+				<select name="eleve">
+   					{{#authResponsable.eleves}}
+						<option value="{{id}}">{{nom}} {{prenom}}</option>
+					{{/authResponsable.eleves}}
+				</select>
+				<label>*Planning </label>
+				<select name="planning">
+   					{{#plannings}}
+						<option value="{{id}}">{{cour.libelle}} le {{dateDebut}} à {{heureDebut}} jusqu'à {{heureFin}} avec {{cour.prof.nom}}</option>
+					{{/plannings}}
+				</select>
+			</div>
+		</div>
+		<button class="ui button" type="submit">Valider</button>
+	</form>
+</div>

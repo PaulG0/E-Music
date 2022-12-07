@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +30,9 @@ import sio.javanaise.emusic.repositories.IInscriptionRepository;
 @RequestMapping("/factures")
 public class FactureController {
 
+
+	@Autowired
+	Environment environment;
 	@Autowired(required = true)
     private VueJS vue;
 
@@ -54,6 +58,7 @@ public class FactureController {
     	
     	Iterable<Facture> factures = factureRepository.findAllByOrderByDateFacture();
     	model.put("factures", factures);
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/factures/index";
@@ -68,6 +73,7 @@ public class FactureController {
     	
     	Iterable<Facture> factures = factureRepository.findByDateFactureBetween(theDateStart, theDateEnd);
     	model.put("factures", factures);
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/factures/index";
@@ -101,7 +107,7 @@ public class FactureController {
         	model.put("factures", listFactures);	
     		
     	}
-    	
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/factures/index";
@@ -125,7 +131,8 @@ public class FactureController {
     		
 		}
     	
-    	model.put("factures", listFactures);	
+    	model.put("factures", listFactures);
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	
@@ -137,6 +144,7 @@ public class FactureController {
     public String detailAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idEleve, @PathVariable int id) {
     	
     	factureRepository.findById(id).ifPresent(facture -> model.put("facture", facture));
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "/factures/detail";
@@ -148,6 +156,7 @@ public class FactureController {
     	
     	inscriptionRepository.findById(idinscription).ifPresent(inscription -> model2.put("inscription", inscription));
     	model.put("facture", new Facture());
+		model.put("base", environment.getProperty("app.base"));
     	model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
     	return "factures/form";
