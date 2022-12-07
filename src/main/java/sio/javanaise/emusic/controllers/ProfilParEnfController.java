@@ -116,6 +116,7 @@ public class ProfilParEnfController {
 		model.put("authUser", authUser);
 		model.put("edit", "");
 		model.put("editPassword", "");
+		model.put("base", environment.getProperty("app.base"));
 		vue.addData("authUser", authUser);
 		vue.addData("infoAff", false);
 		vue.addData("modPass", false);
