@@ -27,6 +27,7 @@ public class Responsable {
 
 	private String nom;
 	private String prenom;
+	private String civilite;
 	private String adresse;
 	private String ville;
 	private String code_postal;
@@ -36,7 +37,8 @@ public class Responsable {
 	private String tel2;
 	private String tel3;
 	private String token;
-	
+
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL)
 	private List<Eleve> eleves = new ArrayList<>();

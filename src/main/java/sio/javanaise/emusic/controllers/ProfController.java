@@ -3,6 +3,7 @@ package sio.javanaise.emusic.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +24,8 @@ import sio.javanaise.emusic.services.UserService;
 @Controller
 @RequestMapping("/profs")
 public class ProfController {
-
+	@Autowired
+	Environment environment;
 	@Autowired(required = true)
     private VueJS vue;
 
@@ -97,7 +99,7 @@ public class ProfController {
     
     @PostMapping("/edit")
     public RedirectView editAction(@ModelAttribute Prof prof, RedirectAttributes attrs) {
-    	
+
 		if (!rService.NomEstValide(prof.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");

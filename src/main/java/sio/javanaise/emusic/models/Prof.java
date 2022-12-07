@@ -31,7 +31,7 @@ public class Prof {
 	private String prenom;
 
 	private String email;
-	
+
 	private String token;
 
 	@JsonIgnore

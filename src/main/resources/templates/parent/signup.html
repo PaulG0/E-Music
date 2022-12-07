@@ -1,53 +1,29 @@
-<h1 class="ui header white">Créer un compte parent</h1>
-{{#responsable}}
-<div class="ui segment black">
-
-	<form method="post" class="ui form validForm" action="./new">
+<h1 class="ui header white">Modifier mes informations</h1>
+{{#authResponsable}}
+<div class="ui segment">
+	<form method="post" class="ui form validForm" action="/parent/edit">
 	<input type="hidden" name="id" value="{{id}}">
 		<div>
 			<div class="field">
-				<label>*Login (nom d'utilisateur) :</label>
-
-
-				<input type="text" required="required" name="login" value="{{#authUser.login}}{{.}}{{/authUser.login}}">
-			</div>
-			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
-			<div>
-				<input type="radio" name="civilite" value="Mr" checked>
-				<label>Mr</label>
-				<input type="radio" name="civilite" value="Mme" checked>
-				<label>Mme</label>
-				<input type="radio" name="civilite" value="Mlle" checked>
-				<label>Mlle</label>
-			</div>
-			<div class="field">
-
-
-				<label>*Nom :</label>
+				<label>*Nom : </label>
 				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
 			</div>
 			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
-
-				<label>*Prénom :</label>
-
+				<label>*Prenom (Les noms composés doivent etre séparés par des -): </label>
 				<input type="text" required="required" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
 			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
-
-
-				<label>*Adresse :</label>
+				<label>*Adresse : </label>
 				<input type="text" required="required" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
 			</div>
 			<div class="field">
-				<label>*Ville (si vous habitez à Ifs, indiquez votre quotient familial) :</label>
-				<input v-model="villeAction" type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
+				<label>*Ville (Si vous habitez à Ifs, vous indiquerez votre quotient famillial):</label>
+				<input  v-model="villeAction" type="text" required="required" name="ville" value="{{#ville}}{{.}}{{/ville}}">
 			</div>
 			<div class="field" v-if="villeAction=='ifs' || villeAction=='Ifs' || villeAction=='IFS'">
-				<label>Quotient familial :</label>
-
-
+				<label>Quotient familiale</label>
 				<input type="text" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
 			</div>
 			<div class="field">
@@ -56,36 +32,22 @@
 			</div>
 			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
-
-
-				<label>*Adresse courriel :</label>
-
-
+				<label>*Adresse couriel</label>
 				<input type="email" required="required" name="email" value="{{#email}}{{.}}{{/email}}">
 			</div>
 			<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
-			<div class="field">
-
-
-				<label>*Mot de passe (au minimum 8 caractères) :</label>
-
-				<input type="password" required="required" name="password" value={{#authUser.password}}{{.}}{{/authUser.password}}>
-			</div>
-			<div class="erreur">{{#erreurPassword}}{{.}}{{/erreurPassword}}</div>
 			<div class="field" >
-
-				<label>*Numéro de téléphone :</label>
-
+				<label>*Numero de téléphone</label>
 				<input type="text" required="required" name="tel1" value={{#tel1}}{{.}}{{/tel1}}>
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 			<div class="field">
-				<label>Numéro de téléphone (optionnel) :</label>
+				<label>Numero de téléphone(optionnel)</label>
 				<input type="text" name="tel2" value={{#tel2}}{{.}}{{/tel2}}>
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
 			<div class="field">
-				<label>Numéro de téléphone (optionnel) :</label>
+				<label>Numero de téléphone(optionnel)</label>
 				<input type="text" name="tel3" value={{#tel3}}{{.}}{{/tel3}}>
 			</div>
 			<div class="erreur">{{#erreurTel}}{{.}}{{/erreurTel}}</div>
@@ -93,7 +55,7 @@
 		<button class="ui button" type="submit">Valider</button>
 	</form>
 </div>
-{{/responsable}}
+{{/authResponsable}}
 <script>
 $(function(){
 	$('.validForm')
@@ -105,16 +67,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'email',
-		            prompt : 'Veuillez entrer un email valide'
-		          }
-		        ]
-		      },
-		  login: {
-		        identifier  : 'login',
-		        rules: [
-		          {
-		            type   : 'empty',
-		            prompt : 'Veuillez entrer un login valide'
+		            prompt : 'Veillez entrer un email valide'
 		          }
 		        ]
 		      },
@@ -123,7 +76,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer un nom valide'
+		            prompt : 'Veillez entrer un nom valide'
 		          }
 		        ]
 		      },
@@ -132,7 +85,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer un prénom valide'
+		            prompt : 'Veillez entrer un prenom valide'
 		          }
 		        ]
 		      },
@@ -141,7 +94,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer une adresse valide'
+		            prompt : 'Veillez entrer une adresse valide'
 		          }
 		        ]
 		      },
@@ -150,7 +103,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer une ville valide'
+		            prompt : 'Veillez entrer une ville valide'
 		          }
 		        ]
 		      },
@@ -159,16 +112,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer un code postal valide'
-		          }
-		        ]
-		      },
-		  password: {
-		        identifier  : 'password',
-		        rules: [
-		          {
-		            type   : 'empty',
-		            prompt : 'Veuillez entrer un mot de passe valide'
+		            prompt : 'Veillez entrer un code valide'
 		          }
 		        ]
 		      },
@@ -177,7 +121,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer une valeur valide'
+		            prompt : 'Veillez entrer une valeur valide'
 		          }
 		        ]
 		      },
@@ -186,7 +130,7 @@ $(function(){
 		        rules: [
 		          {
 		            type   : 'empty',
-		            prompt : 'Veuillez entrer un numéro de téléphone valide'
+		            prompt : 'Veillez entrer un login valide'
 		          }
 		        ]
 		      }

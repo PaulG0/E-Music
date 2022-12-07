@@ -1,0 +1,15 @@
+<h1 class="ui header white">Modifier mon login</h1>
+{{#authUser}}
+<div class="ui segment">
+	<form method="post" class="ui form validForm" action="/parent/editLogin">
+	<input type="hidden" name="id" value="{{id}}">
+		<div>
+			<div class="ui form">
+				<label>*Login : </label>
+				<input type="text" required="required" name="login" value="{{#authUser.login}}{{.}}{{/authUser.login}}">
+			</div class="ui form">
+		</div>
+		<button class="ui button" type="submit">Valider</button>
+	</form>
+</div>
+{{/authUser}}

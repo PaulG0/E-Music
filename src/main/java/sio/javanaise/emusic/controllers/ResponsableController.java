@@ -3,6 +3,7 @@ package sio.javanaise.emusic.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -34,8 +35,10 @@ import sio.javanaise.emusic.services.UserService;
 public class ResponsableController {
 
 	@Autowired(required = true)
-    private VueJS vue;
+	private VueJS vue;
 
+	@Autowired
+	Environment environment;
     @ModelAttribute("vue")
     public VueJS getVue() {
         return this.vue;
@@ -64,51 +67,55 @@ public class ResponsableController {
     
     @Autowired
 	private TokenGenerator tokgen;
-	
-    @GetMapping("")
+
+
+	@GetMapping("")
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
-		
-    	vue.addData("messageOption");
-    	vue.addData("membre");
-    	vue.addData("user");
-    	vue.addData("toDelete");
-    	vue.addData("unRole");
-    	vue.addData("villeAction");
-    	vue.addData("idResponsable");
-    	vue.addData("dateNaissEleve");
-    	vue.addData("users", userrepo.findAll());
-    	vue.addData("responsables", responsablerepo.findAll());
-    	vue.addData("eleves", eleverepo.findAll());
-    	vue.addData("profs", profRepository.findAll());
-    	Iterable<Responsable> responsables = responsablerepo.findAll();
-    	Iterable<Eleve> eleves = eleverepo.findAll();
-    	Iterable<Prof> profs = profRepository.findAll();
-    	
-    	vue.addMethod("confMessageOption", "this.messageOption=membre; this.unRole=unRole;", "membre, unRole");
-    	vue.addMethod("popupDelete", "this.toDelete=membre;"
-				+ responsableService.modalDelete() + ";", "membre");
-    	vue.addMethod("popupSuspendre", "this.membre=membre; this.user=user;"
-    			+ responsableService.modalSuspendre() + ";", "membre, user");
-    	
-    	model.put("responsables", responsables);
-    	model.put("responsable", new Responsable());
-    	model.put("eleves", eleves);
-    	model.put("eleve", new Eleve());
-    	model.put("profs", profs);
-    	model.put("prof", new Prof());
-    	
-    	model.put("authUser", authUser);
+
+
+		vue.addData("messageOption");
+		vue.addData("membre");
+		vue.addData("user");
+		vue.addData("toDelete");
+		vue.addData("unRole");
+		vue.addData("villeAction");
+		vue.addData("idResponsable");
+		vue.addData("dateNaissEleve");
+		vue.addData("users", userrepo.findAll());
+		vue.addData("responsables", responsablerepo.findAll());
+		vue.addData("eleves", eleverepo.findAll());
+		vue.addData("profs", profRepository.findAll());
+		Iterable<Responsable> responsables = responsablerepo.findAll();
+		Iterable<Eleve> eleves = eleverepo.findAll();
+		Iterable<Prof> profs = profRepository.findAll();
+
+		vue.addMethod("confMessageOption", "this.messageOption=membre; this.unRole=unRole;", "membre, unRole");
+		vue.addMethod("popupDelete", "this.toDelete=membre;" + responsableService.modalDelete() + ";", "membre");
+		vue.addMethod("popupSuspendre",
+				"this.membre=membre; this.user=user;" + responsableService.modalSuspendre() + ";", "membre, user");
+
+		model.put("responsables", responsables);
+		model.put("responsable", new Responsable());
+		model.put("eleves", eleves);
+		model.put("eleve", new Eleve());
+		model.put("profs", profs);
+		model.put("prof", new Prof());
+
+
+		model.put("base", environment.getProperty("app.base"));
+		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-    	
+
+
 		return "/responsables/index";
-		
+
 	}
-    
-    @PostMapping("/new")
-    public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
+
+	@PostMapping("/new")
+	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {
-    	
-    	vue.addData("affichage", false);
+
+		vue.addData("affichage", false);
 		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
@@ -156,7 +163,7 @@ public class ResponsableController {
 				&& !responsable.getVille().equals("IFS")) {
 			responsable.setQuotient_familial(null);
 		}
-		if(responsable.getToken() == null) {
+		if (responsable.getToken() == null) {
 			String token = tokgen.generateToken(login);
 			User us = ((UserService) uService).createUser(login, password);
 			us.setAuthorities("PARENT");
@@ -166,13 +173,13 @@ public class ResponsableController {
 		}
 		responsablerepo.save(responsable);
 		return new RedirectView("../responsables");
-    	
-    }
-    
-    @PostMapping("/edit")
-    public RedirectView editAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
-    	
-    	vue.addData("affichage", false);
+
+	}
+
+	@PostMapping("/edit")
+	public RedirectView editAction(@ModelAttribute Responsable responsable, RedirectAttributes attrs) {
+
+		vue.addData("affichage", false);
 		if (!rService.NomEstValide(responsable.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
 					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent etre séparés par des -");
@@ -212,48 +219,48 @@ public class ResponsableController {
 		responsable.setToken(opt2.get().getToken());
 		responsablerepo.save(responsable);
 		return new RedirectView("../responsables");
-    	
-    }
-    
-    @GetMapping("/delete/{role}/{id}")
-    public RedirectView deleteAction(@PathVariable String role, @PathVariable int id) {
-    	
-    	if(role.equals("prof")) {
-    		
-    		profRepository.deleteById(id);
-    		
-    	} else if(role.equals("parent")) {
-    		
-    		responsablerepo.deleteById(id);
-    		
-    	} else if(role.equals("eleve")) {
-    		
-    		eleverepo.deleteById(id);
-    		
-    	}
-    	return new RedirectView("../../../responsables");
-    	
-    }
-    
-    @GetMapping("/suspendre/{id}")
-    public RedirectView suspendreAction(@PathVariable int id) {
-    	
-    	Optional<User> opt = userrepo.findById(id);
-    	
-    	if(opt.isPresent()) {
-    		
-    		if(opt.get().isSuspended() == true) {
-    			opt.get().setSuspended(false);
-    		} else {
-    			opt.get().setSuspended(true);
-    		}
-    		
-    		userrepo.save(opt.get());
-    		
-    	}
-    	
-    	return new RedirectView("../../responsables");
-    	
-    }
-	
+
+	}
+
+	@GetMapping("/delete/{role}/{id}")
+	public RedirectView deleteAction(@PathVariable String role, @PathVariable int id) {
+
+		if (role.equals("prof")) {
+
+			profRepository.deleteById(id);
+
+		} else if (role.equals("parent")) {
+
+			responsablerepo.deleteById(id);
+
+		} else if (role.equals("eleve")) {
+
+			eleverepo.deleteById(id);
+
+		}
+		return new RedirectView("../../../responsables");
+
+	}
+
+	@GetMapping("/suspendre/{id}")
+	public RedirectView suspendreAction(@PathVariable int id) {
+
+		Optional<User> opt = userrepo.findById(id);
+
+		if (opt.isPresent()) {
+
+			if (opt.get().isSuspended() == true) {
+				opt.get().setSuspended(false);
+			} else {
+				opt.get().setSuspended(true);
+			}
+
+			userrepo.save(opt.get());
+
+		}
+
+		return new RedirectView("../../responsables");
+
+	}
+
 }

@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -49,13 +50,14 @@ public class devController {
 	private Time heureDebut;
 
 	private Time duree;
-
+	@Autowired
+	Environment environment;
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate date_naissance;
 
 	@Autowired
 	private IUserDAO userrepo;
-	
+
 	@Autowired
 	private IProfRepository profRepo;
 
@@ -88,7 +90,8 @@ public class devController {
 
 	@Autowired
 	private TokenGenerator token;
-	
+
+
 	@Autowired
 	private UserDetailsService uService;
 
@@ -96,19 +99,22 @@ public class devController {
 	private @ResponseBody String ajoutData(@PathVariable int nb) {
 
 		// type de Cour
+
 		TypeCour typeCour1 = new TypeCour(TypeCourEnum.Collectif);
 		typeCour1.setId(1);
 		typeCourRepo.save(typeCour1);
 		TypeCour typeCour2 = new TypeCour(TypeCourEnum.Individuel);
 		typeCour2.setId(2);
 		typeCourRepo.save(typeCour2);
+
 		
 		//admin
+
 		User userAdmin = ((UserService) uService).createUser("Admin", "Admin");
 		userAdmin.setAuthorities("ADMIN");
 		userAdmin.setToken(token.generateToken());
 		userrepo.save(userAdmin);
-		
+
 		for (int o = 0; o < nb; o++) {
 
 			// prof
@@ -173,6 +179,7 @@ public class devController {
 			cour.setNbPlace(5);
 			cour.setProf(prof);
 			cour.setTypeCour(typeCour1);
+
 			courRepo.save(cour);
 
 			// planning
