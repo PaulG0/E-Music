@@ -3,6 +3,7 @@ package sio.javanaise.emusic.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,8 @@ public class ResponsableController {
 	@Autowired(required = true)
 	private VueJS vue;
 
-
+	@Autowired
+	Environment environment;
     @ModelAttribute("vue")
     public VueJS getVue() {
         return this.vue;
@@ -99,11 +101,11 @@ public class ResponsableController {
 		model.put("profs", profs);
 		model.put("prof", new Prof());
 
+
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 
-		model.put("authUser", authUser);
-		vue.addData("authUser", authUser);
 
 		return "/responsables/index";
 

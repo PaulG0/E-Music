@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +35,10 @@ import sio.javanaise.emusic.ui.UIMessage;
 @Controller
 @RequestMapping({ "/planning", "/planning/" })
 public class PlanningController {
+
+
+	@Autowired
+	Environment environment;
 
 	@Autowired
 	private IProfRepository profRepository;
@@ -69,6 +74,7 @@ public class PlanningController {
 	public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		Iterable<Planning> plannings = planningRepository.findAll();
 		model.put("plannings", plannings);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/planning/index";
@@ -81,6 +87,7 @@ public class PlanningController {
 		planningRepository.findById(id).ifPresent(planning -> model.put("planning", planning));
 		Iterable<Eleve> eleve = courService.listeleve(id);
 		model.put("eleve", eleve);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/planning/detail";
@@ -180,6 +187,7 @@ public class PlanningController {
 
 		model.put("planning", planning);
 		model.put("idProf", id);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 
@@ -199,6 +207,7 @@ public class PlanningController {
 		model.put("plannings", planning);
 		model.put("idProf", id);
 		model.put("datePlanning", date);
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 

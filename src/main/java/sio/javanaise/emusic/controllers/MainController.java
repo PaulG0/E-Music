@@ -160,6 +160,7 @@ public class MainController {
 		model.put("authUser", authUser);
 		model.put("signup", "");
 		model.put("login", "$('.ui.modal.login').modal('show');");
+		model.put("base", environment.getProperty("app.base"));
 		vue.addData("affichage", true);
 		vue.addData("authUser", authUser);
 		vue.addData("villeAction");
@@ -251,6 +252,7 @@ public class MainController {
 		model.put("profs", profs);
 		model.put("responsable", new Responsable());
 		vue.addData("villeAction");
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/main/personnel";
@@ -264,6 +266,7 @@ public class MainController {
 
 		model.put("responsable", new Responsable());
 		vue.addData("villeAction");
+		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/main/find";

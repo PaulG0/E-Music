@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -41,7 +42,8 @@ import sio.javanaise.emusic.ui.UIMessage;
 @Controller
 @RequestMapping({ "/parent", "/parent/", "/parent/profil" })
 public class ProfilParEnfController {
-
+	@Autowired
+	Environment environment;
 	@Autowired
 	private IResponsableDAO parentrepo;
 
