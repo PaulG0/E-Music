@@ -32,7 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### spring "##
 
-## eclipse ##
-/data/
-src\main\resources\static\images\prof/
+/data/**
+src\main\resources\static\images\prof/**

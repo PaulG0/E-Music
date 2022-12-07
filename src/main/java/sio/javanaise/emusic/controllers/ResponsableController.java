@@ -36,34 +36,36 @@ public class ResponsableController {
 	@Autowired(required = true)
 	private VueJS vue;
 
-	@ModelAttribute("vue")
-	public VueJS getVue() {
-		return this.vue;
-	}
 
-	@Autowired
+    @ModelAttribute("vue")
+    public VueJS getVue() {
+        return this.vue;
+    }
+    
+    @Autowired
 	private IUserDAO userrepo;
-
-	@Autowired
-	private IResponsableDAO responsablerepo;
-
-	@Autowired
-	private IEleveRepository eleverepo;
-
-	@Autowired
-	private IProfRepository profRepository;
-
-	@Autowired
-	private UIResponsableService responsableService;
-
-	@Autowired
+    
+    @Autowired
+    private IResponsableDAO responsablerepo;
+    
+    @Autowired
+    private IEleveRepository eleverepo;
+    
+    @Autowired
+    private IProfRepository profRepository;
+    
+    @Autowired
+    private UIResponsableService responsableService;
+    
+    @Autowired
 	private ResponsableService rService;
-
-	@Autowired
+    
+    @Autowired
 	private UserDetailsService uService;
-
-	@Autowired
+    
+    @Autowired
 	private TokenGenerator tokgen;
+
 
 	@GetMapping("")
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {

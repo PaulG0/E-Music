@@ -28,12 +28,10 @@ import sio.javanaise.emusic.services.CoursService;
 @RequestMapping({ "/cours", "/cours/" })
 public class CoursController {
 
-	@Autowired
-
-	private ICoursRepository courRepo;
 
 	@Autowired
 	private IPlanningRepository planningRepository;
+
 
 	@Autowired
 	private ICoursRepository courRepository;

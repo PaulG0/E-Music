@@ -89,6 +89,7 @@ public class devController {
 	@Autowired
 	private TokenGenerator token;
 
+
 	@Autowired
 	private UserDetailsService uService;
 
@@ -96,15 +97,16 @@ public class devController {
 	private @ResponseBody String ajoutData(@PathVariable int nb) {
 
 		// type de Cour
-		TypeCour typeCour = new TypeCour(TypeCourEnum.Individuel);
-		typeCour.setId(2);
-		typeCourRepo.save(typeCour);
-		typeCour = new TypeCour(TypeCourEnum.Collectif);
-		typeCour.setId(1);
-		typeCourRepo.save(typeCour);
 
+		TypeCour typeCour1 = new TypeCour(TypeCourEnum.Collectif);
+		typeCour1.setId(1);
+		typeCourRepo.save(typeCour1);
+		TypeCour typeCour2 = new TypeCour(TypeCourEnum.Individuel);
+		typeCour2.setId(2);
+		typeCourRepo.save(typeCour2);
 
-		// admin
+		
+		//admin
 
 		User userAdmin = ((UserService) uService).createUser("Admin", "Admin");
 		userAdmin.setAuthorities("ADMIN");
@@ -174,7 +176,8 @@ public class devController {
 			cour.setLibelle(fake.music().genre());
 			cour.setNbPlace(5);
 			cour.setProf(prof);
-			cour.setTypeCour(typeCour);
+			cour.setTypeCour(typeCour1);
+
 			courRepo.save(cour);
 
 			// planning

@@ -8,10 +8,12 @@
 			<div class="field">
 				<label>*Login (nom d'utilisateur) :</label>
 
+
 				<input type="text" required="required" name="login" value="{{#authUser.login}}{{.}}{{/authUser.login}}">
 			</div>
 			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
 			<div class="field">
+
 
 				<label>*Nom :</label>
 				<input type="text" required="required" name="nom" value="{{#nom}}{{.}}{{/nom}}">
@@ -19,12 +21,13 @@
 			<div class="erreur">{{#erreurNom}}{{.}}{{/erreurNom}}</div>
 			<div class="field">
 
-				<label>*Prenom (Les noms composés doivent etre séparés par des -): </label>
+				<label>*Prénom :</label>
 
 				<input type="text" required="required" name="prenom" value="{{#prenom}}{{.}}{{/prenom}}">
 			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
+
 
 				<label>*Adresse :</label>
 				<input type="text" required="required" name="adresse" value="{{#adresse}}{{.}}{{/adresse}}">
@@ -36,6 +39,7 @@
 			<div class="field" v-if="villeAction=='ifs' || villeAction=='Ifs' || villeAction=='IFS'">
 				<label>Quotient familial :</label>
 
+
 				<input type="text" required="required" name="quotient_familial" value={{#quotient_familial}}{{.}}{{/quotient_familial}}>
 			</div>
 			<div class="field">
@@ -45,12 +49,15 @@
 			<div class="erreur">{{#erreurCode}}{{.}}{{/erreurCode}}</div>
 			<div class="field">
 
+
 				<label>*Adresse courriel :</label>
+
 
 				<input type="email" required="required" name="email" value="{{#email}}{{.}}{{/email}}">
 			</div>
 			<div class="erreur">{{#erreurEmail}}{{.}}{{/erreurEmail}}</div>
 			<div class="field">
+
 
 				<label>*Mot de passe (au minimum 8 caractères) :</label>
 

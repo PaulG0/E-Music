@@ -63,6 +63,7 @@ public class planningService {
 		List<Planning> plannings = planningProf(idProf);
 		List<Planning> newPlanning = new ArrayList<>();
 
+
 		for (Planning planning : plannings) {
 			if (planning.getDateDebut().equals(date)) {
 				newPlanning.add(planning);

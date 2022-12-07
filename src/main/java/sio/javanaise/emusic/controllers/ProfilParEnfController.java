@@ -179,9 +179,11 @@ public class ProfilParEnfController {
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
 
+
 		enfantrepo.save(eleve);
 		return new RedirectView("../../parent/profil");
 	}
+
 
 	@Secured("ROLE_PARENT")
 	@PostMapping("edit")
@@ -277,6 +279,7 @@ public class ProfilParEnfController {
 
 	@Secured("ROLE_PARENT")
 	@GetMapping("delete")
+
 	public RedirectView deleteAction(@AuthenticationPrincipal User authUser, ModelMap model2,
 			RedirectAttributes attrs) {
 		String role = authUser.getAuthorities().toString();
@@ -296,6 +299,7 @@ public class ProfilParEnfController {
 		}
 		return new RedirectView("../");
 	}
+
 
 	@Secured("ROLE_PARENT")
 	@GetMapping("delete/force")

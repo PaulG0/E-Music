@@ -31,6 +31,7 @@ public class WebSecurityConfig {
 		http.authorizeRequests()
 				.antMatchers("/", "/e-music", "/data/**", "/personnel", "/find", "/parent/**", "/images/**",
 						"/css/**", "/index", "/new/", "/new", "/h2-console/**", "/webjars/**")
+
 				.permitAll() // (3)
 				.antMatchers("/parent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PROF", "ROLE_PARENT", "ROLE_ELEVE")
 				.anyRequest().authenticated() // (4)
