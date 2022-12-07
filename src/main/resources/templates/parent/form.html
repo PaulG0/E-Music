@@ -15,6 +15,12 @@
 				<label>*Prenom :</label>
 				<input type="text" required="required" name="prenom" value={{#prenom}}{{.}}{{/prenom}}>
 			</div>
+			<div class="field">
+				<select class="ui selection dropdown" name="sexe">
+					<option value="garçon">Garçon</option>
+					<option value="fille">Fille</option>
+				</select>
+			</div>
 			<div class="erreur">{{#erreurPrenom}}{{.}}{{/erreurPrenom}}</div>
 			<div class="field">
 				<label>*Mot de passe (de votre enfant)</label>

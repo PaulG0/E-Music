@@ -102,6 +102,7 @@ public class devController {
 		TypeCour typeCour2 = new TypeCour(TypeCourEnum.Individuel);
 		typeCour2.setId(2);
 		typeCourRepo.save(typeCour2);
+
 		
 		//admin
 		User userAdmin = ((UserService) uService).createUser("Admin", "Admin");
@@ -173,6 +174,7 @@ public class devController {
 			cour.setNbPlace(5);
 			cour.setProf(prof);
 			cour.setTypeCour(typeCour1);
+
 			courRepo.save(cour);
 
 			// planning

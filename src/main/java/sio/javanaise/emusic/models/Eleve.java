@@ -32,16 +32,17 @@ public class Eleve {
 
 	private String nom;
 	private String prenom;
+	private String sexe;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateNaiss;
 
 
-
 	private String token;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "eleve", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToMany(mappedBy = "eleve", cascade = CascadeType.ALL)
+
 	private List<Inscription> inscrits = new ArrayList<>();
 
 	@ManyToOne(optional = true)

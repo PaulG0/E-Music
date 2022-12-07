@@ -7,8 +7,10 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +55,9 @@ public class ProfilParEnfController {
 	@Autowired
 	private TokenGenerator tokgen;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Autowired(required = true)
 	private VueJS vue;
 
@@ -73,6 +78,18 @@ public class ProfilParEnfController {
 					parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
 						model2.put("authResponsable", authResponsable);
 						vue.addData("authResponsable", authResponsable);
+
+						vue.addData("villeAction", authResponsable.getVille());
+					});
+				}
+			}
+		}
+		if (role.equals("[ROLE_ELEVE]")) {
+			for (Eleve eleve : eleves) {
+				if (eleve.getToken().equals(authUser.getToken())) {
+					enfantrepo.findById(eleve.getId()).ifPresent(authEleve -> {
+						model2.put("authEleve", authEleve);
+						vue.addData("authEleve", authEleve);
 					});
 				}
 			}
@@ -88,10 +105,15 @@ public class ProfilParEnfController {
 			}
 		}
 		model.put("authUser", authUser);
+		model.put("edit", "");
+		model.put("editPassword", "");
 		vue.addData("authUser", authUser);
+		vue.addData("infoAff", false);
+		vue.addData("modPass", false);
 		return "/parent/profil";
 	}
 
+	@Secured("ROLE_PARENT")
 	@GetMapping("add")
 	public String addAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		model.put("eleve", new Eleve());
@@ -100,6 +122,7 @@ public class ProfilParEnfController {
 		return "/parent/form";
 	}
 
+	@Secured("ROLE_PARENT")
 	@PostMapping("add")
 	public RedirectView addAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute("dateNaissa") String dateNaissa, @ModelAttribute Eleve eleve,
@@ -152,6 +175,100 @@ public class ProfilParEnfController {
 		return new RedirectView("../../parent/profil");
 	}
 
+
+	@Secured("ROLE_PARENT")
+	@PostMapping("edit")
+	public RedirectView editAction(@AuthenticationPrincipal User authUser, @ModelAttribute Responsable responsable,
+			RedirectAttributes attrs) {
+		System.out.println("L'erreur est au debut");
+		User us = authUser;
+		if (!rService.NomEstValide(responsable.getNom())) {
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le nom");
+		if (!rService.NomEstValide(responsable.getPrenom())) {
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veillez n'utiliser que des lettres latines, mettez une majuscule au debut. Les noms composés doivent etre séparés par des -");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le prenom");
+		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
+		Optional<Responsable> opt2 = parentrepo.findById(responsable.getId());
+		String emailResp = opt2.get().getEmail();
+		if (opt.isPresent() && !responsable.getEmail().equals(emailResp)) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email deja utilisée");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le mail");
+		if (!rService.EmailEstValide(responsable.getEmail())) {
+			attrs.addFlashAttribute("erreurEmail", "Adresse email invalide");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le mail2");
+		if (!rService.CodePostalEstValide(responsable.getCode_postal())) {
+			attrs.addFlashAttribute("erreurCode", "Votre code postal doit contenir 5 chiffre");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le cp");
+		if (responsable.getTel1().equals("") || responsable.getTel1() == null) {
+			attrs.addFlashAttribute("erreurTel", "Vous devez renseigner un numéro de téléphone");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le tel1");
+		if (!rService.NuméroEstValide(responsable.getTel1())) {
+			attrs.addFlashAttribute("erreurTel", "Numéro invalide");
+			return new RedirectView("/parent/");
+		}
+		System.out.println("Il passe le tel2");
+		if (!responsable.getVille().equals("ifs") && !responsable.getVille().equals("Ifs")
+				&& !responsable.getVille().equals("IFS")) {
+			responsable.setQuotient_familial(null);
+		}
+		System.out.println("Il passe le tel3");
+		responsable.setToken(us.getToken());
+		parentrepo.save(responsable);
+		System.out.println("Il a sauvegarder");
+		return new RedirectView("/parent/");
+	}
+
+	@Secured("ROLE_PARENT")
+	@PostMapping("editLogin")
+	public RedirectView editLoginAction(@AuthenticationPrincipal User authUser, @ModelAttribute("login") String login,
+			RedirectAttributes attrs) {
+		Optional<User> opt2 = userrepo.findByLogin(login);
+		if (opt2.isPresent()) {
+			attrs.addFlashAttribute("erreurLogin", "login deja utilisée");
+			return new RedirectView("/parent/");
+		}
+		if ((login.length() < 5) || (login.length() > 20)) {
+			attrs.addFlashAttribute("erreurLogin", "Votre login doit etre compris entre 5 et 20 caracteres");
+			return new RedirectView("/parent/");
+		}
+		authUser.setLogin(login);
+		userrepo.save(authUser);
+		return new RedirectView("/parent/");
+	}
+
+	@Secured("ROLE_PARENT")
+	@PostMapping("editPassword")
+	public RedirectView editPasswordAction(@AuthenticationPrincipal User authUser,
+			@ModelAttribute("oldPassword") String oldPassword, @ModelAttribute("newPassword") String newPassword,
+			RedirectAttributes attrs) {
+		String oldHashPassword = authUser.getPassword();
+		if (passwordEncoder.matches(oldPassword, oldHashPassword) && newPassword.length() >= 8) {
+			authUser.setPassword(passwordEncoder.encode(newPassword));
+			userrepo.save(authUser);
+		} else if (passwordEncoder.matches(oldPassword, oldHashPassword) && newPassword.length() < 8) {
+			attrs.addFlashAttribute("erreurPass", "Le nouveau mot de passe doit comprendre au moins 8 caracteres");
+		} else {
+			attrs.addFlashAttribute("erreurPass", "Mot de passe invalide");
+		}
+		return new RedirectView("/parent/");
+	}
+
+	@Secured("ROLE_PARENT")
 	@GetMapping("delete/")
 	public RedirectView deleteAction(@AuthenticationPrincipal User authUser, ModelMap model2,
 			RedirectAttributes attrs) {
@@ -173,6 +290,8 @@ public class ProfilParEnfController {
 		return new RedirectView("/parent/");
 	}
 
+
+	@Secured("ROLE_PARENT")
 	@GetMapping("delete/force")
 	public RedirectView deleteForceAction(HttpSession session, @AuthenticationPrincipal User authUser, ModelMap model2,
 			RedirectAttributes attrs) {
