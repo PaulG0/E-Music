@@ -94,6 +94,16 @@ public class ProfilParEnfController {
 				}
 			}
 		}
+		if (role.equals("[ROLE_ELEVE]")) {
+			for (Eleve eleve : eleves) {
+				if (eleve.getToken().equals(authUser.getToken())) {
+					enfantrepo.findById(eleve.getId()).ifPresent(authEleve -> {
+						model2.put("authEleve", authEleve);
+						vue.addData("authEleve", authEleve);
+					});
+				}
+			}
+		}
 		model.put("authUser", authUser);
 		model.put("edit", "");
 		model.put("editPassword", "");
@@ -164,6 +174,7 @@ public class ProfilParEnfController {
 		enfantrepo.save(eleve);
 		return new RedirectView("../../parent/profil");
 	}
+
 
 	@Secured("ROLE_PARENT")
 	@PostMapping("edit")
@@ -278,6 +289,7 @@ public class ProfilParEnfController {
 		}
 		return new RedirectView("/parent/");
 	}
+
 
 	@Secured("ROLE_PARENT")
 	@GetMapping("delete/force")

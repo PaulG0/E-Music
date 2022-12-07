@@ -37,10 +37,12 @@ public class Eleve {
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private LocalDate dateNaiss;
 
+
 	private String token;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "eleve", cascade = CascadeType.ALL)
+
 	private List<Inscription> inscrits = new ArrayList<>();
 
 	@ManyToOne(optional = true)

@@ -1,5 +1,6 @@
 {{> /include/header}}
 {{#authUser}}
+
 <div v-if="authUser.authorities[0].authority=='ROLE_PARENT'">
 	<div v-if="infoAff==true">
 		<div onload="edit()">
@@ -56,13 +57,13 @@
 			</div>
 			<div class="colonne">
 				<h2 class="white">Actions sur le profil</h2>
-				<a href="/parent/add/" class="ui orange button">Ajouter un enfant</a>
+				<a href="./parent/add/" class="ui orange button">Ajouter un enfant</a>
 				<a class="ui blue button" onclick="edit()">Modifier mes informations</a>
 				<a class="ui blue button" onclick="editLogin()">Modifier mon login</a>
 				<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
 				<a class="ui blue button" onclick="editPassword()">Modifier mon mot de passe</a>
 				<div class="erreur">{{#erreurPass}}{{.}}{{/erreurPass}}</div>
-				<a href="/parent/delete/" class="ui red button">Suprimer son compte :(</a>
+				<a href="./parent/delete/" class="ui red button">Suprimer son compte :(</a>
 			</div>
 		</div>
 		{{#authResponsable.eleves.0}}
@@ -83,6 +84,7 @@
 		</div>
 		{{/authResponsable.eleves.0}}
 	</div>
+
 </div>
 <div class="white boxprofil" v-if="authUser.authorities[0].authority=='ROLE_ELEVE'">
 	<h1>Profil de {{#authEleve.prenom}}{{.}}{{/authEleve.prenom}} {{#authEleve.nom}}{{.}}{{/authEleve.nom}}</h1>
@@ -110,6 +112,7 @@
 		</div>
 	{{/msg}}
 {{/authUser}}
+
 <script>
 {{{edit}}}
 {{{editPassword}}}
@@ -129,4 +132,5 @@ function editLogin(){
 	;
 };
 </script>
+
 {{> /include/footer}}

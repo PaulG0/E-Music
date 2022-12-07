@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +34,9 @@ import sio.javanaise.emusic.services.UserService;
 @Controller
 @RequestMapping({ "/", "" })
 public class MainController {
+
+	@Autowired
+	Environment environment;
 
 	@Autowired
 	private IResponsableDAO parentrepo;
@@ -107,7 +111,11 @@ public class MainController {
 					}
 				}
 			}
+
 			if(role.equals("[ROLE_ADMIN]")) {
+
+
+
 				model2.put("authAdmin", authUser.getUsername());
 			}
 		}
@@ -116,6 +124,7 @@ public class MainController {
 		model.put("authUser", authUser);
 		model.put("signup", "");
 		model.put("login", "");
+		model.put("base", environment.getProperty("app.base"));
 		vue.addData("affichage", false);
 		vue.addData("authUser", authUser);
 		vue.addData("villeAction");
@@ -152,7 +161,7 @@ public class MainController {
 		vue.addData("authUser", authUser);
 		vue.addData("villeAction");
 		model.put("responsable", new Responsable());
-		return "index";
+		return "/index";
 	}
 
 	/*
@@ -251,9 +260,25 @@ public class MainController {
 	public String personnelleAction(@AuthenticationPrincipal User authUser, ModelMap model) {
 		Iterable<Prof> profs = profRepository.findAll();
 		model.put("profs", profs);
+		model.put("responsable", new Responsable());
+		vue.addData("villeAction");
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/main/personnel";
 
 	}
+
+
+
+	@GetMapping("find")
+	public String findAction(@AuthenticationPrincipal User authUser, ModelMap model) {
+
+		model.put("responsable", new Responsable());
+		vue.addData("villeAction");
+		model.put("authUser", authUser);
+		vue.addData("authUser", authUser);
+		return "/main/find";
+
+	}
+
 }
