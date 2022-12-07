@@ -27,6 +27,7 @@ public class Responsable {
 
 	private String nom;
 	private String prenom;
+	private String civilite;
 	private String adresse;
 	private String ville;
 	private String code_postal;

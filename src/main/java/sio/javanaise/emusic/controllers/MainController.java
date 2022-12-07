@@ -31,7 +31,6 @@ import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
 
-
 @Controller
 @RequestMapping({ "/", "" })
 public class MainController {
@@ -147,7 +146,6 @@ public class MainController {
 				for (Responsable responsable : responsables) {
 					if (responsable.getToken().equals(authUser.getToken())) {
 						parentrepo.findById(responsable.getId()).ifPresent(authResponsable -> {
-
 							model2.put("authResponsable", authResponsable);
 							vue.addData("authResponsable", authResponsable);
 						});

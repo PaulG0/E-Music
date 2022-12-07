@@ -12,6 +12,14 @@
 				<input type="text" required="required" name="login" value="{{#authUser.login}}{{.}}{{/authUser.login}}">
 			</div>
 			<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
+			<div>
+				<input type="radio" name="civilite" value="Mr" checked>
+				<label>Mr</label>
+				<input type="radio" name="civilite" value="Mme" checked>
+				<label>Mme</label>
+				<input type="radio" name="civilite" value="Mlle" checked>
+				<label>Mlle</label>
+			</div>
 			<div class="field">
 
 
