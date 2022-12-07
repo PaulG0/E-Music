@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,7 +30,8 @@ import sio.javanaise.emusic.services.UserService;
 @Controller
 @RequestMapping("/eleves")
 public class EleveController {
-
+	@Autowired
+	Environment environment;
 	@Autowired(required = true)
     private VueJS vue;
 
