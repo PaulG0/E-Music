@@ -57,4 +57,26 @@ public class FormatService {
 		return newDate;
 	}
 
+
+
+
+	public String formatJourSemaine(LocalDate date){
+
+
+		if ((date.getDayOfWeek()).equals("MONDAY")){
+			return "Lun";
+		} else if ((date.getDayOfWeek()).equals("TUESDAY")) {
+			return "Mar";
+		} else if ((date.getDayOfWeek()).equals("WEDNESDAY")) {
+			return "Mer";
+		} else if ((date.getDayOfWeek()).equals("THURSDAY")) {
+			return "Jeu";
+		} else if ((date.getDayOfWeek()).equals("FRIDAY")) {
+			return"Ven";
+		}else if ((date.getDayOfWeek()).equals("SATURDAY")){
+			return "Sam";
+		}else {
+			return "Dim";
+		}
+	}
 }
