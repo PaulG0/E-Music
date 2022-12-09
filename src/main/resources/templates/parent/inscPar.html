@@ -1,0 +1,12 @@
+<div class="ui segment">
+	<form method="post" class="ui form" action="./parent/inscrPar/">
+		<label>*Date de naissance</label>
+		<div class="ui calendar" id="standard_calendar2" @click="foncCalendar()">
+			<div class="ui input left icon">
+				<i class="calendar icon"></i>
+				<input type="text" required="required" name="dateNaissa" placeholder="Date de naissance" value="{{#dateNaiss}}{{.}}{{/dateNaiss}}">
+			</div>
+		</div>
+		<button class="ui button" type="submit">Valider</button>
+	</form>
+</div>

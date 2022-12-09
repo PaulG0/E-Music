@@ -14,7 +14,7 @@
 	<div class="dispocolonne">
 		<div class="colonne">
 			<div class="white boxprofil">
-				<h1>Profil de {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
+				<h1>Profil de {{#authResponsable.civilite}}{{.}}{{/authResponsable.civilite}} {{#authResponsable.prenom}}{{.}}{{/authResponsable.prenom}} {{#authResponsable.nom}}{{.}}{{/authResponsable.nom}}</h1>
 				<p>
 					Adresse courriel : {{#authResponsable.email}}{{.}}{{/authResponsable.email}}
 				</p>
@@ -65,10 +65,16 @@
 					{{> /parent/form}}
 				</div>
 			</div>
+			<div class="ui modal insPar">
+				<div class="content">
+					{{> /parent/inscPar}}
+				</div>
+			</div>
 			<div class="colonne">
 				<h2 class="white">Actions sur le profil</h2>
 				<a class="ui orange button" onclick="addEleve()">Ajouter un enfant</a>
 				<a class="ui orange button" onclick="insEleve()">Inscrire mon enfant à un cours</a>
+				<a class="ui orange button" onclick="insPar()">S'inscrire soi meme en tant qu'eleve</a>
 				<a class="ui blue button" onclick="edit()">Modifier mes informations</a>
 				<a class="ui blue button" onclick="editLogin()">Modifier mon login</a>
 				<div class="erreur">{{#erreurLogin}}{{.}}{{/erreurLogin}}</div>
@@ -153,6 +159,25 @@ function addEleve(){
 	.modal('show')
 	;
 };
+function insPar(){
+	$('.ui.modal.insPar')
+	.modal('show')
+	;
+};
 </script>
 
 {{> /include/footer}}
+<script>
+$('#standard_calendar2').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+	});
+$('#standard_calendar').calendar({
+	type:'date',
+	formatter: {
+		date:'YYYY-MM-DD'
+		}
+	});
+</script>

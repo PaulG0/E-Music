@@ -39,39 +39,38 @@ public class ResponsableController {
 
 	@Autowired
 	Environment environment;
-    @ModelAttribute("vue")
-    public VueJS getVue() {
-        return this.vue;
-    }
-    
-    @Autowired
-	private IUserDAO userrepo;
-    
-    @Autowired
-    private IResponsableDAO responsablerepo;
-    
-    @Autowired
-    private IEleveRepository eleverepo;
-    
-    @Autowired
-    private IProfRepository profRepository;
-    
-    @Autowired
-    private UIResponsableService responsableService;
-    
-    @Autowired
-	private ResponsableService rService;
-    
-    @Autowired
-	private UserDetailsService uService;
-    
-    @Autowired
-	private TokenGenerator tokgen;
 
+	@ModelAttribute("vue")
+	public VueJS getVue() {
+		return this.vue;
+	}
+
+	@Autowired
+	private IUserDAO userrepo;
+
+	@Autowired
+	private IResponsableDAO responsablerepo;
+
+	@Autowired
+	private IEleveRepository eleverepo;
+
+	@Autowired
+	private IProfRepository profRepository;
+
+	@Autowired
+	private UIResponsableService responsableService;
+
+	@Autowired
+	private ResponsableService rService;
+
+	@Autowired
+	private UserDetailsService uService;
+
+	@Autowired
+	private TokenGenerator tokgen;
 
 	@GetMapping("")
 	public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
-
 
 		vue.addData("messageOption");
 		vue.addData("membre");
@@ -101,11 +100,9 @@ public class ResponsableController {
 		model.put("profs", profs);
 		model.put("prof", new Prof());
 
-
 		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
-
 
 		return "/responsables/index";
 
@@ -164,7 +161,7 @@ public class ResponsableController {
 			responsable.setQuotient_familial(null);
 		}
 		if (responsable.getToken() == null) {
-			String token = tokgen.generateToken(login);
+			String token = tokgen.generateToken();
 			User us = ((UserService) uService).createUser(login, password);
 			us.setAuthorities("PARENT");
 			us.setToken(token);

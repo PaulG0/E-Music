@@ -27,33 +27,33 @@ public class ProfController {
 	@Autowired
 	Environment environment;
 	@Autowired(required = true)
-    private VueJS vue;
+	private VueJS vue;
 
-    @ModelAttribute("vue")
-    public VueJS getVue() {
-        return this.vue;
-    }
-    
-    @Autowired
+	@ModelAttribute("vue")
+	public VueJS getVue() {
+		return this.vue;
+	}
+
+	@Autowired
 	private IUserDAO userrepo;
-    
-    @Autowired
-    private IProfRepository profRepository;
-    
-    @Autowired
+
+	@Autowired
+	private IProfRepository profRepository;
+
+	@Autowired
 	private ResponsableService rService;
-    
-    @Autowired
+
+	@Autowired
 	private UserDetailsService uService;
-    
-    @Autowired
+
+	@Autowired
 	private TokenGenerator tokgen;
-    
-    @PostMapping("/new")
-    public RedirectView newAction(@ModelAttribute Prof prof, @ModelAttribute("password") String password,
+
+	@PostMapping("/new")
+	public RedirectView newAction(@ModelAttribute Prof prof, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {
-    	
-    	Optional<User> opt2 = userrepo.findByLogin(login);
+
+		Optional<User> opt2 = userrepo.findByLogin(login);
 		if (opt2.isPresent()) {
 			attrs.addFlashAttribute("erreurLogin", "login déjà utilisé");
 			return new RedirectView("../responsables");
@@ -84,8 +84,8 @@ public class ProfController {
 			attrs.addFlashAttribute("erreurPassword", "Votre mot de passe doit contenir au moins 8 caractères");
 			return new RedirectView("../responsables");
 		}
-		if(prof.getToken() == null) {
-			String token = tokgen.generateToken(login);
+		if (prof.getToken() == null) {
+			String token = tokgen.generateToken();
 			User us = ((UserService) uService).createUser(login, password);
 			us.setAuthorities("PROF");
 			us.setToken(token);
@@ -94,11 +94,11 @@ public class ProfController {
 		}
 		profRepository.save(prof);
 		return new RedirectView("../responsables");
-    	
-    }
-    
-    @PostMapping("/edit")
-    public RedirectView editAction(@ModelAttribute Prof prof, RedirectAttributes attrs) {
+
+	}
+
+	@PostMapping("/edit")
+	public RedirectView editAction(@ModelAttribute Prof prof, RedirectAttributes attrs) {
 
 		if (!rService.NomEstValide(prof.getNom())) {
 			attrs.addFlashAttribute("erreurNom",
@@ -124,7 +124,7 @@ public class ProfController {
 		prof.setToken(opt2.get().getToken());
 		profRepository.save(prof);
 		return new RedirectView("../responsables");
-    	
-    }
-	
+
+	}
+
 }

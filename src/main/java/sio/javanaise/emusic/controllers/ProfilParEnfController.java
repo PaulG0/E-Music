@@ -164,7 +164,7 @@ public class ProfilParEnfController {
 			vue.addData("authUser", authUser);
 			return new RedirectView("../../parent/add/");
 		}
-		String token = tokgen.generateToken(login);
+		String token = tokgen.generateToken();
 		User us = ((UserService) uService).createUser(login, password);
 		us.setAuthorities("ELEVE");
 		us.setToken(token);
@@ -305,20 +305,18 @@ public class ProfilParEnfController {
 						for (User eleveUser : userrepo.findAll()) {
 							for (Eleve eleve : responsable.getEleves()) {
 								if (eleveUser.getToken().equals(eleve.getToken())) {
-									userrepo.deleteById(eleveUser.getId());
+									eleveUser.setSuspended(true);
 								}
 							}
 						}
-						parentrepo.deleteById(responsable.getId());
 					}
-					if (userrepo.findById(authUser.getId()).isPresent()) {
-						userrepo.deleteById(authUser.getId());
-					}
+					authUser.setSuspended(true);
+					userrepo.save(authUser);
 					session.invalidate();
 				}
 			}
 		}
-		return new RedirectView("./index");
+		return new RedirectView("/e-music/");
 	}
 
 	@Secured("ROLE_PARENT")
@@ -365,6 +363,6 @@ public class ProfilParEnfController {
 		LocalDate dateNaissance = LocalDate.parse(dateNaissa, DateTimeFormatter.ofPattern("yyy-MM-dd"));
 		eleve.setDateNaiss(dateNaissance);
 		enfantrepo.save(eleve);
-		return new RedirectView("../parent/");
+		return new RedirectView("../");
 	}
 }

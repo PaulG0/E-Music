@@ -76,7 +76,6 @@ public class MainController {
 		Iterable<Eleve> eleves = enfantrepo.findAll();
 		Iterable<Prof> profs = profRepository.findAll();
 
-
 		if (authUser != null) {
 			String role = authUser.getAuthorities().toString();
 			if (role.equals("[ROLE_PARENT]")) {
@@ -104,7 +103,6 @@ public class MainController {
 				}
 			}
 
-
 			if (role.equals("[ROLE_PROF]")) {
 				for (Prof prof : profs) {
 					if (prof.getToken().equals(authUser.getToken())) {
@@ -116,9 +114,7 @@ public class MainController {
 				}
 			}
 
-			if(role.equals("[ROLE_ADMIN]")) {
-
-
+			if (role.equals("[ROLE_ADMIN]")) {
 
 				model2.put("authAdmin", authUser.getUsername());
 			}
@@ -168,7 +164,6 @@ public class MainController {
 		return "/index";
 	}
 
-
 	@PostMapping("new")
 	public RedirectView newAction(@ModelAttribute Responsable responsable, @ModelAttribute("password") String password,
 			@ModelAttribute("login") String login, RedirectAttributes attrs) {
@@ -184,20 +179,20 @@ public class MainController {
 			attrs.addFlashAttribute("erreurLogin", "Votre login doit être compris entre 5 et 20 caractères");
 		}
 		if (!rService.NomEstValide(responsable.getNom())) {
-			attrs.addFlashAttribute("erreurNom", "Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
-
+			attrs.addFlashAttribute("erreurNom",
+					"Nom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
 
 			return new RedirectView("");
 		}
 		if (!rService.NomEstValide(responsable.getPrenom())) {
-			attrs.addFlashAttribute("erreurPrenom", "Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
+			attrs.addFlashAttribute("erreurPrenom",
+					"Prenom invalide, veuillez n'utiliser que des lettres latines, mettez une majuscule au début. Les noms composés doivent être séparés par des -");
 
 			return new RedirectView("");
 		}
 		Optional<Responsable> opt = parentrepo.findByEmail(responsable.getEmail());
 		if (opt.isPresent()) {
 			attrs.addFlashAttribute("erreurEmail", "Adresse email déjà utilisée");
-
 
 			return new RedirectView("");
 		}
@@ -228,7 +223,7 @@ public class MainController {
 				&& !responsable.getVille().equals("IFS")) {
 			responsable.setQuotient_familial(null);
 		}
-		String token = tokgen.generateToken(login);
+		String token = tokgen.generateToken();
 		User us = ((UserService) uService).createUser(login, password);
 		us.setAuthorities("PARENT");
 		us.setToken(token);
@@ -258,8 +253,6 @@ public class MainController {
 		return "/main/personnel";
 
 	}
-
-
 
 	@GetMapping("find")
 	public String findAction(@AuthenticationPrincipal User authUser, ModelMap model) {
