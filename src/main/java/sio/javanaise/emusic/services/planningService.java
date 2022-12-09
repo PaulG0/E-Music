@@ -15,7 +15,6 @@ import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 
-
 @Service
 public class planningService {
 
@@ -69,42 +68,20 @@ public class planningService {
 
 
 		for (Planning planning : plannings) {
+			System.out.println(planning.getId());
 			if (planning.getDateDebut().isBefore(date) && planning.getDateFin().isAfter(date)) {
-
+				System.out.println(planning.getId()+" : ok");
 				newPlanning.add(planning);
 			}
+
 		}
 		return newPlanning;
 	}
 
-public ArrayList<Planning> planningCompareDateProf(int idProf,LocalDate date){
-	ArrayList<Planning> plannings = planningPeriodeProf(idProf,date);
-	ArrayList<Planning> newPlanning= new ArrayList<>();
-	int value;
-	for (Planning pl : plannings){
-	value=0;
-	if(newPlanning.size()==0){
-		newPlanning.add(pl);
-		}
-
-		for (Planning nPlanning : newPlanning){
-			if (nPlanning.equals(pl)){
-				value=1;
-			}
-		}
-		if (value<1){
-			newPlanning.add(pl);
-		}
-
-	}
-
-	return newPlanning;
-
-}
 
 	public ArrayList<Planning> planningJourSemaine(int idProf , LocalDate date){
 		ArrayList<Planning> newPlanning = new ArrayList<>();
-		ArrayList<Planning> plannings = planningCompareDateProf(idProf, date);
+		ArrayList<Planning> plannings = planningPeriodeProf(idProf, date);
 		String Jour = formatService.formatJourSemaine(date);
 
 		for(Planning pl : plannings){
