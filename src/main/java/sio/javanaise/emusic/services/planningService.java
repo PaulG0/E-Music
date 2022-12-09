@@ -113,5 +113,7 @@ public ArrayList<Planning> planningCompareDateProf(int idProf,LocalDate date){
 			}
 		}
 		return newPlanning;
-}
+	}
+
+
 }
