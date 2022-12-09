@@ -15,6 +15,8 @@ import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IPlanningRepository;
 import sio.javanaise.emusic.repositories.IProfRepository;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class planningService {
 
@@ -91,6 +93,28 @@ public class planningService {
 		}
 		return newPlanning;
 	}
+
+	public ArrayList<Planning> planingfinal(int idProf, LocalDate date){
+		ArrayList<Planning> plannings = planningJourSemaine(idProf, date);
+	    ArrayList<Planning> newPlanning = planningJourSemaine(idProf, date);
+		for(Planning pl : plannings){
+			if (!pl.getStatus().equals("ok")){
+
+				int status = Integer.parseInt(pl.getStatus());
+
+				Optional< Planning> opt = planningRepo.findById(status);
+				if (opt.isPresent()) {
+					Planning rmPlanning = opt.get();
+					newPlanning.remove(rmPlanning);
+				}
+
+			}
+
+
+		}
+		return newPlanning;
+	}
+
 
 
 }
