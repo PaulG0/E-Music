@@ -46,6 +46,7 @@
 	<div v-for="user in users" v-if="user.token == messageOption.token">
 		<button class="circular ui icon button"><i class="eye icon"></i></button>
 		<button v-if="unRole == 'prof'" class="circular ui blue icon button" onclick="modalfunction('profedit')"><i class="ui edit icon"></i></button>
+		<a v-if="unRole == 'prof'" :href="'./planning/prof/'+ messageOption.id"class=" ui circular icon yellow button"><i class="calendar   icon" ></i></a>
 		<button v-if="unRole == 'parent'" class="circular ui blue icon button" onclick="modalfunction('responsableedit')"><i class="ui edit icon"></i></button>
 		<button v-if="unRole == 'eleve'" class="circular ui blue icon button" onclick="modalfunction('eleveedit')"><i class="ui edit icon"></i></button>
 		<button v-if="unRole == 'parent'" class="ui labeled green icon button" onclick="modalfunction('neweleve')">
@@ -53,7 +54,7 @@
 			Ajouter un élève
 		</button>
 		<a v-if="unRole == 'eleve'" :href="'./factures/' + messageOption.id" class="circular ui icon button"><i class="euro sign icon"></i> Facture</a>
-		<a v-if="unRole == 'eleve'" :href="'./paiements/new/' + messageOption.id" class="circular ui icon button"><i class="euro sign icon"></i> Paiement</a>
+		<a v-if="unRole == 'eleve'" :href="'./paiements/new/' + messageOption.id" class=" ui circular icon button"><i class="euro sign icon"></i> Paiement</a>
 		<button class="circular ui red icon button" @click="popupDelete(messageOption.id)"><i class="ui trash icon"></i></button>
 		<button v-if="user.suspended == true" class="circular ui red icon button" @click="popupSuspendre(messageOption, user)"><i class="user slash icon"></i></button>
 		<button v-if="user.suspended == false" class="circular ui icon button" @click="popupSuspendre(messageOption, user)"><i class="user icon"></i></button>
