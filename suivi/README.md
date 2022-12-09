@@ -1,9 +1,10 @@
 # Suivi sur le projet E-Music
 
-## Activité faite depuis le lundi 5 décembre 2022
+## Activités faites / en cours depuis le lundi 5 décembre 2022
 
 ### Geoffrey
-- inscrire les élèves à un cours 
+- inscrire les élèves à un cours
+- Consulter la liste des cours (en cours)
 
 ### Louka
 - Test sur le projet E-Music
