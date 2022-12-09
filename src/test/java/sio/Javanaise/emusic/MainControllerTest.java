@@ -1,17 +1,22 @@
 package sio.Javanaise.emusic;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import sio.javanaise.emusic.configs.WebSecurityConfig;
+import sio.javanaise.emusic.models.User;
 
-@WebMvcTest(MainControllerTest.class)
-@ContextConfiguration(classes = {WebSecurityConfig.class, EMusicApplicationTests.class})
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class MainControllerTest {
 
     @Autowired
@@ -51,6 +56,28 @@ public class MainControllerTest {
                             "}"
                     ).with(csrf())
                 );
+
+    }
+
+    @Test
+    void LoginActionTest() throws Exception {
+
+        String username = "Test-Testnew";
+        String password = "Azerty1234";
+        this.mockMvc
+                .perform(post("/e-music/login").contentType(MediaType.APPLICATION_JSON)
+                   .content("{\"username\":\"" + username + "\"," +
+                           "\"password\":\"" + password + "\"" +
+                           "}"
+                   ).with(csrf())
+                );
+
+    }
+
+    @Test void DecoActionTest() throws Exception {
+
+        this.mockMvc
+                .perform(get("/e-music/deco").contentType(MediaType.APPLICATION_JSON));
 
     }
 
