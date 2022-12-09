@@ -6,8 +6,7 @@
 - inscrire les élèves à un cours 
 
 ### Louka
-- Test sur le projet E-Music 
-- 
+- Test sur le projet E-Music
 
 ### Paul
 
@@ -38,5 +37,10 @@
 - correction des conflits entre les branches 
 - correction des bugs 
 - refonte des chemins 
-- gestions des de l'équipe 
+- gestions des de l'équipe
 - mise à jour des different outil de suivi de projet 
+
+--- 
+## Avancement du Test
+- test sur l'inscription 
+- 
