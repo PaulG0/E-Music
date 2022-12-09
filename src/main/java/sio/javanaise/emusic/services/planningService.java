@@ -48,6 +48,8 @@ public class planningService {
 		return cour;
 	}
 
+
+
 	public List<Planning> planningProf(int id) {
 		Iterable<Planning> plannings = planningRepo.findAllByOrderByDateDebut();
 		Iterable<Cour> cours = courProf(id);

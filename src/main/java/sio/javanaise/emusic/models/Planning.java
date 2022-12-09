@@ -53,7 +53,8 @@ public class Planning {
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)
 	private List<Inscription> incriptions;
 
-
+	@ManyToOne
+	private Planning Planning;
 	@ManyToOne
 	private Cour cour;
 }
