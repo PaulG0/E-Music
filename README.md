@@ -15,16 +15,16 @@ Créer une application pour l'école de musique d'Ifs.
 - professeur 
 - gestionnaire 
 - parent
-- eleve
+- élève
 
 ### Les tâches principales :
 -  le programme doit permettre faire la gestion des cours 
--  le programme doit generer de maniere dynamique les emplois du temps des professeurs et des eleves 
--  le programme doit être capable de generer les factures et il doit pouvoir gerer le suivi des paimments 
+-  le programme doit générer de manière dynamique les emplois du temps des professeurs et des élèves 
+-  le programme doit être capable de générer les factures et il doit pouvoir gérer le suivi des paiements 
 
 
 ### tache a venir :
--  le programme devra permettre à l'organisation de voir toute la gestion des instruments quel possede
+-  le programme devra permettre à l'organisation de voir toute la gestion des instruments qu'elle possède
 ---
 ## Outil utiliser :
 ### configuration spring:
