@@ -18,14 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import io.github.jeemv.springboot.vuejs.VueJS;
-import sio.javanaise.emusic.models.Eleve;
-import sio.javanaise.emusic.models.Inscription;
-import sio.javanaise.emusic.models.Planning;
-import sio.javanaise.emusic.models.User;
-import sio.javanaise.emusic.repositories.ICoursRepository;
-import sio.javanaise.emusic.repositories.IInscriptionRepository;
-import sio.javanaise.emusic.repositories.IPlanningRepository;
-import sio.javanaise.emusic.repositories.IProfRepository;
+import sio.javanaise.emusic.models.*;
+import sio.javanaise.emusic.repositories.*;
 import sio.javanaise.emusic.services.CoursService;
 import sio.javanaise.emusic.services.FormatService;
 import sio.javanaise.emusic.services.planningService;
@@ -66,8 +60,13 @@ public class PlanningController {
 
 	@ModelAttribute("vue")
 	public VueJS getVue() {
+
 		return this.vue;
 	}
+
+	@Autowired
+	private IClasseCoursRepository ClasseCoursRepository;
+
 
 	// liste
 	@RequestMapping("")
@@ -120,19 +119,30 @@ public class PlanningController {
 	@PostMapping("inscrit/add/{id}")
 	public RedirectView AddInscritAction(@PathVariable int id, @ModelAttribute("ajoutEleve") List<Eleve> eleves,
 			ModelMap model) {
-
 		Optional<Planning> opt = planningRepository.findById(id);
 		Planning planning = new Planning();
+		ClasseCours classe = new ClasseCours();
 		if (opt.isPresent()) {
 			planning = opt.get();
+
 		}
+		Optional<ClasseCours> opt2 = ClasseCoursRepository.findById(planning.getClasseCours().getId());
+
+		if(opt.isPresent()) {
+			classe = opt2.get();
+		}
+
+
+
+
+
 
 
 		Inscription inscrit = new Inscription();
 
 		for (Eleve eleve : eleves) {
 			inscrit.setEleve(eleve);
-			inscrit.setPlanning(planning);
+			inscrit.setClasseCour(classe);
 			inscriptionRepository.save(inscrit);
 
 		}

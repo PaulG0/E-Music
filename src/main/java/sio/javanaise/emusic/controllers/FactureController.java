@@ -96,7 +96,7 @@ public class FactureController {
         	ArrayList<Facture> listFactures = new ArrayList<>();
         	for (Facture facture : factures) {
     			
-        		String test = facture.getInscription().getPlanning().getCour().getLibelle();
+        		String test = facture.getInscription().getFactures().getCour().getLibelle();
         		
         		if(test == cour.getLibelle()) {
         			listFactures.add(facture);

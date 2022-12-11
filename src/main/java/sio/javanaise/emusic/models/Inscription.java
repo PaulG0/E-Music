@@ -3,13 +3,7 @@ package sio.javanaise.emusic.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,8 +23,11 @@ public class Inscription {
 	@ManyToOne
 	private Eleve eleve;
 
+
+
+
 	@ManyToOne
-	private Planning planning;
+	private ClasseCours ClasseCour;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "inscription", cascade = CascadeType.ALL)

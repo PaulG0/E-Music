@@ -23,12 +23,14 @@ public class ClasseCours {
     private int id;
 
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "Planning", cascade = CascadeType.ALL)
-    private List<Planning> Planning = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "Classe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ClasseCours", cascade = CascadeType.ALL)
+    private List<Planning> planning;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "ClasseCour", cascade = CascadeType.ALL)
     private List<Inscription> Inscription = new ArrayList<>();
 
 }

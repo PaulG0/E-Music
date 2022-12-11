@@ -4,13 +4,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -49,12 +43,9 @@ public class Planning {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Time heureFin;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "planning", cascade = CascadeType.ALL)
-	private List<Inscription> incriptions;
-
 	@ManyToOne
-	private Planning Planning;
+	private ClasseCours ClasseCours;
+
 	@ManyToOne
 	private Cour cour;
 }

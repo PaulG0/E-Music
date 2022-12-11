@@ -16,28 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.javafaker.Faker;
 
 import sio.javanaise.emusic.enumeration.TypeCourEnum;
-import sio.javanaise.emusic.models.Cour;
-import sio.javanaise.emusic.models.Eleve;
-import sio.javanaise.emusic.models.Facture;
-import sio.javanaise.emusic.models.Inscription;
-import sio.javanaise.emusic.models.Instrument;
-import sio.javanaise.emusic.models.Paiement;
-import sio.javanaise.emusic.models.Planning;
-import sio.javanaise.emusic.models.Prof;
-import sio.javanaise.emusic.models.Responsable;
-import sio.javanaise.emusic.models.TypeCour;
-import sio.javanaise.emusic.models.User;
-import sio.javanaise.emusic.repositories.ICoursRepository;
-import sio.javanaise.emusic.repositories.IEleveRepository;
-import sio.javanaise.emusic.repositories.IFactureRepository;
-import sio.javanaise.emusic.repositories.IInscriptionRepository;
-import sio.javanaise.emusic.repositories.IInstrumentRepository;
-import sio.javanaise.emusic.repositories.IPaiementRepository;
-import sio.javanaise.emusic.repositories.IPlanningRepository;
-import sio.javanaise.emusic.repositories.IProfRepository;
-import sio.javanaise.emusic.repositories.IResponsableRepository;
-import sio.javanaise.emusic.repositories.ITypeCoursRepository;
-import sio.javanaise.emusic.repositories.IUserDAO;
+import sio.javanaise.emusic.models.*;
+import sio.javanaise.emusic.repositories.*;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
 
@@ -94,6 +74,9 @@ public class devController {
 
 	@Autowired
 	private UserDetailsService uService;
+
+	@Autowired
+	private IClasseCoursRepository classeCoursRepo;
 
 	@GetMapping("/{nb}")
 	private @ResponseBody String ajoutData(@PathVariable int nb) {
@@ -183,6 +166,12 @@ public class devController {
 
 			courRepo.save(cour);
 
+
+			// classCours
+
+			ClasseCours	 classe = new ClasseCours();
+			classeCoursRepo.save(classe);
+
 			// planning
 			Planning planning = new Planning();
 			planning.setCour(cour);
@@ -192,13 +181,17 @@ public class devController {
 			planning.setStatus("ok");
 			planning.setJourSemaine("Lun");
 			planning.setDateFin(dateDebut.parse("2025-11-01"));
+			planning.setClasseCours(classe);
 
 			planningRepo.save(planning);
+
+
+
 
 			// inscrit
 			Inscription inscrit = new Inscription();
 			inscrit.setEleve(eleve);
-			inscrit.setPlanning(planning);
+			inscrit.setClasseCour(classe);
 			inscritRepo.save(inscrit);
 
 			// facture
