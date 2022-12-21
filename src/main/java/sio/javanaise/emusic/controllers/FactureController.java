@@ -114,10 +114,10 @@ public class FactureController {
     	
     }
     
-    @GetMapping("/{idEleve}")
-    public String listEleveAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idEleve) {
+    @GetMapping("/{tokenEleve}")
+    public String listEleveAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable String tokenEleve) {
     	
-    	Optional<Eleve> eleve = eleveRepository.findById(idEleve);
+    	Optional<Eleve> eleve = eleveRepository.findByToken(tokenEleve);
     	
     	Iterable<Facture> factures = factureRepository.findAllByOrderByDateFacture();
     	ArrayList<Facture> listFactures = new ArrayList<>();
