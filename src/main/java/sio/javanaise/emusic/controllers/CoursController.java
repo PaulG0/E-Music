@@ -71,9 +71,11 @@ public class CoursController {
 		vue.addData("coursEdit");
 		vue.addData("idProf");
 		vue.addData("idTypeCours");
+		vue.addData("coursDelete");
 
 		vue.addMethod("popupEditCours", "this.coursEdit=coursEdit; this.idProf=idProf; this.idTypeCours=idTypeCours",
 				"coursEdit, idProf, idTypeCours");
+		vue.addMethod("popupDeleteCours", "this.coursDelete=coursDelete;", "coursDelete");
 
 		model.put("base", environment.getProperty("app.base"));
 		model.put("authUser", authUser);
@@ -134,6 +136,14 @@ public class CoursController {
 		model.put("authUser", authUser);
 		vue.addData("authUser", authUser);
 		return "/cours/formCours";
+
+	}
+
+	@GetMapping("/delete/{id}")
+	public RedirectView deleteAction(@PathVariable int id) {
+
+		courRepository.findById(id).ifPresent(cour -> courRepository.deleteById(id));
+		return new RedirectView("../../cours");
 
 	}
 
