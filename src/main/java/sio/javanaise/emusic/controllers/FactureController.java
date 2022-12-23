@@ -26,6 +26,8 @@ import sio.javanaise.emusic.repositories.IEleveRepository;
 import sio.javanaise.emusic.repositories.IFactureRepository;
 import sio.javanaise.emusic.repositories.IInscriptionRepository;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
 @RequestMapping("/factures")
 public class FactureController {
@@ -52,7 +54,8 @@ public class FactureController {
     
     @Autowired
     private IEleveRepository eleveRepository;
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @GetMapping("")
     public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
     	
@@ -64,7 +67,8 @@ public class FactureController {
     	return "/factures/index";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @PostMapping("/datefacture")
     public String indexDateFactureAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("dateStart") String dateStart, @ModelAttribute("dateEnd") String dateEnd) {
     	
@@ -79,7 +83,8 @@ public class FactureController {
     	return "/factures/index";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @PostMapping("/cours")
     public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("libelle") String libelle) {
     	
@@ -113,7 +118,8 @@ public class FactureController {
     	return "/factures/index";
     	
     }
-    
+
+	@RolesAllowed({"ROLE_PARENT", "ROLE_ELEVE"})
     @GetMapping("/{tokenEleve}")
     public String listEleveAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable String tokenEleve) {
     	
@@ -139,7 +145,8 @@ public class FactureController {
     	return "/factures/listEleve";
     	
     }
-    
+
+	@RolesAllowed({"ROLE_ADMIN", "ROLE_PARENT", "ROLE_ELEVE"})
     @GetMapping("/{idEleve}/{id}")
     public String detailAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idEleve, @PathVariable int id) {
     	
@@ -150,7 +157,8 @@ public class FactureController {
     	return "/factures/detail";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @GetMapping("/{idEleve}/new/{idinscription}")
     public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2, @PathVariable int idEleve, @PathVariable int idinscription) {
     	
@@ -162,7 +170,8 @@ public class FactureController {
     	return "factures/form";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @PostMapping("/new")
     public String newAction(ModelMap model, @ModelAttribute Facture facture) {
     	

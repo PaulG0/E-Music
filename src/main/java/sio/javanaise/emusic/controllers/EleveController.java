@@ -27,7 +27,10 @@ import sio.javanaise.emusic.services.ResponsableService;
 import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UserService;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
+@RolesAllowed("ROLE_ADMIN")
 @RequestMapping("/eleves")
 public class EleveController {
 	@Autowired

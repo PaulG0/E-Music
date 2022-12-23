@@ -25,6 +25,8 @@ import sio.javanaise.emusic.repositories.IProfRepository;
 import sio.javanaise.emusic.repositories.ITypeCoursRepository;
 import sio.javanaise.emusic.services.CoursService;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
 @RequestMapping({ "/cours", "/cours/" })
 public class CoursController {
@@ -98,6 +100,7 @@ public class CoursController {
 
 //add / modify Cours
 
+	@RolesAllowed({"ROLE_ADMIN", "ROLE_PROF"})
 	@PostMapping("/new")
 	public RedirectView newCoursAction(@AuthenticationPrincipal User authUser, ModelMap model,
 			@ModelAttribute Cour cour) {
@@ -123,6 +126,7 @@ public class CoursController {
 	}
 
 //edit Cours
+	@RolesAllowed({"ROLE_ADMIN", "ROLE_PROF"})
 	@GetMapping("/edit/{id}")
 	public String editCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, ModelMap model2,
 			ModelMap model3, @PathVariable int id) {
@@ -139,6 +143,7 @@ public class CoursController {
 
 	}
 
+	@RolesAllowed({"ROLE_ADMIN", "ROLE_PROF"})
 	@GetMapping("/delete/{id}")
 	public RedirectView deleteAction(@PathVariable int id) {
 

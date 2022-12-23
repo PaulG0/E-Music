@@ -23,6 +23,8 @@ import sio.javanaise.emusic.models.User;
 import sio.javanaise.emusic.repositories.ICoursRepository;
 import sio.javanaise.emusic.repositories.IPaiementRepository;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
 @RequestMapping("/paiements")
 public class PaiementController {
@@ -43,7 +45,8 @@ public class PaiementController {
     
     @Autowired
     private ICoursRepository coursRepository;
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @GetMapping("")
     public String indexAction(@AuthenticationPrincipal User authUser, ModelMap model) {
     	
@@ -55,7 +58,8 @@ public class PaiementController {
     	return "/paiements/index";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @PostMapping("/datepaiement")
     public String indexDatePaiementAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("dateStart") String dateStart, @ModelAttribute("dateEnd") String dateEnd) {
     	
@@ -70,7 +74,8 @@ public class PaiementController {
     	return "/paiements/index";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @PostMapping("/cours")
     public String indexCoursAction(@AuthenticationPrincipal User authUser, ModelMap model, @ModelAttribute("libelle") String libelle) {
     	
@@ -105,7 +110,8 @@ public class PaiementController {
     	return "/paiements/index";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @GetMapping("/new/{idFacture}")
     public String newAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int idFacture) {
     	
@@ -116,7 +122,8 @@ public class PaiementController {
     	return "/paiements/form";
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @PostMapping("/new")
     public RedirectView newAction(@ModelAttribute Paiement paiement, @ModelAttribute("laDateTransmission") String laDateTransmission) {
     	
@@ -127,7 +134,8 @@ public class PaiementController {
     	return new RedirectView("../paiements");
     	
     }
-    
+
+	@RolesAllowed("ROLE_ADMIN")
     @GetMapping("/edit/{id}")
     public String editAction(@AuthenticationPrincipal User authUser, ModelMap model, @PathVariable int id) {
     	

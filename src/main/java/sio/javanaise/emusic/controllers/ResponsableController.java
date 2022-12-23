@@ -30,7 +30,10 @@ import sio.javanaise.emusic.services.TokenGenerator;
 import sio.javanaise.emusic.services.UIResponsableService;
 import sio.javanaise.emusic.services.UserService;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
+@RolesAllowed("ROLE_ADMIN")
 @RequestMapping("/responsables")
 public class ResponsableController {
 
